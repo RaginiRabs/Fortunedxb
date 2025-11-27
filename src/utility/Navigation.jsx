@@ -11,6 +11,7 @@ const Navbar = lazy(() =>
    import("../component/Navbar.jsx")
 );
 
+const Layout = lazy(() => import("../component/Layout.jsx"))
 
 const Navigation = () => {;
 
@@ -28,7 +29,7 @@ const Navigation = () => {;
                <Route
                   path="/"
                   element={
-                        <Navbar />
+                        <Layout />
                   }
                >
                   {AllPagesList.map((item, index) => (

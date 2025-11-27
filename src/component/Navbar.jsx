@@ -1,145 +1,169 @@
-import React from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-    AppBar,
-    Toolbar,
-    Box,
-    Container,
-    Button,
-    Slide,
-    IconButton // Added for animation
+  AppBar,
+  Toolbar,
+  Box,
+  Container,
+  Button,
+  IconButton,
+  Badge,
+  Tooltip,
+  Divider,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-import { Globe } from 'lucide-react';
-import { ThemeToggleButton } from '../context/ThemeProvider'; // Correct import path
-import Logo from "../assets/logo.PNG"; // Assuming this path is correct
+import {
+  Phone,
+  Heart,
+  Menu as MenuIcon,
+} from 'lucide-react';
+import MobileDrawer from './MobileDrawer';
+import fortuneLogo from '../assets/logo.PNG';
 
-const Navbar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+const Navbar = ({ savedProperties = [] }) => {
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const navItems = [
-        // { label: 'Home', path: '/home' },
-        { label: 'Projects', path: '/projects' },
-        { label: 'Developers', path: '/developers' }
-    ];
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const isActive = (path) => location.pathname === path;
+  const menuLinks = {
+    Projects: "/projects",
+    Developers: "/developers",
+    Areas: "/areas",
+    "Investment Guide": "/investment-guide",
+    About: "/about",
+  };
 
-    return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}> {/* Changed minHeight to 100vh */}
-            <Slide direction="down" in={true} timeout={500}>
-                <AppBar
-                    position="sticky"
-                    elevation={0}
-                    sx={{
-                        bgcolor: 'rgba(10, 22, 40, 0.8)', // Darker with opacity for blur
-                        color: 'text.primary',
-                        backdropFilter: 'blur(10px)', // Glass effect
-                        borderBottom: '1px solid rgba(195, 159, 88, 0.15)',
-                        zIndex: 1100, // Ensure it's above other content
-                    }}
-                >
-                    <Container maxWidth="xl" disableGutters>
-                        <Toolbar sx={{ py: { xs: 1, md: 1.5 }, justifyContent: 'space-between', px: { xs: 2, sm: 3 } }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 100 }}>
-                                <img
-                                    src={Logo}
-                                    alt="Fortune Logo"
-                                    style={{ height: 36, cursor: 'pointer' }}
-                                    onClick={() => navigate('/home')}
-                                />
-                            </Box>
+  // Scroll Effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-                            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, justifyContent: 'center', flex: 1 }}>
-                                {navItems.map((item) => (
-                                    <Button
-                                        key={item.path}
-                                        onClick={() => navigate(item.path)}
-                                        sx={{
-                                            textTransform: 'none',
-                                            color: isActive(item.path) ? 'primary.main' : 'rgba(255, 255, 255, 0.85)',
-                                            fontWeight: isActive(item.path) ? 600 : 400,
-                                            fontSize: '0.95rem',
-                                            px: 3,
-                                            py: 1,
-                                            position: 'relative',
-                                            transition: 'all 0.3s ease',
-                                            '&::after': isActive(item.path) ? {
-                                                content: '""',
-                                                position: 'absolute',
-                                                bottom: 0,
-                                                left: '50%',
-                                                transform: 'translateX(-50%)',
-                                                width: '60%',
-                                                height: 2,
-                                                bgcolor: 'primary.main',
-                                                borderRadius: 1
-                                            } : {},
-                                            '&:hover': {
-                                                color: 'primary.main',
-                                                bgcolor: 'rgba(195, 159, 88, 0.08)',
-                                                transform: 'scale(1.05)' // Hover scale animation
-                                            }
-                                        }}
-                                    >
-                                        {item.label}
-                                    </Button>
-                                ))}
-                            </Box>
+  return (
+    <>
+      <AppBar
+        position="fixed"
+        elevation={isScrolled ? 4 : 0}
+        sx={{
+          bgcolor: isScrolled ? 'rgba(255,255,255,0.98)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+          transition: 'all 0.3s ease',
+          borderBottom: isScrolled ? '1px solid rgba(0,0,0,0.08)' : 'none',
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar sx={{ py: 1, px: { xs: 0, md: 2 } }}>
 
-                            <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 100, justifyContent: 'flex-end' }}>
-                                <Button 
-                                    variant="outlined"
-                                    size="small"
-                                    sx={{ 
-                                        display: { xs: 'none', sm: 'block' },
-                                        borderColor: 'primary.main', 
-                                        color: 'primary.main', 
-                                        px: 2, 
-                                        py: 0.8, 
-                                        mr: 1,
-                                        '&:hover': { 
-                                            bgcolor: 'rgba(195, 159, 88, 0.1)',
-                                            transform: 'scale(1.05)'
-                                        } 
-                                    }}
-                                >
-                                    Enquire Now
-                                </Button>
-                                <IconButton 
-                                    sx={{ 
-                                        color: 'primary.main',
-                                        transition: 'all 0.3s ease',
-                                        '&:hover': {
-                                            bgcolor: 'rgba(195, 159, 88, 0.12)',
-                                            transform: 'rotate(15deg)'
-                                        }
-                                    }}
-                                >
-                                    <Globe size={20} />
-                                </IconButton>
-                                {/* Theme Toggle Switch */}
-                                <ThemeToggleButton />
-                            </Box>
-                        </Toolbar>
-                    </Container>
-                </AppBar>
-            </Slide>
-
+            {/* Logo */}
             <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    bgcolor: 'background.default',
-                    // Removed Container around Outlet, as Home.jsx now handles its own containers for full-width sections
-                }}
+              sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
+              onClick={() => navigate('/home')}
             >
-                <Outlet />
+              <Box
+                sx={{
+                  width: 110,
+                  height: 'auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img
+                  src={fortuneLogo}
+                  alt="Fortune Realty Logo"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'contain',
+                  }}
+                />
+              </Box>
             </Box>
 
-            {/* Note: The Footer component defined in the Home.jsx file will render here via Outlet */}
-        </Box>
-    );
+            <Box sx={{ flexGrow: 1 }} />
+
+            {/* Desktop Navigation */}
+            {!isMobile && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {Object.keys(menuLinks).map((item) => (
+                  <Button
+                    key={item}
+                    onClick={() => navigate(menuLinks[item])}
+                    sx={{
+                      color: isScrolled ? 'secondary.main' : 'white',
+                      fontWeight: 500,
+                      px: 2,
+                      '&:hover': {
+                        bgcolor: isScrolled
+                          ? 'rgba(198, 169, 98, 0.1)'
+                          : 'rgba(255,255,255,0.1)',
+                      },
+                    }}
+                  >
+                    {item}
+                  </Button>
+                ))}
+
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{ mx: 1, borderColor: isScrolled ? 'divider' : 'rgba(255,255,255,0.2)' }}
+                />
+
+                <Tooltip title="Saved Properties">
+                  <IconButton
+                    onClick={() => navigate('/saved-properties')}
+                    sx={{ color: isScrolled ? 'secondary.main' : 'white' }}
+                  >
+                    <Badge badgeContent={savedProperties.length} color="primary">
+                      <Heart size={20} />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+
+                <Button
+                  variant="contained"
+                  onClick={() => navigate('/contact')}
+                  sx={{
+                    background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+                    px: 3,
+                    ml: 1,
+                  }}
+                  startIcon={<Phone size={18} />}
+                >
+                  Contact Us
+                </Button>
+              </Box>
+            )}
+
+            {/* Mobile Menu Button */}
+            {isMobile && (
+              <IconButton
+                onClick={() => setMobileMenuOpen(true)}
+                sx={{ color: isScrolled ? 'secondary.main' : 'white' }}
+              >
+                <MenuIcon size={24} />
+              </IconButton>
+            )}
+
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <MobileDrawer
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
+    </>
+  );
 };
 
 export default Navbar;
