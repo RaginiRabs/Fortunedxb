@@ -30,7 +30,7 @@ import NewsletterSection from '../../component/HomeComponents/NewsletterSection'
 import FloatingContactDial from '../../component/HomeComponents/FloatingContactDial';
 import ROICalculatorDialog from '../../component/HomeComponents/ROICalculatorDialog';
 import InquiryDialog from '../../component/HomeComponents/InquiryDialog';
-import FilterDrawer from '../../component/HomeComponents/FilterDrawer';
+import FilterDrawer from '../../component/HomeComponents/Filterdrawer';
 
 //home
 // Luxury Theme - Exact from original Home.jsx
