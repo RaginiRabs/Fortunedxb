@@ -21,6 +21,7 @@ import {
 // Import all HomeComponents
 import HeroSection from '../../component/HomeComponents/HeroSection';
 import FeaturedProjects from '../../component/HomeComponents/FeaturedProjects';
+import ExclusiveOffers from '../../component/HomeComponents/ExclusiveOffers';
 import WhyInvestSection from '../../component/HomeComponents/WhyInvestSection';
 import PopularAreas from '../../component/HomeComponents/PopularAreas';
 import TopDevelopers from '../../component/HomeComponents/TopDevelopers';
@@ -30,10 +31,9 @@ import NewsletterSection from '../../component/HomeComponents/NewsletterSection'
 import FloatingContactDial from '../../component/HomeComponents/FloatingContactDial';
 import ROICalculatorDialog from '../../component/HomeComponents/ROICalculatorDialog';
 import InquiryDialog from '../../component/HomeComponents/InquiryDialog';
-import FilterDrawer from '../../component/HomeComponents/Filterdrawer';
+import FilterDrawer from '../../component/HomeComponents/FilterDrawer';
 
-//home
-// Luxury Theme - Exact from original Home.jsx
+// Luxury Theme
 const luxuryTheme = createTheme({
   palette: {
     mode: 'light',
@@ -92,7 +92,7 @@ const luxuryTheme = createTheme({
   },
 });
 
-// Static Data - Exact from original Home.jsx
+// Static Data
 const popularAreas = [
   { name: 'Downtown Dubai', projects: 45, icon: Building2, avgPrice: '2.5M' },
   { name: 'Palm Jumeirah', projects: 32, icon: TreePalm, avgPrice: '4.8M' },
@@ -113,7 +113,7 @@ const developers = [
   { name: 'Binghatti', logo: '🔷', projects: 28, rating: 4.6 },
 ];
 
-// Sample Projects Data
+// Sample Projects Data with Offers
 const sampleProjects = [
   {
     id: 1,
@@ -131,6 +131,13 @@ const sampleProjects = [
     roi: '8-10%',
     paymentPlan: '60/40',
     amenities: ['Pool', 'Gym', 'Spa', 'Concierge', 'Kids Area', 'Garden'],
+    // Offer Data
+    offer: {
+      type: 'early-bird',
+      title: 'Early Bird Offer',
+      description: 'Free Registration & 2 Years Service Charge Waiver',
+      validUntil: '2025-01-31',
+    },
   },
   {
     id: 2,
@@ -148,6 +155,13 @@ const sampleProjects = [
     roi: '7-9%',
     paymentPlan: '70/30',
     amenities: ['Beach Access', 'Pool', 'Gym', 'Valet', 'Marina View'],
+    // Offer Data
+    offer: {
+      type: 'limited',
+      title: 'Limited Time Deal',
+      description: 'Free DEWA Connection & 1 Year Free Maintenance',
+      validUntil: '2025-02-15',
+    },
   },
   {
     id: 3,
@@ -165,6 +179,13 @@ const sampleProjects = [
     roi: '6-8%',
     paymentPlan: '50/50',
     amenities: ['Private Beach', 'Pool', 'Garden', 'Maid Room', 'Driver Room'],
+    // Offer Data
+    offer: {
+      type: 'exclusive',
+      title: 'Ready Possession Offer',
+      description: 'Free Furniture Package & No Bank Processing Fee',
+      validUntil: '2025-01-15',
+    },
   },
   {
     id: 4,
@@ -182,6 +203,8 @@ const sampleProjects = [
     roi: '9-11%',
     paymentPlan: '80/20',
     amenities: ['Creek View', 'Pool', 'Gym', 'Retail', 'Park Access'],
+    // No offer for this project
+    offer: null,
   },
   {
     id: 5,
@@ -199,6 +222,13 @@ const sampleProjects = [
     roi: '7-9%',
     paymentPlan: '60/40',
     amenities: ['Burj View', 'Pool', 'Gym', 'Concierge', 'Valet'],
+    // Offer Data
+    offer: {
+      type: 'discount',
+      title: '10% Launch Discount',
+      description: 'Special launch pricing + Free parking spot worth AED 150K',
+      validUntil: '2025-03-01',
+    },
   },
   {
     id: 6,
@@ -216,6 +246,8 @@ const sampleProjects = [
     roi: '6-8%',
     paymentPlan: '70/30',
     amenities: ['Golf View', 'Private Garden', 'Pool', 'Gym', 'Park'],
+    // No offer for this project
+    offer: null,
   },
 ];
 
@@ -314,6 +346,12 @@ const Home = () => {
           filteredProjects={getFilteredProjects()}
           savedProperties={savedProperties}
           handleSaveProperty={handleSaveProperty}
+          handleInquiry={handleInquiry}
+        />
+
+        {/* Exclusive Offers / Campaign Section */}
+        <ExclusiveOffers
+          projectsWithOffers={sampleProjects}
           handleInquiry={handleInquiry}
         />
 

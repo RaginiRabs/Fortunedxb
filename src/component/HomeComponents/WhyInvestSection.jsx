@@ -1,191 +1,501 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Container,
   Typography,
   Button,
-  Chip,
-  Grid,
-  Paper,
 } from '@mui/material';
 import {
-  Globe,
   Shield,
+  Globe,
   TrendingUp,
-  Plane,
-  Banknote,
-  ShieldCheck,
-  Calendar,
   Calculator,
+  Wallet,
+  LineChart,
+  ArrowUpRight,
 } from 'lucide-react';
 
-const investorBenefits = [
+// Animated Counter Component
+const AnimatedCounter = ({ end, suffix = '', prefix = '', duration = 2000 }) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const counterRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let startTime;
+          const animate = (currentTime) => {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            const easeOut = 1 - Math.pow(1 - progress, 4);
+            setCount(Math.floor(easeOut * end));
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (counterRef.current) observer.observe(counterRef.current);
+    return () => observer.disconnect();
+  }, [end, duration, hasAnimated]);
+
+  return <span ref={counterRef}>{prefix}{count}{suffix}</span>;
+};
+
+// Three Key Stats
+const keyStats = [
   {
     icon: Shield,
-    title: '0% Property Tax',
-    description: 'Dubai offers zero property tax, maximizing your investment returns',
-  },
-  {
-    icon: Globe,
-    title: '100% Foreign Ownership',
-    description: 'Full property ownership rights for international investors in freehold areas',
+    value: 0,
+    suffix: '%',
+    label: 'Property Tax',
+    subtext: 'Tax-free ownership',
   },
   {
     icon: TrendingUp,
-    title: 'High ROI Potential',
-    description: 'Average rental yields of 6-10%, among the highest globally',
+    value: 10,
+    suffix: '%',
+    prefix: '',
+    label: 'Rental ROI',
+    subtext: 'High yield returns',
   },
   {
-    icon: Plane,
-    title: 'Golden Visa Eligibility',
-    description: 'Property investment of AED 2M+ qualifies for 10-year Golden Visa',
+    icon: Globe,
+    value: 100,
+    suffix: '%',
+    label: 'Ownership',
+    subtext: 'Full foreign rights',
+  },
+];
+
+// Two Mini Benefits
+const miniBenefits = [
+  {
+    icon: Wallet,
+    title: 'Flexible Payments',
+    description: 'Easy installment plans up to handover',
   },
   {
-    icon: Banknote,
-    title: 'Flexible Payment Plans',
-    description: 'Developer payment plans up to 80/20 post-handover',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'RERA Protected',
-    description: 'All transactions regulated by Dubai Real Estate Regulatory Agency',
+    icon: LineChart,
+    title: 'Strong Growth',
+    description: 'Consistent capital appreciation',
   },
 ];
 
 const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Box
+      ref={sectionRef}
       sx={{
-        py: { xs: 8, md: 12 },
-        background: 'linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)',
+        py: { xs: 6, md: 8 },
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      {/* Background Pattern */}
+      {/* Subtle Background Accent */}
       <Box
         sx={{
           position: 'absolute',
-          inset: 0,
-          opacity: 0.05,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C6A962' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          top: -100,
+          right: -100,
+          width: 300,
+          height: 300,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(198, 169, 98, 0.06) 0%, transparent 70%)',
+          pointerEvents: 'none',
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        {/* Section Header */}
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Chip
-            icon={<Globe size={16} />}
-            label="Global Investment Hub"
+      <Container maxWidth="lg">
+        {/* Main Content Row */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', lg: 'row' },
+            gap: { xs: 4, lg: 6 },
+            alignItems: 'center',
+          }}
+        >
+          {/* Left - Image Section */}
+          <Box
             sx={{
-              bgcolor: 'rgba(198, 169, 98, 0.2)',
-              color: 'primary.light',
-              fontWeight: 600,
-              mb: 2,
+              flex: { lg: '0 0 42%' },
+              width: '100%',
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(-30px)',
+              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
-          />
-          <Typography variant="h2" sx={{ color: 'white', mb: 2 }}>
-            Why Invest in Dubai Real Estate?
-          </Typography>
-          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', maxWidth: 600, mx: 'auto' }}>
-            Dubai offers unparalleled investment opportunities with tax-free returns,
-            world-class infrastructure, and a thriving economy.
-          </Typography>
-        </Box>
-
-        {/* Benefits Grid */}
-        <Grid container spacing={4}>
-          {investorBenefits.map((benefit, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Paper
-                elevation={0}
+          >
+            <Box
+              sx={{
+                position: 'relative',
+                borderRadius: 4,
+                overflow: 'hidden',
+                aspectRatio: { xs: '16/10', lg: '4/3' },
+                boxShadow: '0 20px 50px rgba(30, 58, 95, 0.12)',
+              }}
+            >
+              {/* Main Image */}
+              <Box
+                component="img"
+                src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop&q=85"
+                alt="Dubai Skyline"
                 sx={{
-                  p: 4,
+                  width: '100%',
                   height: '100%',
-                  bgcolor: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 4,
-                  transition: 'all 0.3s ease',
+                  objectFit: 'cover',
+                  transition: 'transform 0.6s ease',
                   '&:hover': {
-                    bgcolor: 'rgba(255,255,255,0.06)',
-                    borderColor: 'primary.main',
-                    transform: 'translateY(-4px)',
+                    transform: 'scale(1.05)',
                   },
+                }}
+              />
+
+              {/* Overlay Gradient */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, transparent 50%, rgba(30, 58, 95, 0.4) 100%)',
+                  pointerEvents: 'none',
+                }}
+              />
+
+              {/* Floating Badge */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: 16,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  bgcolor: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '100px',
+                  px: 2,
+                  py: 1,
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
                 }}
               >
                 <Box
                   sx={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 3,
-                    bgcolor: 'rgba(198, 169, 98, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    mb: 3,
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    bgcolor: '#10B981',
+                    animation: 'pulse 2s infinite',
+                    '@keyframes pulse': {
+                      '0%, 100%': { opacity: 1 },
+                      '50%': { opacity: 0.5 },
+                    },
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: '#1E3A5F',
+                    fontSize: '0.7rem',
+                    fontWeight: 600,
                   }}
                 >
-                  <benefit.icon size={28} color="#C6A962" />
-                </Box>
-                <Typography variant="h6" sx={{ color: 'white', mb: 1.5, fontWeight: 600 }}>
-                  {benefit.title}
+                  #1 Global Investment Hub
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
-                  {benefit.description}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
+              </Box>
+            </Box>
+          </Box>
 
-        {/* CTA Section */}
-        <Box
-          sx={{
-            mt: 8,
-            p: 5,
-            borderRadius: 4,
-            background: 'linear-gradient(135deg, rgba(198, 169, 98, 0.2) 0%, rgba(198, 169, 98, 0.05) 100%)',
-            border: '1px solid rgba(198, 169, 98, 0.3)',
-            textAlign: 'center',
-          }}
-        >
-          <Typography variant="h4" sx={{ color: 'white', mb: 2 }}>
-            Ready to Start Your Investment Journey?
-          </Typography>
-          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.7)', mb: 4, maxWidth: 500, mx: 'auto' }}>
-            Our expert consultants are ready to help you find the perfect investment opportunity.
-            Book a free consultation today.
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<Calendar size={20} />}
+          {/* Right - Content Section */}
+          <Box
+            sx={{
+              flex: 1,
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(30px)',
+              transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+              transitionDelay: '0.2s',
+            }}
+          >
+            {/* Header */}
+            <Box sx={{ mb: 4 }}>
+              <Typography
+                sx={{
+                  color: '#C6A962',
+                  fontWeight: 600,
+                  fontSize: '0.7rem',
+                  letterSpacing: 2,
+                  textTransform: 'uppercase',
+                  mb: 1,
+                }}
+              >
+                Smart Investment
+              </Typography>
+
+              <Typography
+                variant="h3"
+                sx={{
+                  color: '#1E3A5F',
+                  fontFamily: '"Playfair Display", serif',
+                  fontWeight: 600,
+                  fontSize: { xs: '1.6rem', md: '2rem' },
+                  lineHeight: 1.2,
+                  mb: 1.5,
+                }}
+              >
+                Why Dubai{' '}
+                <Box
+                  component="span"
+                  sx={{
+                    background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Real Estate?
+                </Box>
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: '#64748B',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.6,
+                  maxWidth: 400,
+                }}
+              >
+                Tax-free returns, full ownership rights, and world-class lifestyle 
+                await global investors.
+              </Typography>
+            </Box>
+
+            {/* Three Stats Row */}
+            <Box
               sx={{
-                background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-                px: 4,
+                display: 'flex',
+                gap: { xs: 2, md: 3 },
+                mb: 4,
               }}
             >
-              Book Free Consultation
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              startIcon={<Calculator size={20} />}
-              onClick={() => setRoiCalculatorOpen(true)}
+              {keyStats.map((stat, index) => {
+                const Icon = stat.icon;
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      flex: 1,
+                      textAlign: 'center',
+                      p: { xs: 2, md: 2.5 },
+                      borderRadius: 3,
+                      bgcolor: 'white',
+                      border: '1px solid #F0F0F0',
+                      transition: 'all 0.3s ease',
+                      opacity: isVisible ? 1 : 0,
+                      transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                      transitionDelay: `${0.3 + index * 0.1}s`,
+                      '&:hover': {
+                        borderColor: '#C6A962',
+                        boxShadow: '0 8px 25px rgba(30, 58, 95, 0.08)',
+                        transform: 'translateY(-4px)',
+                      },
+                    }}
+                  >
+                    {/* Icon */}
+                    <Box
+                      sx={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: '50%',
+                        bgcolor: 'rgba(198, 169, 98, 0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mx: 'auto',
+                        mb: 1.5,
+                      }}
+                    >
+                      <Icon size={16} color="#C6A962" strokeWidth={2} />
+                    </Box>
+
+                    {/* Value */}
+                    <Typography
+                      sx={{
+                        color: '#1E3A5F',
+                        fontWeight: 700,
+                        fontSize: { xs: '1.5rem', md: '2rem' },
+                        lineHeight: 1,
+                        fontFamily: '"Playfair Display", serif',
+                      }}
+                    >
+                      <AnimatedCounter
+                        end={stat.value}
+                        suffix={stat.suffix}
+                        prefix={stat.prefix || ''}
+                      />
+                    </Typography>
+
+                    {/* Label */}
+                    <Typography
+                      sx={{
+                        color: '#1E3A5F',
+                        fontWeight: 600,
+                        fontSize: '0.7rem',
+                        mt: 0.5,
+                      }}
+                    >
+                      {stat.label}
+                    </Typography>
+
+                    {/* Subtext */}
+                    <Typography
+                      sx={{
+                        color: '#94A3B8',
+                        fontSize: '0.6rem',
+                        mt: 0.25,
+                      }}
+                    >
+                      {stat.subtext}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+
+            {/* Two Mini Benefits */}
+            <Box
               sx={{
-                borderColor: 'rgba(255,255,255,0.3)',
-                color: 'white',
-                px: 4,
-                '&:hover': {
-                  borderColor: 'primary.main',
-                  bgcolor: 'rgba(198, 169, 98, 0.1)',
-                },
+                display: 'flex',
+                gap: 3,
+                mb: 4,
               }}
             >
-              ROI Calculator
-            </Button>
+              {miniBenefits.map((benefit, index) => {
+                const Icon = benefit.icon;
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: 1.5,
+                      opacity: isVisible ? 1 : 0,
+                      transitionDelay: `${0.6 + index * 0.1}s`,
+                      transition: 'all 0.6s ease',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 2,
+                        bgcolor: 'rgba(30, 58, 95, 0.05)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Icon size={14} color="#1E3A5F" strokeWidth={2} />
+                    </Box>
+                    <Box>
+                      <Typography
+                        sx={{
+                          color: '#1E3A5F',
+                          fontWeight: 600,
+                          fontSize: '0.8rem',
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {benefit.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: '#94A3B8',
+                          fontSize: '0.7rem',
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {benefit.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </Box>
+
+            {/* CTA Button */}
+            <Box
+              sx={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'all 0.6s ease',
+                transitionDelay: '0.8s',
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={() => setRoiCalculatorOpen(true)}
+                endIcon={<ArrowUpRight size={16} />}
+                sx={{
+                  background: 'linear-gradient(135deg, #1E3A5F 0%, #2D4A6F 100%)',
+                  color: 'white',
+                  px: 3,
+                  py: 1.25,
+                  borderRadius: '100px',
+                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  textTransform: 'none',
+                  boxShadow: '0 4px 15px rgba(30, 58, 95, 0.25)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #2D4A6F 0%, #1E3A5F 100%)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 25px rgba(30, 58, 95, 0.3)',
+                  },
+                  '& .MuiButton-endIcon': {
+                    ml: 1,
+                    transition: 'transform 0.3s ease',
+                  },
+                  '&:hover .MuiButton-endIcon': {
+                    transform: 'translate(2px, -2px)',
+                  },
+                }}
+              >
+                <Calculator size={16} style={{ marginRight: 8 }} />
+                Calculate Your ROI
+              </Button>
+
+              {/* Trust Text */}
+              <Typography
+                sx={{
+                  color: '#94A3B8',
+                  fontSize: '0.65rem',
+                  mt: 1.5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                }}
+              >
+                <Shield size={12} color="#10B981" />
+                Trusted by 50,000+ investors worldwide
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Container>
