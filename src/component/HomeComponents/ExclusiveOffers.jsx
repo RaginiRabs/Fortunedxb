@@ -22,7 +22,7 @@ import {
   Scissors,
 } from 'lucide-react';
 
-// Countdown Timer Component - Compact
+// Countdown Timer Component
 const CountdownTimer = ({ validUntil }) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -34,7 +34,6 @@ const CountdownTimer = ({ validUntil }) => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const difference = new Date(validUntil) - new Date();
-
       if (difference > 0) {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -44,10 +43,8 @@ const CountdownTimer = ({ validUntil }) => {
         });
       }
     };
-
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
-
     return () => clearInterval(timer);
   }, [validUntil]);
 
@@ -67,12 +64,12 @@ const CountdownTimer = ({ validUntil }) => {
             px: 0.75,
             py: 0.25,
             textAlign: 'center',
-            minWidth: 28,
+            minWidth: 26,
           }}
         >
           <Typography
             sx={{
-              fontSize: '0.75rem',
+              fontSize: '0.7rem',
               fontWeight: 700,
               color: '#DC2626',
               lineHeight: 1.2,
@@ -80,13 +77,7 @@ const CountdownTimer = ({ validUntil }) => {
           >
             {String(item.value).padStart(2, '0')}
           </Typography>
-          <Typography
-            sx={{
-              fontSize: '0.5rem',
-              color: '#94A3B8',
-              textTransform: 'uppercase',
-            }}
-          >
+          <Typography sx={{ fontSize: '0.45rem', color: '#94A3B8', textTransform: 'uppercase' }}>
             {item.label}
           </Typography>
         </Box>
@@ -99,49 +90,24 @@ const CountdownTimer = ({ validUntil }) => {
 const getOfferConfig = (type) => {
   switch (type) {
     case 'early-bird':
-      return {
-        icon: Zap,
-        label: 'EARLY BIRD',
-        color: '#F59E0B',
-        bgColor: 'rgba(245, 158, 11, 0.1)',
-      };
+      return { icon: Zap, label: 'EARLY BIRD', color: '#F59E0B', bgColor: 'rgba(245, 158, 11, 0.1)' };
     case 'limited':
-      return {
-        icon: Flame,
-        label: 'LIMITED TIME',
-        color: '#EF4444',
-        bgColor: 'rgba(239, 68, 68, 0.1)',
-      };
+      return { icon: Flame, label: 'LIMITED TIME', color: '#EF4444', bgColor: 'rgba(239, 68, 68, 0.1)' };
     case 'exclusive':
-      return {
-        icon: Crown,
-        label: 'EXCLUSIVE',
-        color: '#8B5CF6',
-        bgColor: 'rgba(139, 92, 246, 0.1)',
-      };
+      return { icon: Crown, label: 'EXCLUSIVE', color: '#8B5CF6', bgColor: 'rgba(139, 92, 246, 0.1)' };
     case 'discount':
-      return {
-        icon: Percent,
-        label: 'DISCOUNT',
-        color: '#10B981',
-        bgColor: 'rgba(16, 185, 129, 0.1)',
-      };
+      return { icon: Percent, label: 'DISCOUNT', color: '#10B981', bgColor: 'rgba(16, 185, 129, 0.1)' };
     default:
-      return {
-        icon: Gift,
-        label: 'SPECIAL',
-        color: '#C6A962',
-        bgColor: 'rgba(198, 169, 98, 0.1)',
-      };
+      return { icon: Gift, label: 'SPECIAL', color: '#C6A962', bgColor: 'rgba(198, 169, 98, 0.1)' };
   }
 };
 
-// Perforated Edge Component
+// Perforated Edge
 const PerforatedEdge = () => (
   <Box
     sx={{
       position: 'absolute',
-      right: 95,
+      right: 90,
       top: 0,
       bottom: 0,
       width: 20,
@@ -153,7 +119,6 @@ const PerforatedEdge = () => (
       zIndex: 5,
     }}
   >
-    {/* Top semicircle cutout */}
     <Box
       sx={{
         width: 20,
@@ -164,8 +129,6 @@ const PerforatedEdge = () => (
         top: -1,
       }}
     />
-    
-    {/* Dotted line */}
     <Box
       sx={{
         flex: 1,
@@ -175,8 +138,6 @@ const PerforatedEdge = () => (
         backgroundImage: 'repeating-linear-gradient(to bottom, #CBD5E1 0px, #CBD5E1 6px, transparent 6px, transparent 12px)',
       }}
     />
-    
-    {/* Bottom semicircle cutout */}
     <Box
       sx={{
         width: 20,
@@ -210,11 +171,11 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         transition: 'all 0.3s ease',
       }}
     >
-      {/* Left Section - Main Content */}
+      {/* Left Section */}
       <Box
         sx={{
           flex: 1,
-          p: 2,
+          p: 2.5,
           pr: 3,
           display: 'flex',
           flexDirection: 'column',
@@ -224,7 +185,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         <Box
           sx={{
             position: 'relative',
-            height: 100,
+            height: 120,
             borderRadius: 2.5,
             overflow: 'hidden',
             mb: 1.5,
@@ -234,14 +195,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
             component="img"
             src={project.image}
             alt={project.name}
-            sx={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
+            sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
-          
-          {/* Developer Badge on Image */}
           <Box
             sx={{
               position: 'absolute',
@@ -258,13 +213,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
             }}
           >
             <BadgeCheck size={10} color="#C6A962" />
-            <Typography
-              sx={{
-                color: '#1E3A5F',
-                fontSize: '0.6rem',
-                fontWeight: 600,
-              }}
-            >
+            <Typography sx={{ color: '#0B1A2A', fontSize: '0.6rem', fontWeight: 600 }}>
               {project.developer}
             </Typography>
           </Box>
@@ -273,9 +222,9 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         {/* Project Info */}
         <Typography
           sx={{
-            color: '#1E3A5F',
+            color: '#0B1A2A',
             fontWeight: 700,
-            fontSize: '0.95rem',
+            fontSize: '1rem',
             fontFamily: '"Playfair Display", serif',
             mb: 0.25,
             lineHeight: 1.2,
@@ -284,42 +233,17 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
           {project.name}
         </Typography>
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.5,
-            mb: 1.5,
-          }}
-        >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1.5 }}>
           <MapPin size={10} color="#C6A962" />
-          <Typography
-            sx={{
-              color: '#64748B',
-              fontSize: '0.65rem',
-            }}
-          >
+          <Typography sx={{ color: '#64748B', fontSize: '0.65rem' }}>
             {project.location}
           </Typography>
         </Box>
 
         {/* Offer Details */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.5,
-            mb: 0.5,
-          }}
-        >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}>
           <Sparkles size={10} color="#C6A962" />
-          <Typography
-            sx={{
-              color: '#A68B4B',
-              fontWeight: 600,
-              fontSize: '0.65rem',
-            }}
-          >
+          <Typography sx={{ color: '#A68B4B', fontWeight: 600, fontSize: '0.65rem' }}>
             {project.offer?.title}
           </Typography>
         </Box>
@@ -341,7 +265,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
           <Typography
             sx={{
               color: '#94A3B8',
-              fontSize: '0.55rem',
+              fontSize: '0.5rem',
               mb: 0.5,
               display: 'flex',
               alignItems: 'center',
@@ -356,13 +280,12 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         </Box>
       </Box>
 
-      {/* Perforated Edge */}
       <PerforatedEdge />
 
       {/* Right Section - Stub */}
       <Box
         sx={{
-          width: 95,
+          width: 90,
           background: `linear-gradient(180deg, ${config.bgColor} 0%, rgba(255,255,255,0.5) 100%)`,
           display: 'flex',
           flexDirection: 'column',
@@ -374,14 +297,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         }}
       >
         {/* Offer Type Badge */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 0.5,
-          }}
-        >
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
           <Box
             sx={{
               width: 36,
@@ -395,13 +311,13 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
               border: `2px solid ${config.color}`,
             }}
           >
-            <Icon size={18} color={config.color} />
+            <Icon size={16} color={config.color} />
           </Box>
           <Typography
             sx={{
               color: config.color,
               fontWeight: 800,
-              fontSize: '0.55rem',
+              fontSize: '0.5rem',
               letterSpacing: 0.5,
               textAlign: 'center',
             }}
@@ -412,39 +328,18 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
 
         {/* Price */}
         <Box sx={{ textAlign: 'center' }}>
-          <Typography
-            sx={{
-              color: '#94A3B8',
-              fontSize: '0.5rem',
-              textTransform: 'uppercase',
-              letterSpacing: 0.5,
-            }}
-          >
+          <Typography sx={{ color: '#94A3B8', fontSize: '0.45rem', textTransform: 'uppercase', letterSpacing: 0.5 }}>
             From
           </Typography>
-          <Typography
-            sx={{
-              color: '#1E3A5F',
-              fontWeight: 800,
-              fontSize: '0.85rem',
-              lineHeight: 1.2,
-            }}
-          >
+          <Typography sx={{ color: '#0B1A2A', fontWeight: 800, fontSize: '0.85rem', lineHeight: 1.2 }}>
             {project.price}
           </Typography>
         </Box>
 
-        {/* Scissors Icon */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.3,
-            color: '#CBD5E1',
-          }}
-        >
-          <Scissors size={10} />
-          <Typography sx={{ fontSize: '0.5rem' }}>CUT HERE</Typography>
+        {/* Scissors */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3, color: '#CBD5E1' }}>
+          <Scissors size={9} />
+          <Typography sx={{ fontSize: '0.45rem' }}>CUT HERE</Typography>
         </Box>
 
         {/* CTA Button */}
@@ -459,10 +354,10 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
             background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
             color: 'white',
             width: '100%',
-            py: 0.75,
+            py: 0.6,
             borderRadius: 2,
             fontWeight: 700,
-            fontSize: '0.6rem',
+            fontSize: '0.55rem',
             textTransform: 'none',
             boxShadow: '0 2px 8px rgba(198, 169, 98, 0.3)',
             '&:hover': {
@@ -482,7 +377,6 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Filter only projects that have offers
   const offersProjects = projectsWithOffers.filter((project) => project.offer);
 
   if (offersProjects.length === 0) return null;
@@ -501,58 +395,79 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
     setTimeout(() => setIsAnimating(false), 400);
   };
 
-  // Get card positions for coverflow effect
+  // Get card position - 5 cards visible (2 left, 1 center, 2 right)
   const getCardStyle = (index) => {
     const diff = index - activeIndex;
     const totalCards = offersProjects.length;
 
+    // Normalize position for circular array
     let position = diff;
     if (diff > totalCards / 2) position = diff - totalCards;
     if (diff < -totalCards / 2) position = diff + totalCards;
 
-    const isActive = position === 0;
-    const isNext = position === 1;
-    const isPrev = position === -1;
+    // Position 0 = center (active)
+    // Position -1 = first left
+    // Position -2 = second left (far left)
+    // Position 1 = first right
+    // Position 2 = second right (far right)
 
-    if (isActive) {
-      return {
-        transform: 'translateX(0) scale(1)',
-        zIndex: 30,
-        opacity: 1,
-        filter: 'blur(0px)',
-        pointerEvents: 'auto',
-      };
-    } else if (isNext) {
-      return {
-        transform: 'translateX(55%) scale(0.85)',
-        zIndex: 20,
-        // opacity: 0.5,
-        filter: 'blur(0.7px)',
-        pointerEvents: 'auto',
-      };
-    } else if (isPrev) {
-      return {
-        transform: 'translateX(-55%) scale(0.85)',
-        zIndex: 20,
-        // opacity: 0.5,
-        filter: 'blur(0.7px)',
-        pointerEvents: 'auto',
-      };
-    } else {
-      return {
-        transform: 'translateX(0) scale(0.7)',
-        zIndex: 10,
-        opacity: 0,
-        filter: 'blur(4px)',
-        pointerEvents: 'none',
-      };
+    switch (position) {
+      case 0: // Center - Active
+        return {
+          transform: 'translateX(0) scale(1)',
+          zIndex: 50,
+          opacity: 1,
+          filter: 'blur(0px)',
+          pointerEvents: 'auto',
+        };
+      case 1: // First Right
+        return {
+          transform: 'translateX(55%) scale(0.85)',
+          zIndex: 40,
+          opacity: 0.8,
+          filter: 'blur(0.5px)',
+          pointerEvents: 'auto',
+        };
+      case -1: // First Left
+        return {
+          transform: 'translateX(-55%) scale(0.85)',
+          zIndex: 40,
+          opacity: 0.8,
+          filter: 'blur(0.5px)',
+          pointerEvents: 'auto',
+        };
+      case 2: // Second Right (Far)
+        return {
+          transform: 'translateX(95%) scale(0.7)',
+          zIndex: 30,
+          opacity: 0.5,
+          filter: 'blur(1px)',
+          pointerEvents: 'auto',
+        };
+      case -2: // Second Left (Far)
+        return {
+          transform: 'translateX(-95%) scale(0.7)',
+          zIndex: 30,
+          opacity: 0.5,
+          filter: 'blur(1px)',
+          pointerEvents: 'auto',
+        };
+      default: // Hidden cards
+        return {
+          transform: 'translateX(0) scale(0.5)',
+          zIndex: 10,
+          opacity: 0,
+          filter: 'blur(4px)',
+          pointerEvents: 'none',
+        };
     }
   };
 
   return (
     <Box
       sx={{
-        py: { xs: 6, md: 10 },
+        pt: { xs: 3, md: 4 },
+        pb: { xs: 4, md: 5 },
         background: 'linear-gradient(180deg, #FAFAFA 0%, #F0F4F8 100%)',
         position: 'relative',
         overflow: 'hidden',
@@ -565,22 +480,22 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
           inset: 0,
           opacity: 0.3,
           background: `
-            radial-gradient(circle at 15% 25%, rgba(198, 169, 98, 0.08) 0%, transparent 35%),
-            radial-gradient(circle at 85% 75%, rgba(30, 58, 95, 0.05) 0%, transparent 35%)
+            radial-gradient(circle at 15% 25%, rgba(198, 170, 98, 0.5) 0%, transparent 35%),
+            radial-gradient(circle at 85% 75%, rgba(11, 26, 42, 0.5) 0%, transparent 35%)
           `,
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        {/* Section Header */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 5 } }}>
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
+        {/* Header */}
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
           <Typography
             variant="h4"
             sx={{
-              color: '#1E3A5F',
+              color: '#0B1A2A',
               fontFamily: '"Playfair Display", serif',
               fontWeight: 600,
-              fontSize: { xs: '1.5rem', md: '2rem' },
+              fontSize: { xs: '1.5rem', md: '1.8rem' },
               mb: 0.5,
             }}
           >
@@ -597,55 +512,48 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
             </Box>
           </Typography>
 
-          <Typography
-            sx={{
-              color: '#64748B',
-              fontSize: '0.85rem',
-            }}
-          >
+          <Typography sx={{ color: '#64748B', fontSize: '0.85rem' }}>
             Grab these deals before they expire
           </Typography>
         </Box>
 
-        {/* Carousel Container */}
+        {/* Carousel Container - Full Width for 5 cards */}
         <Box
           sx={{
             position: 'relative',
-            height: { xs: 320, md: 340 },
+            height: { xs: 360, md: 400 },
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            px: { xs: 2, md: 8 },
           }}
         >
-          {/* Navigation - Left */}
+          {/* Navigation Left */}
           <IconButton
             onClick={handlePrev}
             sx={{
               position: 'absolute',
-              left: { xs: -5, md: 20 },
-              zIndex: 40,
-              width: 38,
-              height: 38,
+              left: { xs: 0, md: 20 },
+              zIndex: 60,
+              width: 40,
+              height: 40,
               bgcolor: 'white',
               border: '1px solid #E2E8F0',
-              color: '#1E3A5F',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+              color: '#0B1A2A',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               transition: 'all 0.2s ease',
-              '&:hover': {
-                bgcolor: '#1E3A5F',
-                color: 'white',
-              },
+              '&:hover': { bgcolor: '#0B1A2A', color: 'white' },
             }}
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft size={20} />
           </IconButton>
 
-          {/* Cards */}
+          {/* Cards Container - Wider for 5 cards */}
           <Box
             sx={{
               position: 'relative',
               width: '100%',
-              maxWidth: 400,
+              maxWidth: { xs: 340, md: 420 },
               height: '100%',
             }}
           >
@@ -667,11 +575,11 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                     position: 'absolute',
                     left: '50%',
                     top: '50%',
-                    width: { xs: 320, md: 360 },
-                    height: { xs: 280, md: 300 },
-                    marginLeft: { xs: '-160px', md: '-180px' },
-                    marginTop: { xs: '-140px', md: '-150px' },
-                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    width: { xs: 300, md: 380 },
+                    height: { xs: 320, md: 360 },
+                    marginLeft: { xs: '-150px', md: '-190px' },
+                    marginTop: { xs: '-160px', md: '-180px' },
+                    transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: index === activeIndex ? 'default' : 'pointer',
                     ...cardStyle,
                   }}
@@ -687,38 +595,35 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
             })}
           </Box>
 
-          {/* Navigation - Right */}
+          {/* Navigation Right */}
           <IconButton
             onClick={handleNext}
             sx={{
               position: 'absolute',
-              right: { xs: -5, md: 20 },
-              zIndex: 40,
-              width: 38,
-              height: 38,
+              right: { xs: 0, md: 20 },
+              zIndex: 60,
+              width: 40,
+              height: 40,
               bgcolor: 'white',
               border: '1px solid #E2E8F0',
-              color: '#1E3A5F',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+              color: '#0B1A2A',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
               transition: 'all 0.2s ease',
-              '&:hover': {
-                bgcolor: '#1E3A5F',
-                color: 'white',
-              },
+              '&:hover': { bgcolor: '#0B1A2A', color: 'white' },
             }}
           >
-            <ChevronRight size={18} />
+            <ChevronRight size={20} />
           </IconButton>
         </Box>
 
-        {/* Dots Pagination */}
+        {/* Dots */}
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 1,
-            mt: 3,
+            gap: 0.75,
+            mt: 2,
           }}
         >
           {offersProjects.map((_, index) => (
@@ -738,9 +643,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                 bgcolor: index === activeIndex ? '#C6A962' : '#CBD5E1',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                '&:hover': {
-                  bgcolor: index === activeIndex ? '#C6A962' : '#94A3B8',
-                },
+                '&:hover': { bgcolor: index === activeIndex ? '#C6A962' : '#94A3B8' },
               }}
             />
           ))}

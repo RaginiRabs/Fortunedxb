@@ -1,28 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Container,
   Typography,
   Button,
   Chip,
-  Tabs,
-  Tab,
-  Paper,
   Grid,
-  ToggleButton,
-  ToggleButtonGroup,
 } from '@mui/material';
-import {
-  Gem,
-  Sparkles,
-  Flame,
-  Rocket,
-  Timer,
-  Grid3X3,
-  List as ListIcon,
-  ArrowRight,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ProjectCard from './ProjectCard';
+
+const filterOptions = [
+  { id: 0, label: 'All' },
+  { id: 1, label: 'Hot Selling' },
+  { id: 2, label: 'New Launch' },
+  { id: 3, label: 'Upcoming' },
+];
 
 const FeaturedProjects = ({
   activeTab,
@@ -34,124 +27,147 @@ const FeaturedProjects = ({
   handleSaveProperty,
   handleInquiry,
 }) => {
-  return (
-    <Box sx={{ py: { xs: 8, md: 12 }, bgcolor: 'background.default' }}>
-      <Container maxWidth="xl">
-        {/* Section Header */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Chip
-            icon={<Gem size={16} />}
-            label="Premium Selection"
-            sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
-              fontWeight: 600,
-              mb: 2,
-            }}
-          />
-          <Typography variant="h2" sx={{ color: 'secondary.main', mb: 2 }}>
-            Featured Off-Plan Projects
-          </Typography>
-          <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 600, mx: 'auto' }}>
-            Handpicked luxury developments from Dubai's most prestigious developers,
-            offering exceptional investment opportunities.
-          </Typography>
-        </Box>
+  const [visibleCards, setVisibleCards] = useState([]);
+  const sectionRef = useRef(null);
 
-        {/* Category Tabs */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-          <Paper
-            elevation={0}
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          filteredProjects?.forEach((_, index) => {
+            setTimeout(() => {
+              setVisibleCards((prev) => [...prev, index]);
+            }, index * 80);
+          });
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [filteredProjects?.length]);
+
+  useEffect(() => {
+    setVisibleCards([]);
+    const timer = setTimeout(() => {
+      filteredProjects?.forEach((_, index) => {
+        setTimeout(() => {
+          setVisibleCards((prev) => [...prev, index]);
+        }, index * 60);
+      });
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
+
+  return (
+    <Box
+      ref={sectionRef}
+      sx={{
+        pt: { xs: 3, md: 4 },
+        pb: { xs: 4, md: 5 },
+        bgcolor: '#FFFFFF',
+      }}
+    >
+      <Container maxWidth="lg">
+        {/* Header */}
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <Typography
+            variant="h3"
             sx={{
-              borderRadius: '50px',
-              p: 0.5,
-              bgcolor: 'rgba(0,0,0,0.04)',
-              border: '1px solid',
-              borderColor: 'divider',
+              color: '#0B1A2A',
+              fontFamily: '"Playfair Display", serif',
+              fontWeight: 600,
+              fontSize: { xs: '1.5rem', md: '1.8rem' },
+              mb: 0.5,
             }}
           >
-            <Tabs
-              value={activeTab}
-              onChange={handleTabChange}
+            Featured{' '}
+            <Box
+              component="span"
               sx={{
-                '& .MuiTab-root': {
-                  borderRadius: '50px',
-                  px: 3,
-                  py: 1.5,
-                  minHeight: 'auto',
-                  fontWeight: 600,
-                  textTransform: 'none',
-                  color: 'text.secondary',
-                  '&.Mui-selected': {
-                    color: 'white',
-                    bgcolor: 'primary.main',
-                  },
-                },
-                '& .MuiTabs-indicator': {
-                  display: 'none',
-                },
+                background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
               }}
             >
-              <Tab 
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Sparkles size={18} />
-                    All Projects
-                  </Box>
-                } 
-              />
-              <Tab 
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Flame size={18} />
-                    Hot Selling
-                    <Chip label="12" size="small" sx={{ bgcolor: '#EF4444', color: 'white', height: 20 }} />
-                  </Box>
-                } 
-              />
-              <Tab 
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Rocket size={18} />
-                    New Launch
-                    <Chip label="8" size="small" sx={{ bgcolor: '#10B981', color: 'white', height: 20 }} />
-                  </Box>
-                } 
-              />
-              <Tab 
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Timer size={18} />
-                    Upcoming
-                    <Chip label="15" size="small" sx={{ bgcolor: '#F59E0B', color: 'white', height: 20 }} />
-                  </Box>
-                } 
-              />
-            </Tabs>
-          </Paper>
+              Off-Plan Projects
+            </Box>
+          </Typography>
+
+          <Box
+            sx={{
+              width: 50,
+              height: 2,
+              background: 'linear-gradient(90deg, transparent 0%, #C6A962 50%, transparent 100%)',
+              mx: 'auto',
+              mb: 1,
+            }}
+          />
+
+          <Typography
+            sx={{
+              color: '#64748B',
+              fontSize: '0.85rem',
+              maxWidth: 450,
+              mx: 'auto',
+            }}
+          >
+            Handpicked luxury developments offering exceptional investment opportunities
+          </Typography>
         </Box>
 
-        {/* View Toggle */}
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
-          <ToggleButtonGroup
-            value={viewMode}
-            exclusive
-            onChange={(e, v) => v && setViewMode(v)}
-            size="small"
-          >
-            <ToggleButton value="grid">
-              <Grid3X3 size={18} />
-            </ToggleButton>
-            <ToggleButton value="list">
-              <ListIcon size={18} />
-            </ToggleButton>
-          </ToggleButtonGroup>
+        {/* Filter Pills */}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 1,
+            mb: 3,
+            flexWrap: 'wrap',
+          }}
+        >
+          {filterOptions.map((filter) => (
+            <Chip
+              key={filter.id}
+              label={filter.label}
+              onClick={() => handleTabChange(null, filter.id)}
+              sx={{
+                height: 32,
+                px: 0.5,
+                borderRadius: '100px',
+                bgcolor: activeTab === filter.id ? '#C6A962' : 'transparent',
+                color: activeTab === filter.id ? '#0B1A2A' : '#0B1A2A',
+                border: '1.5px solid',
+                borderColor: activeTab === filter.id ? '#C6A962' : '#E2E8F0',
+                fontWeight: 600,
+                fontSize: '0.75rem',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  bgcolor: activeTab === filter.id ? '#C6A962' : 'rgba(198, 169, 98, 0.1)',
+                  borderColor: '#C6A962',
+                },
+                '& .MuiChip-label': { px: 1.5 },
+              }}
+            />
+          ))}
         </Box>
 
         {/* Projects Grid */}
-        <Grid container spacing={3}>
-          {filteredProjects.map((project) => (
-            <Grid item xs={12} sm={6} lg={4} key={project.id}>
+        <Grid container spacing={2.5}>
+          {filteredProjects?.map((project, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={4}
+              key={project?.id}
+              sx={{
+                opacity: visibleCards.includes(index) ? 1 : 0,
+                transform: visibleCards.includes(index) ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+              }}
+            >
               <ProjectCard
                 project={project}
                 savedProperties={savedProperties}
@@ -163,21 +179,32 @@ const FeaturedProjects = ({
         </Grid>
 
         {/* View All Button */}
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
+        <Box sx={{ textAlign: 'center', mt: 4 }}>
           <Button
-            variant="outlined"
-            size="large"
-            endIcon={<ArrowRight size={20} />}
+            variant="contained"
+            endIcon={<ArrowRight size={16} />}
             sx={{
-              borderColor: 'primary.main',
-              color: 'primary.main',
-              px: 5,
-              py: 1.5,
-              borderWidth: 2,
+              background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+              color: '#0B1A2A',
+              px: 4,
+              py: 1.25,
+              borderRadius: '100px',
+              fontWeight: 700,
+              fontSize: '0.8rem',
+              textTransform: 'none',
+              boxShadow: '0 4px 20px rgba(198, 169, 98, 0.25)',
+              transition: 'all 0.3s ease',
               '&:hover': {
-                borderWidth: 2,
-                bgcolor: 'primary.main',
-                color: 'white',
+                background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 8px 30px rgba(198, 169, 98, 0.35)',
+              },
+              '& .MuiButton-endIcon': {
+                ml: 0.75,
+                transition: 'transform 0.3s ease',
+              },
+              '&:hover .MuiButton-endIcon': {
+                transform: 'translateX(3px)',
               },
             }}
           >

@@ -55,7 +55,7 @@ const HeroSection = ({
         }}
       />
 
-      {/* Dark Navy Overlay - Increased Opacity */}
+      {/* Dark Navy Overlay */}
       <Box
         sx={{
           position: 'absolute',
@@ -79,43 +79,36 @@ const HeroSection = ({
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 6, md: 0 } }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 4, md: 0 } }}>
         <Box sx={{ textAlign: 'center' }}>
-          {/* Redesigned Badge */}
+          {/* Badge */}
           <Box
             sx={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: 1.5,
-              position: 'relative',
+              mb: 3,
+              mt: 8,
             }}
           >
-            {/* Left Gold Line */}
             <Box
               sx={{
                 width: 50,
                 height: 1,
-                // mt: 22,
                 background: 'linear-gradient(90deg, transparent 0%, #C6A962 100%)',
               }}
             />
-            
-            {/* Badge Text */}
             <Typography
               sx={{
                 color: '#C6A962',
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 fontWeight: 600,
                 letterSpacing: 3,
-                mt:14,
-                mb:6,
                 textTransform: 'uppercase',
               }}
             >
               #1 Off-Plan Portal
             </Typography>
-            
-            {/* Right Gold Line */}
             <Box
               sx={{
                 width: 50,
@@ -129,12 +122,12 @@ const HeroSection = ({
           <Typography
             variant="h1"
             sx={{
-              fontSize: { xs: '2.2rem', sm: '3rem', md: '3.8rem' },
+              fontSize: { xs: '2rem', sm: '2.8rem', md: '3.5rem' },
               fontFamily: '"Playfair Display", serif',
               fontWeight: 600,
               color: '#FFFFFF',
               lineHeight: 1.15,
-              mb: 2,
+              mb: 1.5,
             }}
           >
             Discover Your Dream
@@ -155,19 +148,17 @@ const HeroSection = ({
           <Typography
             sx={{
               color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: { xs: '0.95rem', md: '1.1rem' },
-              maxWidth: 550,
+              fontSize: { xs: '0.85rem', md: '0.95rem' },
+              maxWidth: 500,
               mx: 'auto',
-              mb: 5,
-              lineHeight: 1.7,
-              fontWeight: 400,
+              mb: 3,
+              lineHeight: 1.6,
             }}
           >
-            Explore 500+ exclusive off-plan projects from Dubai's top developers.
-            Your gateway to luxury living and smart investments.
+            Explore 500+ exclusive off-plan projects from Dubai's top developers
           </Typography>
 
-          {/* Original SearchBox Component */}
+          {/* SearchBox Component */}
           <SearchBox
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -189,13 +180,13 @@ const HeroSection = ({
               justifyContent: 'center',
               flexWrap: 'wrap',
               gap: 1,
-              mt: 3,
+              mt: 2,
             }}
           >
             <Typography
               sx={{
                 color: 'rgba(255, 255, 255, 0.4)',
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 mr: 0.5,
               }}
             >
@@ -210,8 +201,8 @@ const HeroSection = ({
                 sx={{
                   bgcolor: 'rgba(255, 255, 255, 0.08)',
                   color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: '0.7rem',
-                  height: 26,
+                  fontSize: '0.65rem',
+                  height: 24,
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   transition: 'all 0.3s ease',
                   '&:hover': {
@@ -224,15 +215,15 @@ const HeroSection = ({
             ))}
           </Box>
 
-          {/* Redesigned Stats Bar */}
+          {/* Stats Bar */}
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'center',
               flexWrap: 'wrap',
-              gap: { xs: 1.5, md: 4 },
-              mt: 4,
-              pt: 3,
+              gap: { xs: 1.5, md: 3 },
+              mt: 3,
+              pt: 2,
               borderTop: '1px solid rgba(255, 255, 255, 0.08)',
             }}
           >
@@ -241,62 +232,47 @@ const HeroSection = ({
                 key={index}
                 sx={{
                   textAlign: 'center',
-                  minWidth: { xs: 100, md: 120 },
-                  position: 'relative',
-                  px: 2,
-                  // Separator between stats (not on last item)
-                  '&:not(:last-child)::after': {
-                    content: '""',
-                    position: 'absolute',
-                    right: { xs: -8, md: -16 },
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: 1,
-                    height: 40,
-                    display: { xs: 'none', md: 'block' },
-                  },
+                  minWidth: { xs: 80, md: 100 },
+                  px: 1.5,
+                  mt:4,
                 }}
               >
-                {/* Icon */}
                 <Box
                   sx={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: 40,
-                    height: 40,
+                    width: 36,
+                    height: 36,
                     borderRadius: 2,
                     bgcolor: 'rgba(198, 169, 98, 0.1)',
                     border: '1px solid rgba(198, 169, 98, 0.2)',
-                    mb: 1.5,
+                    mb: 1,
                   }}
                 >
-                  <stat.icon size={18} color="#C6A962" />
+                  <stat.icon size={16} color="#C6A962" />
                 </Box>
 
-                {/* Value */}
                 <Typography
                   sx={{
                     color: '#FFFFFF',
                     fontWeight: 700,
-                    fontSize: { xs: '1.3rem', md: '1.5rem' },
+                    fontSize: { xs: '1.1rem', md: '1.3rem' },
                     fontFamily: '"Playfair Display", serif',
                     lineHeight: 1,
-                    mb: 0.5,
+                    mb: 0.25,
                   }}
                 >
                   {stat.value}
                 </Typography>
 
-                {/* Label */}
                 <Typography
                   sx={{
                     color: 'rgba(255, 255, 255, 0.5)',
-                    fontSize: '0.7rem',
+                    fontSize: '0.6rem',
                     fontWeight: 500,
                     textTransform: 'uppercase',
-                    letterSpacing: 1,
-                    mb:3.5,
+                    letterSpacing: 0.5,
                   }}
                 >
                   {stat.label}

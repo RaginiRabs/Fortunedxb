@@ -5,10 +5,9 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Button,
   Chip,
-  Grid,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import {
   MapPin,
@@ -16,41 +15,27 @@ import {
   Bath,
   Maximize2,
   Heart,
-  Share2,
-  Flame,
-  Rocket,
-  Timer,
-  Verified,
   ArrowRight,
+  BadgeCheck,
 } from 'lucide-react';
 
-const ProjectCard = ({ project, savedProperties, handleSaveProperty, handleInquiry }) => {
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'hot': return '#EF4444';
-      case 'new': return '#10B981';
-      case 'upcoming': return '#F59E0B';
-      default: return '#6B7280';
-    }
+const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handleInquiry }) => {
+  const getStatusStyle = (status) => {
+    const s = status?.toLowerCase() || '';
+    if (s.includes('hot')) return { bg: '#C6A962', text: '#0B1A2A' };
+    if (s.includes('new') || s.includes('launch')) return { bg: '#0B1A2A', text: '#FFFFFF' };
+    if (s.includes('upcoming')) return { bg: '#64748B', text: '#FFFFFF' };
+    if (s.includes('ready')) return { bg: '#10B981', text: '#FFFFFF' };
+    return { bg: '#64748B', text: '#FFFFFF' };
   };
 
-  const getStatusLabel = (status) => {
-    switch (status) {
-      case 'hot': return 'Hot Selling';
-      case 'new': return 'New Launch';
-      case 'upcoming': return 'Upcoming';
-      default: return status;
-    }
-  };
+  const statusStyle = getStatusStyle(project?.status);
+  const isSaved = savedProperties?.includes(project?.id);
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'hot': return <Flame size={14} />;
-      case 'new': return <Rocket size={14} />;
-      case 'upcoming': return <Timer size={14} />;
-      default: return null;
-    }
-  };
+  // Get remaining amenities for tooltip
+  const visibleAmenities = project?.amenities?.slice(0, 3) || [];
+  const hiddenAmenities = project?.amenities?.slice(3) || [];
+  const hiddenAmenitiesText = hiddenAmenities.join(', ');
 
   return (
     <Card
@@ -58,220 +43,334 @@ const ProjectCard = ({ project, savedProperties, handleSaveProperty, handleInqui
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        borderRadius: 3,
+        overflow: 'hidden',
+        bgcolor: '#FFFFFF',
+        border: '1px solid #F0F0F0',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         cursor: 'pointer',
-        transition: 'all 0.3s ease',
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.12)',
+          transform: 'translateY(-6px)',
+          boxShadow: '0 20px 40px rgba(11, 26, 42, 0.12), 0 0 0 1px rgba(198, 169, 98, 0.2)',
           '& .project-image': {
             transform: 'scale(1.05)',
           },
         },
       }}
+      onClick={() => handleInquiry?.(project)}
     >
       {/* Image Section */}
       <Box sx={{ position: 'relative', overflow: 'hidden' }}>
         <CardMedia
           component="img"
-          height="240"
-          image={project.image}
-          alt={project.name}
+          height="180"
+          image={project?.image}
+          alt={project?.name}
           className="project-image"
           sx={{
             transition: 'transform 0.5s ease',
-          }}
-        />
-        
-        {/* Status Badge */}
-        <Chip
-          icon={getStatusIcon(project.status)}
-          label={getStatusLabel(project.status)}
-          size="small"
-          sx={{
-            position: 'absolute',
-            top: 16,
-            left: 16,
-            bgcolor: getStatusColor(project.status),
-            color: 'white',
-            fontWeight: 600,
+            objectFit: 'cover',
           }}
         />
 
-        {/* Action Buttons */}
-        <Box sx={{ position: 'absolute', top: 16, right: 16, display: 'flex', gap: 1 }}>
+        {/* Gradient Overlay */}
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(11,26,42,0.05) 0%, rgba(11,26,42,0.5) 100%)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Status Badge - Top Left */}
+        <Chip
+          label={project?.status || 'Available'}
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            bgcolor: statusStyle.bg,
+            color: statusStyle.text,
+            fontWeight: 700,
+            fontSize: '0.58rem',
+            height: 22,
+            textTransform: 'uppercase',
+            letterSpacing: 0.5,
+            '& .MuiChip-label': {
+              px: 1.25,
+            },
+          }}
+        />
+
+        {/* Heart Button - Top Right */}
+        <Tooltip title={isSaved ? "Remove from saved" : "Save property"} arrow placement="left">
           <IconButton
             size="small"
             onClick={(e) => {
               e.stopPropagation();
-              handleSaveProperty(project.id);
+              handleSaveProperty?.(project?.id);
             }}
             sx={{
-              bgcolor: 'white',
-              '&:hover': { bgcolor: 'white' },
+              position: 'absolute',
+              top: 12,
+              right: 12,
+              width: 32,
+              height: 32,
+              bgcolor: 'rgba(255,255,255,0.95)',
+              backdropFilter: 'blur(8px)',
+              transition: 'all 0.3s ease',
+              '&:hover': { 
+                bgcolor: '#FFFFFF',
+                transform: 'scale(1.1)',
+              },
             }}
           >
             <Heart
-              size={18}
-              fill={savedProperties.includes(project.id) ? '#EF4444' : 'none'}
-              color={savedProperties.includes(project.id) ? '#EF4444' : '#1A1A2E'}
+              size={16}
+              fill={isSaved ? '#EF4444' : 'none'}
+              color={isSaved ? '#EF4444' : '#0B1A2A'}
             />
           </IconButton>
-          <IconButton
-            size="small"
-            sx={{
-              bgcolor: 'white',
-              '&:hover': { bgcolor: 'white' },
-            }}
-          >
-            <Share2 size={18} />
-          </IconButton>
-        </Box>
+        </Tooltip>
 
-        {/* Developer Badge */}
+        {/* Price Badge - Bottom Left */}
         <Box
           sx={{
             position: 'absolute',
-            bottom: 16,
-            left: 16,
-            bgcolor: 'rgba(255,255,255,0.95)',
+            bottom: 12,
+            left: 12,
+            bgcolor: 'rgba(11, 26, 42, 0.9)',
+            backdropFilter: 'blur(10px)',
             borderRadius: 2,
             px: 1.5,
-            py: 0.5,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
+            py: 0.75,
+            border: '1px solid rgba(198, 169, 98, 0.2)',
           }}
         >
-          <Verified size={14} color="#C6A962" />
-          <Typography variant="caption" sx={{ fontWeight: 600 }}>
-            {project.developer}
+          <Typography
+            sx={{
+              color: '#FFFFFF',
+              fontWeight: 700,
+              fontSize: '0.95rem',
+              fontFamily: '"Playfair Display", serif',
+              lineHeight: 1,
+            }}
+          >
+            <Box component="span" sx={{ color: '#C6A962', fontSize: '0.7rem', fontWeight: 600 }}>
+              AED{' '}
+            </Box>
+            {project?.price}
           </Typography>
         </Box>
+
+        {/* Developer Badge - Bottom Right */}
+        <Tooltip title={`Developed by ${project?.developer}`} arrow placement="left">
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 12,
+              right: 12,
+              bgcolor: 'rgba(255,255,255,0.95)',
+              backdropFilter: 'blur(8px)',
+              borderRadius: 2,
+              px: 1.25,
+              py: 0.5,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+            }}
+          >
+            <BadgeCheck size={12} color="#C6A962" />
+            <Typography
+              sx={{
+                fontSize: '0.62rem',
+                fontWeight: 600,
+                color: '#0B1A2A',
+                maxWidth: 80,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {project?.developer}
+            </Typography>
+          </Box>
+        </Tooltip>
       </Box>
 
       {/* Content Section */}
-      <CardContent sx={{ flexGrow: 1, p: 3 }}>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: 'secondary.main' }}>
-          {project.name}
+      <CardContent sx={{ flexGrow: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
+        {/* Project Name */}
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '1rem',
+            color: '#0B1A2A',
+            fontFamily: '"Playfair Display", serif',
+            mb: 0.5,
+            lineHeight: 1.25,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {project?.name}
         </Typography>
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 2 }}>
-          <MapPin size={16} color="#C6A962" />
-          <Typography variant="body2" color="text.secondary">
-            {project.location}
+
+        {/* Location */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1.5 }}>
+          <MapPin size={13} color="#C6A962" />
+          <Typography
+            sx={{
+              fontSize: '0.72rem',
+              color: '#64748B',
+            }}
+          >
+            {project?.location}
           </Typography>
         </Box>
 
-        {/* Property Details */}
-        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Bed size={16} color="#6B7280" />
-            <Typography variant="body2" color="text.secondary">
-              {project.beds} BR
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Bath size={16} color="#6B7280" />
-            <Typography variant="body2" color="text.secondary">
-              {project.baths} BA
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Maximize2 size={16} color="#6B7280" />
-            <Typography variant="body2" color="text.secondary">
-              {project.area} sqft
-            </Typography>
-          </Box>
-        </Box>
-
-        {/* Investment Info */}
+        {/* Property Specs Row with Tooltips */}
         <Box
           sx={{
-            bgcolor: 'rgba(198, 169, 98, 0.08)',
-            borderRadius: 2,
-            p: 2,
-            mb: 3,
+            display: 'flex',
+            gap: 2,
+            mb: 1.5,
+            pb: 1.5,
+            borderBottom: '1px solid #F0F2F5',
           }}
         >
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Typography variant="caption" color="text.secondary">
-                Expected ROI
+          <Tooltip title="Bedrooms" arrow>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
+              <Bed size={13} color="#94A3B8" />
+              <Typography sx={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
+                {project?.beds} BR
               </Typography>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: '#10B981' }}>
-                {project.roi}
+            </Box>
+          </Tooltip>
+
+          <Tooltip title="Bathrooms" arrow>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
+              <Bath size={13} color="#94A3B8" />
+              <Typography sx={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
+                {project?.baths} BA
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="caption" color="text.secondary">
-                Payment Plan
+            </Box>
+          </Tooltip>
+
+          <Tooltip title="Total Area" arrow>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
+              <Maximize2 size={13} color="#94A3B8" />
+              <Typography sx={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
+                {project?.area} sqft
               </Typography>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {project.paymentPlan}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="caption" color="text.secondary">
-                Completion
-              </Typography>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {project.completion}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="caption" color="text.secondary">
-                Type
-              </Typography>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {project.type}
-              </Typography>
-            </Grid>
-          </Grid>
+            </Box>
+          </Tooltip>
         </Box>
 
-        {/* Amenities */}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 3 }}>
-          {project.amenities.slice(0, 3).map((amenity, index) => (
+        {/* Amenities with Tooltip for More */}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1.5 }}>
+          {visibleAmenities.map((amenity, index) => (
             <Chip
               key={index}
               label={amenity}
               size="small"
-              variant="outlined"
-              sx={{ fontSize: '0.7rem' }}
+              sx={{
+                height: 22,
+                fontSize: '0.6rem',
+                bgcolor: 'rgba(198, 169, 98, 0.08)',
+                border: '1px solid rgba(198, 169, 98, 0.15)',
+                color: '#64748B',
+                '& .MuiChip-label': {
+                  px: 1,
+                },
+              }}
             />
           ))}
-          {project.amenities.length > 3 && (
-            <Chip
-              label={`+${project.amenities.length - 3}`}
-              size="small"
-              sx={{ bgcolor: 'primary.main', color: 'white', fontSize: '0.7rem' }}
-            />
+          {hiddenAmenities.length > 0 && (
+            <Tooltip 
+              title={
+                <Box sx={{ p: 0.5 }}>
+                  <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, mb: 0.5 }}>
+                    More Amenities:
+                  </Typography>
+                  <Typography sx={{ fontSize: '0.65rem' }}>
+                    {hiddenAmenitiesText}
+                  </Typography>
+                </Box>
+              } 
+              arrow
+              placement="top"
+            >
+              <Chip
+                label={`+${hiddenAmenities.length} more`}
+                size="small"
+                sx={{
+                  height: 22,
+                  fontSize: '0.6rem',
+                  bgcolor: 'rgba(198, 169, 98, 0.15)',
+                  color: '#C6A962',
+                  fontWeight: 600,
+                  cursor: 'help',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(198, 169, 98, 0.25)',
+                  },
+                  '& .MuiChip-label': {
+                    px: 1,
+                  },
+                }}
+              />
+            </Tooltip>
           )}
         </Box>
 
-        {/* Price and CTA */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Box>
-            <Typography variant="caption" color="text.secondary">
-              Starting From
-            </Typography>
-            <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
-              {project.price}
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            onClick={() => handleInquiry(project)}
+        {/* Footer - View Details + Arrow */}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mt: 'auto',
+            pt: 1.5,
+            borderTop: '1px solid #F0F2F5',
+          }}
+        >
+          <Typography
             sx={{
-              background: 'linear-gradient(135deg, #1A1A2E 0%, #16213E 100%)',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+              fontSize: '0.75rem',
+              color: '#64748B',
+              fontWeight: 500,
+              transition: 'color 0.3s ease',
+              '.MuiCard-root:hover &': {
+                color: '#C6A962',
               },
             }}
-            endIcon={<ArrowRight size={18} />}
           >
-            Inquire
-          </Button>
+            View Details
+          </Typography>
+
+          <Box
+            sx={{
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.3s ease',
+              '.MuiCard-root:hover &': {
+                transform: 'scale(1.1)',
+                boxShadow: '0 4px 12px rgba(198, 169, 98, 0.4)',
+              },
+            }}
+          >
+            <ArrowRight size={16} color="#0B1A2A" />
+          </Box>
         </Box>
       </CardContent>
     </Card>
