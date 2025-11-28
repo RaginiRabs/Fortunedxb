@@ -1,41 +1,52 @@
-// File: src/component/Propertycard.jsx
 import React from 'react';
 import {
   Card,
   CardMedia,
   Box,
   Typography,
-  Chip,
   IconButton,
 } from '@mui/material';
-import { MapPin, ArrowRight, BadgeCheck } from 'lucide-react';
+import { MapPin, ArrowRight, Building2, Calendar } from 'lucide-react';
 
 const PropertyCard = ({ property }) => {
   const getLocationString = (location) => {
     if (typeof location === 'string') return location;
-    if (location && location.latitude && location.longitude) {
-      return 'Dubai, UAE';
-    }
-    return 'Location not available';
+    return 'Dubai, UAE';
   };
 
   const getUnitRange = (configurations) => {
     if (!configurations || !Array.isArray(configurations)) return 'Various';
-    
     const types = configurations.map(config => config.type) || [];
     const bhkTypes = types.filter(type => type && type.includes('BHK'));
     if (bhkTypes.length === 0) return types[0] || 'Studio';
-    
     const bhkNumbers = bhkTypes.map(type => {
       const match = type.match(/(\d+)\s*BHK/);
       return match ? parseInt(match[1]) : null;
     }).filter(num => num !== null);
-    
     if (bhkNumbers.length === 0) return 'Various';
-    
     const min = Math.min(...bhkNumbers);
     const max = Math.max(...bhkNumbers);
     return min === max ? `${min} BHK` : `${min}-${max} BHK`;
+  };
+
+  const getStatusColor = (status) => {
+    const s = status?.toLowerCase() || '';
+    if (s.includes('ready')) return { bg: '#10B981', text: '#FFFFFF' };
+    if (s.includes('new') || s.includes('launch')) return { bg: '#C6A962', text: '#0B1A2A' };
+    if (s.includes('upcoming')) return { bg: '#6366F1', text: '#FFFFFF' };
+    return { bg: '#64748B', text: '#FFFFFF' };
+  };
+
+  const statusColors = getStatusColor(property?.status);
+
+  const formatPrice = (price) => {
+    if (!price) return '0';
+    if (price >= 1000000) {
+      return (price / 1000000).toFixed(1) + 'M';
+    } else if (price >= 1000) {
+      return (price / 1000).toFixed(0) + 'K';
+    }
+    return price.toLocaleString();
   };
 
   return (
@@ -45,25 +56,15 @@ const PropertyCard = ({ property }) => {
         overflow: 'hidden',
         bgcolor: '#FFFFFF',
         border: '1px solid #F0F0F0',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
         cursor: 'pointer',
-        position: 'relative',
-        boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         '&:hover': {
           transform: 'translateY(-6px)',
-          boxShadow: '0 20px 40px rgba(30, 58, 95, 0.12), 0 0 0 1px rgba(198, 169, 98, 0.3)',
-          borderColor: 'rgba(198, 169, 98, 0.4)',
-        },
-        // Gold corner accent
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: 60,
-          height: 60,
-          background: 'linear-gradient(135deg, transparent 50%, rgba(198, 169, 98, 0.08) 50%)',
-          pointerEvents: 'none',
+          boxShadow: '0 20px 40px rgba(11, 26, 42, 0.15), 0 0 0 1px rgba(198, 169, 98, 0.3)',
         },
       }}
     >
@@ -76,209 +77,200 @@ const PropertyCard = ({ property }) => {
           alt={property?.title}
           sx={{
             objectFit: 'cover',
-            transition: 'transform 0.6s ease',
+            transition: 'transform 0.5s ease',
             '.MuiCard-root:hover &': {
               transform: 'scale(1.05)',
             },
           }}
         />
 
-        {/* Subtle Gradient Overlay */}
+        {/* Gradient Overlay */}
         <Box
           sx={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(180deg, transparent 40%, rgba(30, 58, 95, 0.3) 100%)',
+            background: 'linear-gradient(180deg, rgba(11,26,42,0.05) 0%, rgba(11,26,42,0.5) 100%)',
             pointerEvents: 'none',
           }}
         />
 
-        {/* Status Badge */}
-        <Chip
-          label={property?.status || 'Ready to Move'}
+        {/* Status Badge - Top Left */}
+        <Box
           sx={{
             position: 'absolute',
             top: 12,
             left: 12,
-            bgcolor: 'white',
-            color: '#1E3A5F',
-            fontWeight: 600,
-            fontSize: '0.65rem',
-            height: 24,
+            bgcolor: statusColors.bg,
+            color: statusColors.text,
+            px: 1.5,
+            py: 0.4,
             borderRadius: '100px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-            '& .MuiChip-label': {
-              px: 1.5,
-            },
+            fontSize: '0.6rem',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 0.5,
           }}
-        />
+        >
+          {property?.status || 'Available'}
+        </Box>
 
-        {/* Price Tag on Image */}
+        {/* Handover Badge - Top Right */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 12,
+            right: 12,
+            bgcolor: 'rgba(255,255,255,0.95)',
+            backdropFilter: 'blur(8px)',
+            px: 1.25,
+            py: 0.4,
+            borderRadius: '100px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5,
+          }}
+        >
+          <Calendar size={10} color="#0B1A2A" />
+          <Typography
+            sx={{
+              color: '#0B1A2A',
+              fontSize: '0.58rem',
+              fontWeight: 600,
+            }}
+          >
+            {property?.handover || 'TBA'}
+          </Typography>
+        </Box>
+
+        {/* Price Box - Bottom Left on Image */}
         <Box
           sx={{
             position: 'absolute',
             bottom: 12,
             left: 12,
-            bgcolor: 'rgba(255,255,255,0.95)',
-            backdropFilter: 'blur(8px)',
-            borderRadius: 2,
+            bgcolor: 'rgba(11, 26, 42, 0.9)',
+            backdropFilter: 'blur(10px)',
             px: 1.5,
-            py: 0.75,
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+            py: 1,
+            borderRadius: 2,
+            border: '1px solid rgba(198, 169, 98, 0.3)',
           }}
         >
           <Typography
             sx={{
-              color: '#94A3B8',
-              fontSize: '0.55rem',
+              color: 'rgba(255,255,255,0.7)',
+              fontSize: '0.5rem',
               textTransform: 'uppercase',
               letterSpacing: 0.5,
-              lineHeight: 1,
+              mb: 0.25,
             }}
           >
             Starting from
           </Typography>
           <Typography
             sx={{
-              color: '#1E3A5F',
+              color: '#FFFFFF',
               fontWeight: 700,
-              fontSize: '0.95rem',
-              lineHeight: 1.2,
-              '& span': {
-                color: '#C6A962',
-              },
+              fontSize: '1rem',
+              fontFamily: '"Playfair Display", serif',
+              lineHeight: 1,
             }}
           >
-            <span>AED</span> {(property?.price || 0)?.toLocaleString()}
+            <Box component="span" sx={{ color: '#C6A962', fontSize: '0.75rem' }}>
+              AED{' '}
+            </Box>
+            {formatPrice(property?.price)}
           </Typography>
         </Box>
       </Box>
 
       {/* Content Section */}
-      <Box sx={{ p: 2.5, pt: 2 }}>
-        {/* Developer */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.5,
-            mb: 1,
-          }}
-        >
-          <BadgeCheck size={12} color="#C6A962" />
-          <Typography
-            sx={{
-              color: '#94A3B8',
-              fontSize: '0.7rem',
-              fontWeight: 500,
-            }}
-          >
-            {property?.developer || 'Premium Developer'}
-          </Typography>
-        </Box>
-
-        {/* Title */}
+      <Box sx={{ p: 2.5, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Project Name */}
         <Typography
           sx={{
-            fontWeight: 600,
-            fontSize: '1.05rem',
-            color: '#1E3A5F',
-            mb: 0.75,
-            lineHeight: 1.3,
+            fontWeight: 700,
+            fontSize: '1.1rem',
+            color: '#0B1A2A',
             fontFamily: '"Playfair Display", serif',
+            lineHeight: 1.3,
+            mb: 0.75,
           }}
         >
           {property?.title}
         </Typography>
 
         {/* Location */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 0.5,
-            mb: 2,
-          }}
-        >
-          <MapPin size={12} color="#C6A962" />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+          <MapPin size={14} color="#C6A962" />
           <Typography
             sx={{
               color: '#64748B',
-              fontSize: '0.75rem',
+              fontSize: '0.8rem',
+              fontWeight: 500,
             }}
           >
             {getLocationString(property?.location)}
           </Typography>
         </Box>
 
-        {/* Divider with Gold Accent */}
-        <Box
-          sx={{
-            height: 1,
-            background: 'linear-gradient(90deg, #C6A962 0%, #F0F0F0 30%, #F0F0F0 100%)',
-            mb: 2,
-          }}
-        />
 
-        {/* Bottom Row */}
+          {/* Developer */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1 }}>
+            <Building2 size={14} color="#94A3B8" />
+            <Typography
+              sx={{
+                color: '#64748B',
+                fontSize: '0.75rem',
+                fontWeight: 500,
+              }}
+            >
+              {property?.developer || property?.builder?.name || 'Developer'}
+            </Typography>
+          </Box>
+
+        {/* Developer + BHK + Arrow Row */}
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            mt: 'auto',
           }}
         >
-          {/* Quick Info */}
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
-            <Box
+        
+
+          {/* BHK Badge */}
+          <Box
+            sx={{
+              bgcolor: 'rgba(198, 169, 98, 0.12)',
+              border: '1px solid rgba(198, 169, 98, 0.25)',
+              px: 1.25,
+              py: 0.5,
+              borderRadius: '100px',
+            }}
+          >
+            <Typography
               sx={{
-                bgcolor: 'rgba(30, 58, 95, 0.04)',
-                borderRadius: 1.5,
-                px: 1.25,
-                py: 0.5,
+                color: '#A68B4B',
+                fontSize: '0.7rem',
+                fontWeight: 600,
               }}
             >
-              <Typography
-                sx={{
-                  color: '#1E3A5F',
-                  fontSize: '0.65rem',
-                  fontWeight: 600,
-                }}
-              >
-                {getUnitRange(property?.configurations)}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                bgcolor: 'rgba(30, 58, 95, 0.04)',
-                borderRadius: 1.5,
-                px: 1.25,
-                py: 0.5,
-              }}
-            >
-              <Typography
-                sx={{
-                  color: '#1E3A5F',
-                  fontSize: '0.65rem',
-                  fontWeight: 600,
-                }}
-              >
-                {property?.handover || 'Q4 2025'}
-              </Typography>
-            </Box>
+              {getUnitRange(property?.configurations)}
+            </Typography>
           </Box>
 
           {/* Arrow Button */}
           <IconButton
             sx={{
-              width: 36,
-              height: 36,
-              bgcolor: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+              width: 34,
+              height: 34,
               background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-              color: 'white',
+              color: '#0B1A2A',
               transition: 'all 0.3s ease',
               '&:hover': {
-                background: 'linear-gradient(135deg, #D4BC7D 0%, #C6A962 100%)',
+                background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
                 transform: 'scale(1.1)',
               },
             }}

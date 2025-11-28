@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, Grid, Container, Button, Chip } from '@mui/material';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import PropertyCard from '../../component/Propertycard';
 import properties from '../../Data/properties';
 
 // Filter Options
 const filterOptions = [
-  { id: 'all', label: 'All Projects' },
+  { id: 'all', label: 'All' },
   { id: 'ready', label: 'Ready' },
   { id: 'new-launch', label: 'New Launch' },
-  { id: 'hot-selling', label: 'Hot Selling' },
+  { id: 'hot-selling', label: 'Hot' },
 ];
 
 const AllProject = () => {
@@ -22,11 +22,10 @@ const AllProject = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          // Stagger card animations
           properties.forEach((_, index) => {
             setTimeout(() => {
               setVisibleCards((prev) => [...prev, index]);
-            }, index * 100);
+            }, index * 80);
           });
         }
       },
@@ -44,7 +43,7 @@ const AllProject = () => {
   const filteredProperties = properties?.filter((property) => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'ready') return property?.status?.toLowerCase().includes('ready');
-    if (activeFilter === 'new-launch') return property?.status?.toLowerCase().includes('launch');
+    if (activeFilter === 'new-launch') return property?.status?.toLowerCase().includes('new') || property?.status?.toLowerCase().includes('launch');
     if (activeFilter === 'hot-selling') return property?.featured || property?.hot;
     return true;
   });
@@ -53,138 +52,110 @@ const AllProject = () => {
     <Box
       ref={sectionRef}
       sx={{
-        py: { xs: 6, md: 10 },
+        p: { xs: 2, md: 5 },
         bgcolor: '#0B1A2A',
         position: 'relative',
         overflow: 'hidden',
+        mt: { xs: 8, md: 8 },
       }}
     >
-      {/* Subtle Background Accents */}
+      {/* Subtle Background Pattern */}
       <Box
         sx={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 200,
-          background: 'linear-gradient(180deg, #F8FAFC 0%, transparent 100%)',
+          inset: 0,
+          opacity: 0.02,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C6A962' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           pointerEvents: 'none',
         }}
       />
 
       <Container maxWidth="lg">
-        {/* Section Header */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
-          {/* Small Badge */}
-          <Box
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 1,
-              bgcolor: 'rgba(198, 169, 98, 0.08)',
-              border: '1px solid rgba(198, 169, 98, 0.2)',
-              borderRadius: '100px',
-              px: 2,
-              py: 0.5,
-              mb: 2,
-            }}
-          >
-            <Sparkles size={12} color="#C6A962" />
-            <Typography
-              sx={{
-                color: '#C6A962',
-                fontWeight: 600,
-                fontSize: '0.65rem',
-                letterSpacing: 1.5,
-                textTransform: 'uppercase',
-              }}
-            >
-              Featured Collection
-            </Typography>
-          </Box>
-
-          {/* Title */}
-          <Typography
-            variant="h3"
-            sx={{
-              color: '#1E3A5F',
-              fontFamily: '"Playfair Display", serif',
-              fontWeight: 500,
-              fontSize: { xs: '1.8rem', md: '2.2rem' },
-              letterSpacing: '-0.02em',
-              mb: 1.5,
-            }}
-          >
-            Explore Our Projects
-          </Typography>
-
-          {/* Gold Separator Line */}
-          <Box
-            sx={{
-              width: 60,
-              height: 2,
-              background: 'linear-gradient(90deg, #C6A962 0%, #E8D5A3 100%)',
-              mx: 'auto',
-              mb: 2,
-              borderRadius: 1,
-            }}
-          />
-
-          {/* Subtitle */}
-          <Typography
-            sx={{
-              color: '#64748B',
-              fontSize: '0.9rem',
-              fontWeight: 400,
-              maxWidth: 450,
-              mx: 'auto',
-              lineHeight: 1.6,
-            }}
-          >
-            Discover premium properties across Dubai's most prestigious locations
-          </Typography>
-        </Box>
-
-        {/* Filter Pills */}
+        {/* Compact Header */}
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'center',
-            gap: 1.5,
-            mb: { xs: 4, md: 5 },
-            flexWrap: 'wrap',
+            flexDirection: { xs: 'column', md: 'row' },
+            alignItems: { xs: 'center', md: 'flex-end' },
+            justifyContent: 'space-between',
+            mb: { xs: 3, md: 4 },
+            gap: 2,
           }}
         >
-          {filterOptions.map((filter) => (
-            <Chip
-              key={filter.id}
-              label={filter.label}
-              onClick={() => setActiveFilter(filter.id)}
+          {/* Left - Title */}
+          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+            <Typography
+              variant="h3"
               sx={{
-                px: 1,
-                height: 34,
-                borderRadius: '100px',
-                bgcolor: activeFilter === filter.id ? '#1E3A5F' : 'transparent',
-                color: activeFilter === filter.id ? 'white' : '#1E3A5F',
-                border: '1px solid',
-                borderColor: activeFilter === filter.id ? '#1E3A5F' : '#E2E8F0',
-                fontWeight: 500,
-                fontSize: '0.75rem',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  bgcolor: activeFilter === filter.id ? '#1E3A5F' : 'rgba(198, 169, 98, 0.08)',
-                  borderColor: activeFilter === filter.id ? '#1E3A5F' : '#C6A962',
-                },
-                '& .MuiChip-label': {
-                  px: 1.5,
-                },
+                color: '#FFFFFF',
+                fontFamily: '"Playfair Display", serif',
+                fontWeight: 600,
+                fontSize: { xs: '1.6rem', md: '2rem' },
+                mb: 0.5,
+              }}
+            >
+              Featured{' '}
+              <Box
+                component="span"
+                sx={{
+                  background: 'linear-gradient(135deg, #C6A962 0%, #E8D5A3 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Projects
+              </Box>
+            </Typography>
+            <Box
+              sx={{
+                width: 50,
+                height: 2,
+                background: 'linear-gradient(90deg, #C6A962 0%, transparent 100%)',
+                borderRadius: 1,
+                mx: { xs: 'auto', md: 0 },
               }}
             />
-          ))}
+          </Box>
+
+          {/* Right - Filters */}
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 1,
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            {filterOptions.map((filter) => (
+              <Chip
+                key={filter.id}
+                label={filter.label}
+                onClick={() => setActiveFilter(filter.id)}
+                sx={{
+                  height: 30,
+                  borderRadius: '100px',
+                  bgcolor: activeFilter === filter.id ? '#C6A962' : 'transparent',
+                  color: activeFilter === filter.id ? '#0B1A2A' : 'rgba(255,255,255,0.7)',
+                  border: '1px solid',
+                  borderColor: activeFilter === filter.id ? '#C6A962' : 'rgba(255,255,255,0.2)',
+                  fontWeight: 600,
+                  fontSize: '0.7rem',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    bgcolor: activeFilter === filter.id ? '#C6A962' : 'rgba(198, 169, 98, 0.15)',
+                    borderColor: '#C6A962',
+                  },
+                  '& .MuiChip-label': {
+                    px: 1.5,
+                  },
+                }}
+              />
+            ))}
+          </Box>
         </Box>
 
-        {/* Properties Grid */}
-        <Grid container spacing={3} justifyContent="center">
+        {/* Properties Grid - 3 Cards per Row */}
+        <Grid container spacing={2.5}>
           {filteredProperties?.map((property, index) => (
             <Grid
               item
@@ -193,9 +164,11 @@ const AllProject = () => {
               md={4}
               key={property?.id}
               sx={{
+                display: 'flex',
+                alignItems: 'center',
                 opacity: visibleCards.includes(index) ? 1 : 0,
-                transform: visibleCards.includes(index) ? 'translateY(0)' : 'translateY(30px)',
-                transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                transform: visibleCards.includes(index) ? 'translateY(0)' : 'translateY(25px)',
+                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
             >
               <PropertyCard property={property} />
@@ -203,24 +176,33 @@ const AllProject = () => {
           ))}
         </Grid>
 
-        {/* View More Button */}
-        <Box sx={{ textAlign: 'center', mt: { xs: 5, md: 6 } }}>
+        {/* Footer - View All Button */}
+        <Box
+          sx={{
+            textAlign: 'center',
+            mt: { xs: 4, md: 5 },
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
           <Button
             variant="contained"
             endIcon={<ArrowRight size={16} />}
             sx={{
               background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-              color: 'white',
+              color: '#0B1A2A',
               px: 4,
-              py: 1.5,
+              py: 1.25,
               borderRadius: '100px',
-              fontWeight: 600,
-              fontSize: '0.85rem',
+              fontWeight: 700,
+              fontSize: '0.8rem',
               textTransform: 'none',
               boxShadow: '0 4px 20px rgba(198, 169, 98, 0.3)',
               transition: 'all 0.3s ease',
               '&:hover': {
-                background: 'linear-gradient(135deg, #D4BC7D 0%, #C6A962 100%)',
+                background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
                 transform: 'translateY(-2px)',
                 boxShadow: '0 8px 30px rgba(198, 169, 98, 0.4)',
               },
@@ -236,15 +218,13 @@ const AllProject = () => {
             View All Projects
           </Button>
 
-          {/* Project Count */}
           <Typography
             sx={{
-              color: '#94A3B8',
-              fontSize: '0.75rem',
-              mt: 2,
+              color: 'rgba(255, 255, 255, 0.4)',
+              fontSize: '0.7rem',
             }}
           >
-            Showing {filteredProperties?.length} of {properties?.length} projects
+            {filteredProperties?.length} of {properties?.length} projects
           </Typography>
         </Box>
       </Container>

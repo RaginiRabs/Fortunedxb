@@ -313,32 +313,9 @@ const AllDevelopers = () => {
               borderTop: '1px solid rgba(255, 255, 255, 0.06)',
             }}
           >
-            <Box
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 1.5,
-                bgcolor: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: '100px',
-                px: 3,
-                py: 1.5,
-              }}
-            >
-              <Shield size={16} color="#C6A962" />
-              <Typography
-                sx={{
-                  color: 'rgba(255, 255, 255, 0.5)',
-                  fontSize: '0.8rem',
-                  fontWeight: 500,
-                }}
-              >
-                All developers{' '}
-                <Box component="span" sx={{ color: '#C6A962', fontWeight: 600 }}>
-                 
-                All developers{' '} verified
-                </Box>{' '}
-              </Typography>
+
+            <Box component="span" sx={{ color: '#C6A962', fontWeight: 500 }}>
+              All developers{' '} verified
             </Box>
           </Box>
         )}
