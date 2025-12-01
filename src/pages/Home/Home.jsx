@@ -23,7 +23,6 @@ import HeroSection from '../../component/HomeComponents/HeroSection';
 import FeaturedProjects from '../../component/HomeComponents/FeaturedProjects';
 import ExclusiveOffers from '../../component/HomeComponents/ExclusiveOffers';
 import WhyInvestSection from '../../component/HomeComponents/WhyInvestSection';
-import PopularAreas from '../../component/HomeComponents/PopularAreas';
 import TopDevelopers from '../../component/HomeComponents/TopDevelopers';
 import TestimonialsSection from '../../component/HomeComponents/TestimonialsSection';
 import FirstTimeBuyerSection from '../../component/HomeComponents/FirstTimeBuyerSection';
@@ -33,7 +32,7 @@ import ROICalculatorDialog from '../../component/HomeComponents/ROICalculatorDia
 import InquiryDialog from '../../component/HomeComponents/InquiryDialog';
 import FilterDrawer from '../../component/HomeComponents/Filterdrawer';
 
-// Luxury Theme
+// Luxury Theme with Quicksand font
 const luxuryTheme = createTheme({
   palette: {
     mode: 'light',
@@ -56,22 +55,56 @@ const luxuryTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Quicksand", sans-serif',
     h1: {
-      fontFamily: '"Playfair Display", serif',
+      fontFamily: '"Quicksand", sans-serif',
       fontWeight: 700,
+      fontStyle: 'italic',
     },
     h2: {
-      fontFamily: '"Playfair Display", serif',
+      fontFamily: '"Quicksand", sans-serif',
       fontWeight: 600,
+      fontStyle: 'italic',
     },
     h3: {
-      fontFamily: '"Playfair Display", serif',
+      fontFamily: '"Quicksand", sans-serif',
       fontWeight: 600,
+      fontStyle: 'italic',
+    },
+    h4: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontWeight: 600,
+      fontStyle: 'italic',
+    },
+    h5: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontWeight: 600,
+      fontStyle: 'italic',
+    },
+    h6: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontWeight: 600,
+      fontStyle: 'italic',
+    },
+    body1: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontStyle: 'italic',
+    },
+    body2: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontStyle: 'italic',
+    },
+    caption: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontStyle: 'italic',
+    },
+    button: {
+      fontFamily: '"Quicksand", sans-serif',
+      fontStyle: 'italic',
     },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 8,
   },
   components: {
     MuiButton: {
@@ -79,13 +112,28 @@ const luxuryTheme = createTheme({
         root: {
           textTransform: 'none',
           fontWeight: 600,
+          borderRadius: 8,
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 12,
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
         },
       },
     },
@@ -371,9 +419,6 @@ const Home = () => {
 
         {/* Testimonials */}
         <TestimonialsSection />
-
-        {/* Popular Areas */}
-        {/* <PopularAreas popularAreas={popularAreas} /> */}
 
         {/* Top Developers */}
         <TopDevelopers developers={developers} />

@@ -112,7 +112,7 @@ const FirstTimeBuyerSection = () => {
           }}
         />
 
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 4, md: 5 } }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 6, md: 8 } }}>
           <Box sx={{ maxWidth: { xs: '100%', md: 580 } }}>
             {/* Badge */}
             <Box
@@ -122,7 +122,7 @@ const FirstTimeBuyerSection = () => {
                 gap: 1,
                 bgcolor: 'rgba(198, 169, 98, 0.15)',
                 border: '1px solid rgba(198, 169, 98, 0.4)',
-                borderRadius: '100px',
+                borderRadius: 1,
                 px: 2,
                 py: 0.6,
                 mb: 2.5,
@@ -135,6 +135,8 @@ const FirstTimeBuyerSection = () => {
                   fontSize: '0.7rem',
                   fontWeight: 600,
                   letterSpacing: 1,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                 }}
               >
                 FIRST-TIME BUYERS
@@ -145,9 +147,10 @@ const FirstTimeBuyerSection = () => {
             <Typography
               sx={{
                 color: 'white',
-                fontFamily: '"Playfair Display", serif',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
                 fontWeight: 600,
-                fontSize: { xs: '1.75rem', sm: '2rem', md: '2.4rem' },
+                fontSize: { xs: '1.5rem', md: '1.8rem' },
                 lineHeight: 1.2,
                 mb: 2,
               }}
@@ -173,6 +176,8 @@ const FirstTimeBuyerSection = () => {
                 lineHeight: 1.7,
                 mb: 3,
                 maxWidth: 480,
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
               }}
             >
               Expert guidance, dedicated support, and a seamless buying experience
@@ -197,7 +202,7 @@ const FirstTimeBuyerSection = () => {
                     gap: 0.75,
                     px: 1.5,
                     py: 0.75,
-                    borderRadius: '100px',
+                    borderRadius: 1,
                     bgcolor: 'rgba(255,255,255,0.08)',
                     border: '1px solid rgba(255,255,255,0.12)',
                     backdropFilter: 'blur(10px)',
@@ -209,7 +214,15 @@ const FirstTimeBuyerSection = () => {
                   }}
                 >
                   <item.icon size={14} color="#C6A962" />
-                  <Typography sx={{ color: 'white', fontSize: '0.7rem', fontWeight: 500 }}>
+                  <Typography
+                    sx={{
+                      color: 'white',
+                      fontSize: '0.7rem',
+                      fontWeight: 500,
+                      fontFamily: '"Quicksand", sans-serif',
+                      fontStyle: 'italic',
+                    }}
+                  >
                     {item.text}
                   </Typography>
                 </Box>
@@ -219,16 +232,18 @@ const FirstTimeBuyerSection = () => {
             {/* CTA Button */}
             <Button
               variant="contained"
-              endIcon={<Rocket size={18} />}
+              endIcon={<Rocket size={18} color="#FFFFFF" />}
               sx={{
                 background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-                color: '#0B1A2A',
+                color: '#FFFFFF',
                 px: { xs: 3, md: 4 },
                 py: { xs: 1.25, md: 1.5 },
-                borderRadius: '100px',
+                borderRadius: 1,
                 fontWeight: 700,
                 fontSize: { xs: '0.85rem', md: '0.9rem' },
                 textTransform: 'none',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
                 boxShadow: '0 8px 30px rgba(198, 169, 98, 0.35)',
                 transition: 'all 0.3s ease',
                 '&:hover': {
@@ -265,14 +280,23 @@ const FirstTimeBuyerSection = () => {
                       justifyContent: 'center',
                       fontSize: '0.6rem',
                       fontWeight: 700,
-                      color: '#0B1A2A',
+                      color: '#FFFFFF',
+                      fontFamily: '"Quicksand", sans-serif',
+                      fontStyle: 'italic',
                     }}
                   >
                     {i < 3 ? ['J', 'M', 'S'][i] : '+'}
                   </Box>
                 ))}
               </Box>
-              <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem' }}>
+              <Typography
+                sx={{
+                  color: 'rgba(255,255,255,0.6)',
+                  fontSize: '0.75rem',
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
+                }}
+              >
                 <Box component="span" sx={{ color: '#C6A962', fontWeight: 700 }}>
                   5,000+
                 </Box>{' '}
@@ -286,7 +310,7 @@ const FirstTimeBuyerSection = () => {
       {/* ========== 5-STEP PROCESS SECTION ========== */}
       <Box
         sx={{
-          py: { xs: 4, md: 5 },
+          py: { xs: 8, md: 10 },
           bgcolor: '#FAFAFA',
           position: 'relative',
         }}
@@ -304,7 +328,7 @@ const FirstTimeBuyerSection = () => {
 
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           {/* Section Header */}
-          <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
+          <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 5 } }}>
             <Typography
               sx={{
                 color: '#C6A962',
@@ -313,6 +337,8 @@ const FirstTimeBuyerSection = () => {
                 letterSpacing: 2,
                 textTransform: 'uppercase',
                 mb: 1,
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
               }}
             >
               How It Works
@@ -320,9 +346,10 @@ const FirstTimeBuyerSection = () => {
             <Typography
               sx={{
                 color: '#0B1A2A',
-                fontFamily: '"Playfair Display", serif',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
                 fontWeight: 600,
-                fontSize: { xs: '1.4rem', md: '1.8rem' },
+                fontSize: { xs: '1.5rem', md: '1.8rem' },
               }}
             >
               Simple{' '}
@@ -353,11 +380,11 @@ const FirstTimeBuyerSection = () => {
               },
               '&::-webkit-scrollbar-track': {
                 bgcolor: '#E2E8F0',
-                borderRadius: 3,
+                borderRadius: 1,
               },
               '&::-webkit-scrollbar-thumb': {
                 bgcolor: '#C6A962',
-                borderRadius: 3,
+                borderRadius: 1,
               },
             }}
           >
@@ -391,7 +418,7 @@ const FirstTimeBuyerSection = () => {
                 <Box
                   sx={{
                     p: { xs: 2, md: 2.5 },
-                    borderRadius: 4,
+                    borderRadius: 2,
                     bgcolor: 'white',
                     border: '1px solid #E2E8F0',
                     textAlign: 'center',
@@ -408,7 +435,7 @@ const FirstTimeBuyerSection = () => {
                       },
                       '& .step-number': {
                         bgcolor: '#C6A962',
-                        color: '#0B1A2A',
+                        color: '#FFFFFF',
                       },
                     },
                   }}
@@ -456,6 +483,8 @@ const FirstTimeBuyerSection = () => {
                       fontSize: '0.75rem',
                       mb: 1.5,
                       transition: 'all 0.3s ease',
+                      fontFamily: '"Quicksand", sans-serif',
+                      fontStyle: 'italic',
                     }}
                   >
                     {step.number}
@@ -468,7 +497,8 @@ const FirstTimeBuyerSection = () => {
                       fontWeight: 700,
                       fontSize: { xs: '0.85rem', md: '0.95rem' },
                       mb: 0.5,
-                      fontFamily: '"Playfair Display", serif',
+                      fontFamily: '"Quicksand", sans-serif',
+                      fontStyle: 'italic',
                     }}
                   >
                     {step.label}
@@ -480,6 +510,8 @@ const FirstTimeBuyerSection = () => {
                       color: '#64748B',
                       fontSize: { xs: '0.7rem', md: '0.75rem' },
                       lineHeight: 1.5,
+                      fontFamily: '"Quicksand", sans-serif',
+                      fontStyle: 'italic',
                     }}
                   >
                     {step.desc}
@@ -503,7 +535,7 @@ const FirstTimeBuyerSection = () => {
               sx={{
                 width: 20,
                 height: 4,
-                borderRadius: 2,
+                borderRadius: 1,
                 bgcolor: '#C6A962',
               }}
             />
@@ -511,7 +543,7 @@ const FirstTimeBuyerSection = () => {
               sx={{
                 width: 8,
                 height: 4,
-                borderRadius: 2,
+                borderRadius: 1,
                 bgcolor: '#E2E8F0',
               }}
             />
@@ -519,11 +551,19 @@ const FirstTimeBuyerSection = () => {
               sx={{
                 width: 8,
                 height: 4,
-                borderRadius: 2,
+                borderRadius: 1,
                 bgcolor: '#E2E8F0',
               }}
             />
-            <Typography sx={{ color: '#94A3B8', fontSize: '0.6rem', ml: 1 }}>
+            <Typography
+              sx={{
+                color: '#94A3B8',
+                fontSize: '0.6rem',
+                ml: 1,
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
+              }}
+            >
               Swipe to explore
             </Typography>
           </Box>
@@ -533,7 +573,7 @@ const FirstTimeBuyerSection = () => {
             sx={{
               display: { xs: 'flex', md: 'none' },
               justifyContent: 'center',
-              mt: 3,
+              mt: 4,
             }}
           >
             <Button
@@ -544,10 +584,12 @@ const FirstTimeBuyerSection = () => {
                 color: '#0B1A2A',
                 px: 3,
                 py: 1,
-                borderRadius: '100px',
+                borderRadius: 1,
                 fontWeight: 600,
                 fontSize: '0.8rem',
                 textTransform: 'none',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
                 '&:hover': {
                   borderColor: '#C6A962',
                   bgcolor: 'rgba(198, 169, 98, 0.05)',

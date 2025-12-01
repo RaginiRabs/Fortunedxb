@@ -97,9 +97,9 @@ const TestimonialsSection = () => {
     <Box
       sx={{
         position: 'relative',
-        borderRadius: 4,
+        borderRadius: 2,
         overflow: 'hidden',
-        minHeight: { xs: 380, md: 420 },
+        minHeight: { xs: 380, md: 430 },
         background: 'linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
         backdropFilter: 'blur(20px)',
         border: '1px solid rgba(198, 169, 98, 0.25)',
@@ -172,7 +172,7 @@ const TestimonialsSection = () => {
                 color: 'white',
                 fontWeight: 700,
                 fontSize: { xs: '0.9rem', md: '1rem' },
-                fontFamily: '"Playfair Display", serif',
+                fontFamily: '"Quicksand", sans-serif',
               }}
             >
               {testimonials[featured].name}
@@ -381,7 +381,7 @@ const TestimonialsSection = () => {
           <Typography
             sx={{
               color: 'white',
-              fontFamily: '"Playfair Display", serif',
+              fontFamily: '"Quicksand", sans-serif',
               fontWeight: 600,
               fontSize: { xs: '1.5rem', md: '1.8rem' },
               mb: 0.5,
@@ -536,7 +536,7 @@ const TestimonialsSection = () => {
                       flex: 1,
                       textAlign: 'center',
                       py: 1.5,
-                      borderRadius: 2,
+                      borderRadius: 1,
                       bgcolor: 'rgba(255,255,255,0.03)',
                       border: '1px solid rgba(198, 169, 98, 0.15)',
                     }}
@@ -546,7 +546,7 @@ const TestimonialsSection = () => {
                         color: '#C6A962',
                         fontWeight: 700,
                         fontSize: '1rem',
-                        fontFamily: '"Playfair Display", serif',
+                        fontFamily: '"Quicksand", sans-serif',
                         lineHeight: 1,
                       }}
                     >
@@ -598,7 +598,7 @@ const TestimonialsSection = () => {
                     color: '#C6A962',
                     fontWeight: 700,
                     fontSize: '1rem',
-                    fontFamily: '"Playfair Display", serif',
+                    fontFamily: '"Quicksand", sans-serif',
                     lineHeight: 1,
                   }}
                 >

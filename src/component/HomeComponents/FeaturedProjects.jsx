@@ -64,19 +64,20 @@ const FeaturedProjects = ({
     <Box
       ref={sectionRef}
       sx={{
-        pt: { xs: 3, md: 4 },
-        pb: { xs: 4, md: 5 },
+        pt: { xs: 6, md: 8 },
+        pb: { xs: 8, md: 10 },
         bgcolor: '#FFFFFF',
       }}
     >
       <Container maxWidth="lg">
         {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Typography
             variant="h3"
             sx={{
               color: '#0B1A2A',
-              fontFamily: '"Playfair Display", serif',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
               fontWeight: 600,
               fontSize: { xs: '1.5rem', md: '1.8rem' },
               mb: 0.5,
@@ -111,6 +112,8 @@ const FeaturedProjects = ({
               fontSize: '0.85rem',
               maxWidth: 450,
               mx: 'auto',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           >
             Handpicked luxury developments offering exceptional investment opportunities
@@ -123,7 +126,7 @@ const FeaturedProjects = ({
             display: 'flex',
             justifyContent: 'center',
             gap: 1,
-            mb: 3,
+            mb: 4,
             flexWrap: 'wrap',
           }}
         >
@@ -135,13 +138,15 @@ const FeaturedProjects = ({
               sx={{
                 height: 32,
                 px: 0.5,
-                borderRadius: '100px',
+                borderRadius: 1,
                 bgcolor: activeTab === filter.id ? '#C6A962' : 'transparent',
-                color: activeTab === filter.id ? '#0B1A2A' : '#0B1A2A',
+                color: activeTab === filter.id ? '#FFFFFF' : '#0B1A2A',
                 border: '1.5px solid',
                 borderColor: activeTab === filter.id ? '#C6A962' : '#E2E8F0',
                 fontWeight: 600,
                 fontSize: '0.75rem',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   bgcolor: activeTab === filter.id ? '#C6A962' : 'rgba(198, 169, 98, 0.1)',
@@ -157,7 +162,7 @@ const FeaturedProjects = ({
         <Grid container spacing={2.5}>
           {filteredProjects?.map((project, index) => (
             <Grid
-              size={{xs:12, md:4, lg:4, sm:6}}
+              size={{ xs: 12, md: 4, lg: 4, sm: 6 }}
               key={project?.id}
               sx={{
                 opacity: visibleCards.includes(index) ? 1 : 0,
@@ -176,19 +181,21 @@ const FeaturedProjects = ({
         </Grid>
 
         {/* View All Button */}
-        <Box sx={{ textAlign: 'center', mt: 4 }}>
+        <Box sx={{ textAlign: 'center', mt: 5 }}>
           <Button
             variant="contained"
-            endIcon={<ArrowRight size={16} />}
+            endIcon={<ArrowRight size={16} color="#FFFFFF" />}
             sx={{
               background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-              color: '#0B1A2A',
+              color: '#FFFFFF',
               px: 4,
               py: 1.25,
-              borderRadius: '100px',
+              borderRadius: 1,
               fontWeight: 700,
               fontSize: '0.8rem',
               textTransform: 'none',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
               boxShadow: '0 4px 20px rgba(198, 169, 98, 0.25)',
               transition: 'all 0.3s ease',
               '&:hover': {

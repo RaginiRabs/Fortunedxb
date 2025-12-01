@@ -79,7 +79,7 @@ const HeroSection = ({
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 4, md: 0 } }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: { xs: 6, md: 0 } }}>
         <Box sx={{ textAlign: 'center' }}>
           {/* Badge */}
           <Box
@@ -105,6 +105,8 @@ const HeroSection = ({
                 fontWeight: 600,
                 letterSpacing: 3,
                 textTransform: 'uppercase',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
               }}
             >
               #1 Off-Plan Portal
@@ -119,7 +121,7 @@ const HeroSection = ({
           </Box>
 
           {/* Main Heading */}
-          <Typography
+         <Typography
             variant="h1"
             sx={{
               fontSize: { xs: '2rem', sm: '2.8rem', md: '3.5rem' },
@@ -143,7 +145,6 @@ const HeroSection = ({
               Investment in Dubai
             </Box>
           </Typography>
-
           {/* Subtitle */}
           <Typography
             sx={{
@@ -153,6 +154,8 @@ const HeroSection = ({
               mx: 'auto',
               mb: 3,
               lineHeight: 1.6,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           >
             Explore 500+ exclusive off-plan projects from Dubai's top developers
@@ -188,6 +191,8 @@ const HeroSection = ({
                 color: 'rgba(255, 255, 255, 0.4)',
                 fontSize: '0.7rem',
                 mr: 0.5,
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
               }}
             >
               Popular:
@@ -204,7 +209,10 @@ const HeroSection = ({
                   fontSize: '0.65rem',
                   height: 24,
                   border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: 1,
                   transition: 'all 0.3s ease',
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                   '&:hover': {
                     bgcolor: 'rgba(198, 169, 98, 0.2)',
                     borderColor: 'rgba(198, 169, 98, 0.4)',
@@ -234,7 +242,7 @@ const HeroSection = ({
                   textAlign: 'center',
                   minWidth: { xs: 80, md: 100 },
                   px: 1.5,
-                  mt:4,
+                  mt: 4,
                 }}
               >
                 <Box
@@ -244,7 +252,7 @@ const HeroSection = ({
                     justifyContent: 'center',
                     width: 36,
                     height: 36,
-                    borderRadius: 2,
+                    borderRadius: 1,
                     bgcolor: 'rgba(198, 169, 98, 0.1)',
                     border: '1px solid rgba(198, 169, 98, 0.2)',
                     mb: 1,
@@ -258,7 +266,8 @@ const HeroSection = ({
                     color: '#FFFFFF',
                     fontWeight: 700,
                     fontSize: { xs: '1.1rem', md: '1.3rem' },
-                    fontFamily: '"Playfair Display", serif',
+                    fontFamily: '"Quicksand", sans-serif',
+                    fontStyle: 'italic',
                     lineHeight: 1,
                     mb: 0.25,
                   }}
@@ -273,6 +282,8 @@ const HeroSection = ({
                     fontWeight: 500,
                     textTransform: 'uppercase',
                     letterSpacing: 0.5,
+                    fontFamily: '"Quicksand", sans-serif',
+                    fontStyle: 'italic',
                   }}
                 >
                   {stat.label}

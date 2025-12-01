@@ -13,26 +13,48 @@ const TopDevelopers = ({ developers }) => {
   return (
     <Box
       sx={{
-        py: { xs: 8, md: 12 },
+        py: { xs: 10, md: 14 },
         bgcolor: '#FAFAFA',
       }}
     >
       <Container maxWidth="xl">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Chip
-            icon={<Award size={16} />}
+            icon={<Award size={16} color="#FFFFFF" />}
             label="Trusted Partners"
             sx={{
-              bgcolor: 'primary.main',
-              color: 'white',
+              bgcolor: '#C6A962',
+              color: '#FFFFFF',
               fontWeight: 600,
               mb: 2,
+              borderRadius: 1,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           />
-          <Typography variant="h2" sx={{ color: 'secondary.main', mb: 2 }}>
+          <Typography
+            variant="h2"
+            sx={{
+              color: '#0B1A2A',
+              mb: 2,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+              fontWeight: 600,
+              fontSize: { xs: '1.5rem', md: '1.8rem' },
+            }}
+          >
             Premier Developers
           </Typography>
-          <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 600, mx: 'auto' }}>
+          <Typography
+            variant="body1"
+            sx={{
+              color: '#64748B',
+              maxWidth: 600,
+              mx: 'auto',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             We partner with Dubai's most reputable developers to bring you exclusive off-plan opportunities.
           </Typography>
         </Box>
@@ -49,9 +71,10 @@ const TopDevelopers = ({ developers }) => {
                   bgcolor: 'white',
                   border: '1px solid',
                   borderColor: 'divider',
+                  borderRadius: 1.5,
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    borderColor: 'primary.main',
+                    borderColor: '#C6A962',
                     boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
                   },
                 }}
@@ -59,15 +82,37 @@ const TopDevelopers = ({ developers }) => {
                 <Typography variant="h2" sx={{ mb: 1 }}>
                   {developer.logo}
                 </Typography>
-                <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    mb: 0.5,
+                    fontFamily: '"Quicksand", sans-serif',
+                    fontStyle: 'italic',
+                  }}
+                >
                   {developer.name}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: '#64748B',
+                    fontFamily: '"Quicksand", sans-serif',
+                    fontStyle: 'italic',
+                  }}
+                >
                   {developer.projects} Projects
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5, mt: 1 }}>
                   <Star size={14} fill="#F59E0B" color="#F59E0B" />
-                  <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontWeight: 600,
+                      fontFamily: '"Quicksand", sans-serif',
+                      fontStyle: 'italic',
+                    }}
+                  >
                     {developer.rating}
                   </Typography>
                 </Box>

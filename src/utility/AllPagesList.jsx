@@ -4,6 +4,7 @@ import { Children, lazy } from 'react';
 const Home = lazy(() => import('../pages/Home/Home.jsx'));
 const Projects = lazy(() => import('../pages/Projects/AllProject.jsx'));
 const Developers = lazy(() => import('../pages/Developers/AllDevelopers.jsx'));
+const Area = lazy(() => import('../pages/Areas/Areas.jsx'))
 
 const AllPagesList = [
     {
@@ -17,6 +18,10 @@ const AllPagesList = [
     {
         path: "/developers",
         element: <Developers />
+    },
+    {
+        path: "/areas",
+        element: <Area/>
     }
 ];
 export default AllPagesList;

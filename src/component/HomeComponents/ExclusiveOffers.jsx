@@ -60,7 +60,7 @@ const CountdownTimer = ({ validUntil }) => {
           key={index}
           sx={{
             bgcolor: 'rgba(220, 38, 38, 0.1)',
-            borderRadius: 1,
+            borderRadius: 0.5,
             px: 0.75,
             py: 0.25,
             textAlign: 'center',
@@ -73,11 +73,21 @@ const CountdownTimer = ({ validUntil }) => {
               fontWeight: 700,
               color: '#DC2626',
               lineHeight: 1.2,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           >
             {String(item.value).padStart(2, '0')}
           </Typography>
-          <Typography sx={{ fontSize: '0.45rem', color: '#94A3B8', textTransform: 'uppercase' }}>
+          <Typography
+            sx={{
+              fontSize: '0.45rem',
+              color: '#94A3B8',
+              textTransform: 'uppercase',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             {item.label}
           </Typography>
         </Box>
@@ -124,7 +134,7 @@ const PerforatedEdge = () => (
         width: 20,
         height: 10,
         bgcolor: '#F0F4F8',
-        borderRadius: '0 0 20px 20px',
+        borderRadius: '0 0 8px 8px',
         position: 'absolute',
         top: -1,
       }}
@@ -143,7 +153,7 @@ const PerforatedEdge = () => (
         width: 20,
         height: 10,
         bgcolor: '#F0F4F8',
-        borderRadius: '20px 20px 0 0',
+        borderRadius: '8px 8px 0 0',
         position: 'absolute',
         bottom: -1,
       }}
@@ -160,7 +170,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
       sx={{
         display: 'flex',
         background: 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
-        borderRadius: 3,
+        borderRadius: 2,
         overflow: 'hidden',
         border: isActive ? '2px solid rgba(198, 169, 98, 0.4)' : '1px solid #E2E8F0',
         boxShadow: isActive
@@ -187,7 +197,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
           sx={{
             position: 'relative',
             height: 120,
-            borderRadius: 2.5,
+            borderRadius: 1.5,
             overflow: 'hidden',
             mb: 1.5,
           }}
@@ -207,13 +217,21 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
               alignItems: 'center',
               gap: 0.5,
               bgcolor: 'rgba(255,255,255,0.95)',
-              borderRadius: '100px',
+              borderRadius: 1,
               px: 1,
               py: 0.5,
               backdropFilter: 'blur(4px)',
             }}
           >
-            <Typography sx={{ color: '#0B1A2A', fontSize: '0.6rem', fontWeight: 600 }}>
+            <Typography
+              sx={{
+                color: '#0B1A2A',
+                fontSize: '0.6rem',
+                fontWeight: 600,
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
+              }}
+            >
               {project.developer}
             </Typography>
           </Box>
@@ -225,7 +243,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
             color: '#0B1A2A',
             fontWeight: 800,
             fontSize: '1.1rem',
-            fontFamily: '"Playfair Display", serif',
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
             mb: 0.25,
             lineHeight: 1.3,
           }}
@@ -235,7 +254,14 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
           <MapPin size={10} color="#C6A962" />
-          <Typography sx={{ color: '#64748B', fontSize: '0.65rem' }}>
+          <Typography
+            sx={{
+              color: '#64748B',
+              fontSize: '0.65rem',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             {project.location}
           </Typography>
         </Box>
@@ -243,7 +269,15 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         {/* Offer Details */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.5 }}>
           <Sparkles size={10} color="#C6A962" />
-          <Typography sx={{ color: '#A68B4B', fontWeight: 700, fontSize: '0.7rem' }}>
+          <Typography
+            sx={{
+              color: '#A68B4B',
+              fontWeight: 700,
+              fontSize: '0.7rem',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             {project.offer?.title}
           </Typography>
         </Box>
@@ -255,6 +289,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
             lineHeight: 1.4,
             mb: 1.5,
             flex: 1,
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
           }}
         >
           {project.offer?.description}
@@ -272,6 +308,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
               gap: 0.5,
               textTransform: 'uppercase',
               letterSpacing: 0.5,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           >
             <Timer size={9} /> Expires in
@@ -320,6 +358,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
               fontSize: '0.5rem',
               letterSpacing: 0.5,
               textAlign: 'center',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           >
             {config.label}
@@ -328,10 +368,28 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
 
         {/* Price */}
         <Box sx={{ textAlign: 'center' }}>
-          <Typography sx={{ color: '#94A3B8', fontSize: '0.45rem', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+          <Typography
+            sx={{
+              color: '#94A3B8',
+              fontSize: '0.45rem',
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             From
           </Typography>
-          <Typography sx={{ color: '#0B1A2A', fontWeight: 800, fontSize: '0.85rem', lineHeight: 1.2 }}>
+          <Typography
+            sx={{
+              color: '#0B1A2A',
+              fontWeight: 800,
+              fontSize: '0.85rem',
+              lineHeight: 1.2,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             {project.price}
           </Typography>
         </Box>
@@ -346,19 +404,21 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
           }}
           sx={{
             background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-            color: 'white',
+            color: '#FFFFFF',
             width: '100%',
             py: 0.6,
-            borderRadius: 2,
+            borderRadius: 1,
             fontWeight: 700,
             fontSize: '0.55rem',
             textTransform: 'none',
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
             boxShadow: '0 2px 8px rgba(198, 169, 98, 0.3)',
             '&:hover': {
               background: 'linear-gradient(135deg, #D4BC7D 0%, #C6A962 100%)',
             },
           }}
-          endIcon={<ArrowRight size={10} />}
+          endIcon={<ArrowRight size={10} color="#FFFFFF" />}
         >
           Claim
         </Button>
@@ -455,8 +515,8 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
   return (
     <Box
       sx={{
-        pt: { xs: 3, md: 4 },
-        pb: { xs: 4, md: 5 },
+        pt: { xs: 6, md: 8 },
+        pb: { xs: 8, md: 10 },
         background: 'linear-gradient(180deg, #FAFAFA 0%, #F0F4F8 100%)',
         position: 'relative',
         overflow: 'hidden',
@@ -477,12 +537,13 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
 
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Typography
             variant="h4"
             sx={{
               color: '#0B1A2A',
-              fontFamily: '"Playfair Display", serif',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
               fontWeight: 600,
               fontSize: { xs: '1.5rem', md: '1.8rem' },
               mb: 0.5,
@@ -501,7 +562,14 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
             </Box>
           </Typography>
 
-          <Typography sx={{ color: '#64748B', fontSize: '0.85rem' }}>
+          <Typography
+            sx={{
+              color: '#64748B',
+              fontSize: '0.85rem',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
             Grab these deals before they expire
           </Typography>
         </Box>
@@ -528,6 +596,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                 height: 36,
                 bgcolor: 'white',
                 border: '1px solid #E2E8F0',
+                borderRadius: 1,
                 color: '#0B1A2A',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                 '&:hover': { bgcolor: '#0B1A2A', color: 'white' },
@@ -564,6 +633,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                 height: 36,
                 bgcolor: 'white',
                 border: '1px solid #E2E8F0',
+                borderRadius: 1,
                 color: '#0B1A2A',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                 '&:hover': { bgcolor: '#0B1A2A', color: 'white' },
@@ -595,6 +665,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                 height: 40,
                 bgcolor: 'white',
                 border: '1px solid #E2E8F0',
+                borderRadius: 1,
                 color: '#0B1A2A',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 transition: 'all 0.2s ease',
@@ -662,6 +733,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                 height: 40,
                 bgcolor: 'white',
                 border: '1px solid #E2E8F0',
+                borderRadius: 1,
                 color: '#0B1A2A',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 transition: 'all 0.2s ease',
@@ -680,7 +752,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
             alignItems: 'center',
             justifyContent: 'center',
             gap: 0.75,
-            mt: 2,
+            mt: 3,
           }}
         >
           {offersProjects.map((_, index) => (
@@ -696,7 +768,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
               sx={{
                 width: index === activeIndex ? 24 : 8,
                 height: 8,
-                borderRadius: 4,
+                borderRadius: 1,
                 bgcolor: index === activeIndex ? '#C6A962' : '#CBD5E1',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',

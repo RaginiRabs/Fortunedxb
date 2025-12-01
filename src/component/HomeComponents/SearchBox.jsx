@@ -31,7 +31,7 @@ const SearchBox = ({
       sx={{
         maxWidth: 800,
         mx: 'auto',
-        borderRadius: 3,
+        borderRadius: 2,
         overflow: 'hidden',
         boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
         border: '1px solid rgba(255,255,255,0.1)',
@@ -55,6 +55,8 @@ const SearchBox = ({
               fontSize: '1.1rem',
               py: 1.5,
               px: 1,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }
           }}
         />
@@ -63,12 +65,19 @@ const SearchBox = ({
           size="large"
           sx={{
             background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-            borderRadius: '50px',
+            color: '#FFFFFF',
+            borderRadius: 1,
             px: 4,
             py: 1.5,
             mr: 1,
             minWidth: 140,
             boxShadow: '0 4px 15px rgba(198, 169, 98, 0.4)',
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
+            fontWeight: 600,
+            '&:hover': {
+              background: 'linear-gradient(135deg, #D4BC7D 0%, #C6A962 100%)',
+            },
           }}
         >
           Search
@@ -88,12 +97,23 @@ const SearchBox = ({
         }}
       >
         <FormControl size="small" sx={{ minWidth: 140 }}>
-          <InputLabel>Area</InputLabel>
+          <InputLabel
+            sx={{
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
+            Area
+          </InputLabel>
           <Select
             value={selectedArea}
             label="Area"
             onChange={(e) => setSelectedArea(e.target.value)}
-            sx={{ borderRadius: 2 }}
+            sx={{
+              borderRadius: 1,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
           >
             <MenuItem value="">All Areas</MenuItem>
             {popularAreas.map(area => (
@@ -103,12 +123,23 @@ const SearchBox = ({
         </FormControl>
 
         <FormControl size="small" sx={{ minWidth: 140 }}>
-          <InputLabel>Property Type</InputLabel>
+          <InputLabel
+            sx={{
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
+            Property Type
+          </InputLabel>
           <Select
             value={propertyType}
             label="Property Type"
             onChange={(e) => setPropertyType(e.target.value)}
-            sx={{ borderRadius: 2 }}
+            sx={{
+              borderRadius: 1,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
           >
             <MenuItem value="">All Types</MenuItem>
             <MenuItem value="apartment">Apartment</MenuItem>
@@ -119,12 +150,23 @@ const SearchBox = ({
         </FormControl>
 
         <FormControl size="small" sx={{ minWidth: 120 }}>
-          <InputLabel>Bedrooms</InputLabel>
+          <InputLabel
+            sx={{
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
+          >
+            Bedrooms
+          </InputLabel>
           <Select
             value={bedrooms}
             label="Bedrooms"
             onChange={(e) => setBedrooms(e.target.value)}
-            sx={{ borderRadius: 2 }}
+            sx={{
+              borderRadius: 1,
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
+            }}
           >
             <MenuItem value="">Any</MenuItem>
             <MenuItem value="studio">Studio</MenuItem>
@@ -139,7 +181,13 @@ const SearchBox = ({
           variant="outlined"
           startIcon={<Filter size={18} />}
           onClick={() => setFilterDrawerOpen(true)}
-          sx={{ borderRadius: 2, borderColor: 'divider' }}
+          sx={{
+            borderRadius: 1,
+            borderColor: 'divider',
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
+            fontWeight: 600,
+          }}
         >
           More Filters
         </Button>

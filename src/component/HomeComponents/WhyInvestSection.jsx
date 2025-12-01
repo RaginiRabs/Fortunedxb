@@ -76,7 +76,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
     <Box
       ref={sectionRef}
       sx={{
-        py: { xs: 4, md: 5 },
+        py: { xs: 8, md: 10 },
         background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
         position: 'relative',
         overflow: 'hidden',
@@ -101,7 +101,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
           sx={{
             display: 'flex',
             flexDirection: { xs: 'column', lg: 'row' },
-            gap: { xs: 3, lg: 5 },
+            gap: { xs: 4, lg: 6 },
             alignItems: 'center',
           }}
         >
@@ -118,7 +118,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
             <Box
               sx={{
                 position: 'relative',
-                borderRadius: 4,
+                borderRadius: 2,
                 overflow: 'hidden',
                 aspectRatio: { xs: '16/10', lg: '4/3' },
                 boxShadow: '0 20px 50px rgba(11, 26, 42, 0.12)',
@@ -156,7 +156,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                   gap: 1,
                   bgcolor: 'rgba(255, 255, 255, 0.95)',
                   backdropFilter: 'blur(10px)',
-                  borderRadius: '100px',
+                  borderRadius: 1,
                   px: 1.5,
                   py: 0.75,
                   boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
@@ -175,7 +175,15 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                     },
                   }}
                 />
-                <Typography sx={{ color: '#0B1A2A', fontSize: '0.65rem', fontWeight: 600 }}>
+                <Typography
+                  sx={{
+                    color: '#0B1A2A',
+                    fontSize: '0.65rem',
+                    fontWeight: 600,
+                    fontFamily: '"Quicksand", sans-serif',
+                    fontStyle: 'italic',
+                  }}
+                >
                   #1 Global Investment Hub
                 </Typography>
               </Box>
@@ -193,7 +201,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
             }}
           >
             {/* Header */}
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: 4 }}>
               <Typography
                 sx={{
                   color: '#C6A962',
@@ -202,6 +210,8 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                   letterSpacing: 2,
                   textTransform: 'uppercase',
                   mb: 0.75,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                 }}
               >
                 Smart Investment
@@ -211,7 +221,8 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                 variant="h3"
                 sx={{
                   color: '#0B1A2A',
-                  fontFamily: '"Playfair Display", serif',
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                   fontWeight: 600,
                   fontSize: { xs: '1.5rem', md: '1.8rem' },
                   lineHeight: 1.2,
@@ -237,6 +248,8 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                   fontSize: '0.85rem',
                   lineHeight: 1.6,
                   maxWidth: 380,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                 }}
               >
                 Tax-free returns, full ownership rights, and world-class lifestyle await global investors.
@@ -244,7 +257,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
             </Box>
 
             {/* Stats Row */}
-            <Box sx={{ display: 'flex', gap: { xs: 1.5, md: 2.5 }, mb: 3 }}>
+            <Box sx={{ display: 'flex', gap: { xs: 1.5, md: 2.5 }, mb: 4 }}>
               {keyStats.map((stat, index) => {
                 const Icon = stat.icon;
                 return (
@@ -254,7 +267,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                       flex: 1,
                       textAlign: 'center',
                       p: { xs: 1.5, md: 2 },
-                      borderRadius: 3,
+                      borderRadius: 1.5,
                       bgcolor: 'white',
                       border: '1px solid #E2E8F0',
                       transition: 'all 0.3s ease',
@@ -290,17 +303,35 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                         fontWeight: 700,
                         fontSize: { xs: '1.3rem', md: '1.6rem' },
                         lineHeight: 1,
-                        fontFamily: '"Playfair Display", serif',
+                        fontFamily: '"Quicksand", sans-serif',
+                        fontStyle: 'italic',
                       }}
                     >
                       <AnimatedCounter end={stat.value} suffix={stat.suffix} prefix={stat.prefix || ''} />
                     </Typography>
 
-                    <Typography sx={{ color: '#0B1A2A', fontWeight: 600, fontSize: '0.65rem', mt: 0.4 }}>
+                    <Typography
+                      sx={{
+                        color: '#0B1A2A',
+                        fontWeight: 600,
+                        fontSize: '0.65rem',
+                        mt: 0.4,
+                        fontFamily: '"Quicksand", sans-serif',
+                        fontStyle: 'italic',
+                      }}
+                    >
                       {stat.label}
                     </Typography>
 
-                    <Typography sx={{ color: '#94A3B8', fontSize: '0.55rem', mt: 0.2 }}>
+                    <Typography
+                      sx={{
+                        color: '#94A3B8',
+                        fontSize: '0.55rem',
+                        mt: 0.2,
+                        fontFamily: '"Quicksand", sans-serif',
+                        fontStyle: 'italic',
+                      }}
+                    >
                       {stat.subtext}
                     </Typography>
                   </Box>
@@ -309,7 +340,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
             </Box>
 
             {/* Mini Benefits */}
-            <Box sx={{ display: 'flex', gap: 2.5, mb: 3 }}>
+            <Box sx={{ display: 'flex', gap: 2.5, mb: 4 }}>
               {miniBenefits.map((benefit, index) => {
                 const Icon = benefit.icon;
                 return (
@@ -328,7 +359,7 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                       sx={{
                         width: 28,
                         height: 28,
-                        borderRadius: 2,
+                        borderRadius: 1,
                         bgcolor: 'rgba(11, 26, 42, 0.05)',
                         display: 'flex',
                         alignItems: 'center',
@@ -339,10 +370,27 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                       <Icon size={12} color="#0B1A2A" strokeWidth={2} />
                     </Box>
                     <Box>
-                      <Typography sx={{ color: '#0B1A2A', fontWeight: 600, fontSize: '0.75rem', lineHeight: 1.2 }}>
+                      <Typography
+                        sx={{
+                          color: '#0B1A2A',
+                          fontWeight: 600,
+                          fontSize: '0.75rem',
+                          lineHeight: 1.2,
+                          fontFamily: '"Quicksand", sans-serif',
+                          fontStyle: 'italic',
+                        }}
+                      >
                         {benefit.title}
                       </Typography>
-                      <Typography sx={{ color: '#94A3B8', fontSize: '0.65rem', lineHeight: 1.4 }}>
+                      <Typography
+                        sx={{
+                          color: '#94A3B8',
+                          fontSize: '0.65rem',
+                          lineHeight: 1.4,
+                          fontFamily: '"Quicksand", sans-serif',
+                          fontStyle: 'italic',
+                        }}
+                      >
                         {benefit.description}
                       </Typography>
                     </Box>
@@ -363,16 +411,18 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
               <Button
                 variant="contained"
                 onClick={() => setRoiCalculatorOpen(true)}
-                endIcon={<ArrowUpRight size={14} />}
+                endIcon={<ArrowUpRight size={14} color="#FFFFFF" />}
                 sx={{
                   background: 'linear-gradient(135deg, #0B1A2A 0%, #1E3A5F 100%)',
                   color: 'white',
                   px: 2.5,
                   py: 1,
-                  borderRadius: '100px',
+                  borderRadius: 1,
                   fontWeight: 600,
                   fontSize: '0.75rem',
                   textTransform: 'none',
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                   boxShadow: '0 4px 15px rgba(11, 26, 42, 0.25)',
                   transition: 'all 0.3s ease',
                   '&:hover': {
@@ -401,6 +451,8 @@ const WhyInvestSection = ({ setRoiCalculatorOpen }) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 0.5,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                 }}
               >
                 <Shield size={10} color="#10B981" />

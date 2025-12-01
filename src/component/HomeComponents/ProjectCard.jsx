@@ -22,7 +22,7 @@ import {
 const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handleInquiry }) => {
   const getStatusStyle = (status) => {
     const s = status?.toLowerCase() || '';
-    if (s.includes('hot')) return { bg: '#C6A962', text: '#0B1A2A' };
+    if (s.includes('hot')) return { bg: '#C6A962', text: '#FFFFFF' };
     if (s.includes('new') || s.includes('launch')) return { bg: '#0B1A2A', text: '#FFFFFF' };
     if (s.includes('upcoming')) return { bg: '#64748B', text: '#FFFFFF' };
     if (s.includes('ready')) return { bg: '#10B981', text: '#FFFFFF' };
@@ -99,6 +99,9 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
             height: 22,
             textTransform: 'uppercase',
             letterSpacing: 0.5,
+            borderRadius: 1,
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
             '& .MuiChip-label': {
               px: 1.25,
             },
@@ -121,8 +124,9 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
               height: 32,
               bgcolor: 'rgba(255,255,255,0.95)',
               backdropFilter: 'blur(8px)',
+              borderRadius: 1,
               transition: 'all 0.3s ease',
-              '&:hover': { 
+              '&:hover': {
                 bgcolor: '#FFFFFF',
                 transform: 'scale(1.1)',
               },
@@ -144,7 +148,7 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
             left: 12,
             bgcolor: 'rgba(11, 26, 42, 0.9)',
             backdropFilter: 'blur(10px)',
-            borderRadius: 2,
+            borderRadius: 1,
             px: 1.5,
             py: 0.75,
             border: '1px solid rgba(198, 169, 98, 0.2)',
@@ -155,7 +159,8 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
               color: '#FFFFFF',
               fontWeight: 700,
               fontSize: '0.95rem',
-              fontFamily: '"Playfair Display", serif',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
               lineHeight: 1,
             }}
           >
@@ -175,7 +180,7 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
               right: 12,
               bgcolor: 'rgba(255,255,255,0.95)',
               backdropFilter: 'blur(8px)',
-              borderRadius: 2,
+              borderRadius: 1,
               px: 1.25,
               py: 0.5,
               display: 'flex',
@@ -193,6 +198,8 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
               }}
             >
               {project?.developer}
@@ -209,7 +216,8 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
             fontWeight: 700,
             fontSize: '1rem',
             color: '#0B1A2A',
-            fontFamily: '"Playfair Display", serif',
+            fontFamily: '"Quicksand", sans-serif',
+            fontStyle: 'italic',
             mb: 0.5,
             lineHeight: 1.25,
             overflow: 'hidden',
@@ -227,6 +235,8 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
             sx={{
               fontSize: '0.72rem',
               color: '#64748B',
+              fontFamily: '"Quicksand", sans-serif',
+              fontStyle: 'italic',
             }}
           >
             {project?.location}
@@ -246,7 +256,15 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
           <Tooltip title="Bedrooms" arrow>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
               <Bed size={13} color="#94A3B8" />
-              <Typography sx={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.7rem',
+                  color: '#64748B',
+                  fontWeight: 500,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
+                }}
+              >
                 {project?.beds} BR
               </Typography>
             </Box>
@@ -255,7 +273,15 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
           <Tooltip title="Bathrooms" arrow>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
               <Bath size={13} color="#94A3B8" />
-              <Typography sx={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.7rem',
+                  color: '#64748B',
+                  fontWeight: 500,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
+                }}
+              >
                 {project?.baths} BA
               </Typography>
             </Box>
@@ -264,7 +290,15 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
           <Tooltip title="Total Area" arrow>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'help' }}>
               <Maximize2 size={13} color="#94A3B8" />
-              <Typography sx={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 500 }}>
+              <Typography
+                sx={{
+                  fontSize: '0.7rem',
+                  color: '#64748B',
+                  fontWeight: 500,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
+                }}
+              >
                 {project?.area} sqft
               </Typography>
             </Box>
@@ -272,92 +306,94 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
         </Box>
 
         {/* Amenities with Tooltip for More */}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1.5 }}>
-          {visibleAmenities.map((amenity, index) => (
-            <Chip
-              key={index}
-              label={amenity}
-              size="small"
-              sx={{
-                height: 22,
-                fontSize: '0.6rem',
-                bgcolor: 'rgba(198, 169, 98, 0.08)',
-                border: '1px solid rgba(198, 169, 98, 0.15)',
-                color: '#64748B',
-                '& .MuiChip-label': {
-                  px: 1,
-                },
-              }}
-            />
-          ))}
-          {hiddenAmenities.length > 0 && (
-            <Tooltip 
-              title={
-                <Box sx={{ p: 0.5 }}>
-                  <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, mb: 0.5 }}>
-                    More Amenities:
-                  </Typography>
-                  <Typography sx={{ fontSize: '0.65rem' }}>
-                    {hiddenAmenitiesText}
-                  </Typography>
-                </Box>
-              } 
-              arrow
-              placement="top"
-            >
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mt: 'auto',
+        }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            {visibleAmenities.map((amenity, index) => (
               <Chip
-                label={`+${hiddenAmenities.length} more`}
+                key={index}
+                label={amenity}
                 size="small"
                 sx={{
                   height: 22,
                   fontSize: '0.6rem',
-                  bgcolor: 'rgba(198, 169, 98, 0.15)',
-                  color: '#C6A962',
-                  fontWeight: 600,
-                  cursor: 'help',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    bgcolor: 'rgba(198, 169, 98, 0.25)',
-                  },
+                  bgcolor: 'rgba(198, 169, 98, 0.08)',
+                  border: '1px solid rgba(198, 169, 98, 0.15)',
+                  color: '#64748B',
+                  borderRadius: 1,
+                  fontFamily: '"Quicksand", sans-serif',
+                  fontStyle: 'italic',
                   '& .MuiChip-label': {
                     px: 1,
                   },
                 }}
               />
-            </Tooltip>
-          )}
-        </Box>
+            ))}
+            {hiddenAmenities.length > 0 && (
+              <Tooltip
+                title={
+                  <Box sx={{ p: 0.5 }}>
+                    <Typography
+                      sx={{
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                        mb: 0.5,
+                        fontFamily: '"Quicksand", sans-serif',
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      More Amenities:
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: '0.65rem',
+                        fontFamily: '"Quicksand", sans-serif',
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      {hiddenAmenitiesText}
+                    </Typography>
+                  </Box>
+                }
+                arrow
+                placement="top"
+              >
+                <Chip
+                  label={`+${hiddenAmenities.length} more`}
+                  size="small"
+                  sx={{
+                    height: 22,
+                    fontSize: '0.6rem',
+                    bgcolor: 'rgba(198, 169, 98, 0.15)',
+                    color: '#C6A962',
+                    fontWeight: 600,
+                    borderRadius: 1,
+                    cursor: 'help',
+                    transition: 'all 0.3s ease',
+                    fontFamily: '"Quicksand", sans-serif',
+                    fontStyle: 'italic',
+                    '&:hover': {
+                      bgcolor: 'rgba(198, 169, 98, 0.25)',
+                    },
+                    '& .MuiChip-label': {
+                      px: 1,
+                    },
+                  }}
+                />
+              </Tooltip>
+            )}
 
-        {/* Footer - View Details + Arrow */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mt: 'auto',
-            pt: 1.5,
-            borderTop: '1px solid #F0F2F5',
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: '0.75rem',
-              color: '#64748B',
-              fontWeight: 500,
-              transition: 'color 0.3s ease',
-              '.MuiCard-root:hover &': {
-                color: '#C6A962',
-              },
-            }}
-          >
-            View Details
-          </Typography>
+          </Box>
 
           <Box
             sx={{
               width: 32,
               height: 32,
-              borderRadius: '50%',
+              borderRadius: 1,
               background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
               display: 'flex',
               alignItems: 'center',
@@ -369,7 +405,7 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
               },
             }}
           >
-            <ArrowRight size={16} color="#0B1A2A" />
+            <ArrowRight size={16} color="#FFFFFF" />
           </Box>
         </Box>
       </CardContent>
