@@ -250,7 +250,7 @@ const sampleProjects = [
     roi: '6-8%',
     paymentPlan: '70/30',
     amenities: ['Golf View', 'Private Garden', 'Pool', 'Gym', 'Park'],
-     offer: {
+    offer: {
       type: 'limited',
       title: 'Limited Time Deal',
       description: 'Free DEWA Connection & 1 Year Free Maintenance',
@@ -366,17 +366,17 @@ const Home = () => {
         {/* Why Invest Section */}
         <WhyInvestSection setRoiCalculatorOpen={setRoiCalculatorOpen} />
 
-        {/* Popular Areas */}
-        <PopularAreas popularAreas={popularAreas} />
-
-        {/* Top Developers */}
-        <TopDevelopers developers={developers} />
+        {/* First Time Buyer Section */}
+        <FirstTimeBuyerSection />
 
         {/* Testimonials */}
         <TestimonialsSection />
 
-        {/* First Time Buyer Section */}
-        <FirstTimeBuyerSection />
+        {/* Popular Areas */}
+        {/* <PopularAreas popularAreas={popularAreas} /> */}
+
+        {/* Top Developers */}
+        <TopDevelopers developers={developers} />
 
         {/* Newsletter */}
         <NewsletterSection />

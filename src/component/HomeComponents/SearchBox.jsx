@@ -31,7 +31,7 @@ const SearchBox = ({
       sx={{
         maxWidth: 800,
         mx: 'auto',
-        borderRadius: '60px',
+        borderRadius: 3,
         overflow: 'hidden',
         boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
         border: '1px solid rgba(255,255,255,0.1)',

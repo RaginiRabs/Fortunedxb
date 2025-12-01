@@ -43,7 +43,7 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: 3,
+        borderRadius: 1.5,
         overflow: 'hidden',
         bgcolor: '#FFFFFF',
         border: '1px solid #F0F0F0',

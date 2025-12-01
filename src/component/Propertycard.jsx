@@ -4,11 +4,12 @@ import {
   CardMedia,
   Box,
   Typography,
-  IconButton,
+  Chip,
 } from '@mui/material';
-import { MapPin, ArrowRight, Building2, Calendar } from 'lucide-react';
+import { MapPin, Building2, Calendar, Heart, ArrowUpRight, Bed, Maximize2, CheckCircle2 } from 'lucide-react';
 
 const PropertyCard = ({ property }) => {
+  // Helper Functions
   const getLocationString = (location) => {
     if (typeof location === 'string') return location;
     return 'Dubai, UAE';
@@ -16,28 +17,29 @@ const PropertyCard = ({ property }) => {
 
   const getUnitRange = (configurations) => {
     if (!configurations || !Array.isArray(configurations)) return 'Various';
-    const types = configurations.map(config => config.type) || [];
-    const bhkTypes = types.filter(type => type && type.includes('BHK'));
+    const types = configurations.map((config) => config.type) || [];
+    const bhkTypes = types.filter((type) => type && type.includes('BHK'));
     if (bhkTypes.length === 0) return types[0] || 'Studio';
-    const bhkNumbers = bhkTypes.map(type => {
-      const match = type.match(/(\d+)\s*BHK/);
-      return match ? parseInt(match[1]) : null;
-    }).filter(num => num !== null);
+    const bhkNumbers = bhkTypes
+      .map((type) => {
+        const match = type.match(/(\d+)\s*BHK/);
+        return match ? parseInt(match[1]) : null;
+      })
+      .filter((num) => num !== null);
     if (bhkNumbers.length === 0) return 'Various';
     const min = Math.min(...bhkNumbers);
     const max = Math.max(...bhkNumbers);
     return min === max ? `${min} BHK` : `${min}-${max} BHK`;
   };
 
-  const getStatusColor = (status) => {
+  const getStatusStyle = (status) => {
     const s = status?.toLowerCase() || '';
-    if (s.includes('ready')) return { bg: '#10B981', text: '#FFFFFF' };
-    if (s.includes('new') || s.includes('launch')) return { bg: '#C6A962', text: '#0B1A2A' };
-    if (s.includes('upcoming')) return { bg: '#6366F1', text: '#FFFFFF' };
-    return { bg: '#64748B', text: '#FFFFFF' };
+    if (s.includes('ready')) return { bg: '#10B981', text: '#FFFFFF', label: 'Ready to Move' };
+    if (s.includes('new') || s.includes('launch')) return { bg: '#C6A962', text: '#0B1A2A', label: 'New Launch' };
+    if (s.includes('upcoming')) return { bg: '#8B5CF6', text: '#FFFFFF', label: 'Upcoming' };
+    if (s.includes('construction')) return { bg: '#0B1A2A', text: '#FFFFFF', label: 'Under Construction' };
+    return { bg: '#64748B', text: '#FFFFFF', label: status || 'Available' };
   };
-
-  const statusColors = getStatusColor(property?.status);
 
   const formatPrice = (price) => {
     if (!price) return '0';
@@ -49,38 +51,72 @@ const PropertyCard = ({ property }) => {
     return price.toLocaleString();
   };
 
+  // Get payment plan text safely
+  const getPaymentPlanText = (paymentPlan) => {
+    if (!paymentPlan) return '60/40 Payment Plan';
+    if (typeof paymentPlan === 'string') return paymentPlan;
+    if (typeof paymentPlan === 'object' && paymentPlan.description) {
+      return paymentPlan.description;
+    }
+    return '60/40 Payment Plan';
+  };
+
+  // Get size text safely
+  const getSizeText = (property) => {
+    if (property?.size) {
+      if (typeof property.size === 'string') return property.size;
+      if (typeof property.size === 'number') return `${property.size} sqft`;
+    }
+    if (property?.configurations && Array.isArray(property.configurations)) {
+      const sizes = property.configurations
+        .map(c => c.size || c.area)
+        .filter(s => s);
+      if (sizes.length > 0) {
+        const min = Math.min(...sizes);
+        const max = Math.max(...sizes);
+        return min === max ? `${min} sqft` : `${min} - ${max} sqft`;
+      }
+    }
+    return '650 - 2,400 sqft';
+  };
+
+  const statusStyle = getStatusStyle(property?.status);
+
   return (
     <Card
       sx={{
-        borderRadius: 3,
+        borderRadius: 4,
         overflow: 'hidden',
         bgcolor: '#FFFFFF',
         border: '1px solid #F0F0F0',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.06)',
+        transition: 'all 0.4s ease',
         cursor: 'pointer',
         height: '100%',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         '&:hover': {
-          transform: 'translateY(-6px)',
-          boxShadow: '0 20px 40px rgba(11, 26, 42, 0.15), 0 0 0 1px rgba(198, 169, 98, 0.3)',
+          transform: 'translateY(-4px)',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.12)',
+          border: '1px solid #C6A962',
+          '& .card-image': {
+            transform: 'scale(1.08)',
+          },
         },
       }}
     >
       {/* Image Section */}
-      <Box sx={{ position: 'relative', height: 200 }}>
+      <Box sx={{ position: 'relative', height: 220, overflow: 'hidden' }}>
         <CardMedia
           component="img"
-          height="200"
+          height="220"
           image={property?.image}
           alt={property?.title}
+          className="card-image"
           sx={{
             objectFit: 'cover',
-            transition: 'transform 0.5s ease',
-            '.MuiCard-root:hover &': {
-              transform: 'scale(1.05)',
-            },
+            transition: 'transform 0.6s ease',
           }}
         />
 
@@ -89,147 +125,209 @@ const PropertyCard = ({ property }) => {
           sx={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(180deg, rgba(11,26,42,0.05) 0%, rgba(11,26,42,0.5) 100%)',
-            pointerEvents: 'none',
+            background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.6) 100%)',
           }}
         />
 
-        {/* Status Badge - Top Left */}
+        {/* Top Row - Status & Heart */}
         <Box
           sx={{
             position: 'absolute',
             top: 12,
             left: 12,
-            bgcolor: statusColors.bg,
-            color: statusColors.text,
-            px: 1.5,
-            py: 0.4,
-            borderRadius: '100px',
-            fontSize: '0.6rem',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: 0.5,
-          }}
-        >
-          {property?.status || 'Available'}
-        </Box>
-
-        {/* Handover Badge - Top Right */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 12,
             right: 12,
-            bgcolor: 'rgba(255,255,255,0.95)',
-            backdropFilter: 'blur(8px)',
-            px: 1.25,
-            py: 0.4,
-            borderRadius: '100px',
             display: 'flex',
-            alignItems: 'center',
-            gap: 0.5,
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
           }}
         >
-          <Calendar size={10} color="#0B1A2A" />
-          <Typography
+          {/* Status Badge */}
+          <Box
             sx={{
-              color: '#0B1A2A',
-              fontSize: '0.58rem',
-              fontWeight: 600,
+              bgcolor: statusStyle.bg,
+              color: statusStyle.text,
+              px: 1.5,
+              py: 0.5,
+              borderRadius: 2,
+              fontSize: '0.6rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
             }}
           >
-            {property?.handover || 'TBA'}
-          </Typography>
+            {statusStyle.label}
+          </Box>
+
+          {/* Heart Button */}
+          <Box
+            sx={{
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              bgcolor: 'white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer',
+              '&:hover': {
+                transform: 'scale(1.1)',
+                bgcolor: '#C6A962',
+                '& svg': {
+                  color: 'white',
+                },
+              },
+            }}
+          >
+            <Heart size={14} color="#0B1A2A" />
+          </Box>
         </Box>
 
-        {/* Price Box - Bottom Left on Image */}
+        {/* Bottom Row - Price & Handover */}
         <Box
           sx={{
             position: 'absolute',
             bottom: 12,
             left: 12,
-            bgcolor: 'rgba(11, 26, 42, 0.9)',
-            backdropFilter: 'blur(10px)',
-            px: 1.5,
-            py: 1,
-            borderRadius: 2,
-            border: '1px solid rgba(198, 169, 98, 0.3)',
+            right: 12,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
           }}
         >
-          <Typography
+          {/* Price */}
+          <Box>
+            <Typography
+              sx={{
+                color: 'rgba(255,255,255,0.7)',
+                fontSize: '0.55rem',
+                letterSpacing: 1,
+                textTransform: 'uppercase',
+                mb: 0.25,
+              }}
+            >
+              Starting From
+            </Typography>
+            <Typography
+              sx={{
+                color: 'white',
+                fontWeight: 700,
+                fontSize: '1.25rem',
+                fontFamily: '"Playfair Display", serif',
+                lineHeight: 1,
+                textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+              }}
+            >
+              <Box component="span" sx={{ color: '#C6A962', fontSize: '0.8rem' }}>AED </Box>
+              {formatPrice(property?.price)}
+            </Typography>
+          </Box>
+
+          {/* Handover Badge */}
+          <Box
             sx={{
-              color: 'rgba(255,255,255,0.7)',
-              fontSize: '0.5rem',
-              textTransform: 'uppercase',
-              letterSpacing: 0.5,
-              mb: 0.25,
+              bgcolor: 'rgba(255,255,255,0.95)',
+              backdropFilter: 'blur(10px)',
+              px: 1.25,
+              py: 0.5,
+              borderRadius: 1.5,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
             }}
           >
-            Starting from
-          </Typography>
-          <Typography
-            sx={{
-              color: '#FFFFFF',
-              fontWeight: 700,
-              fontSize: '1rem',
-              fontFamily: '"Playfair Display", serif',
-              lineHeight: 1,
-            }}
-          >
-            <Box component="span" sx={{ color: '#C6A962', fontSize: '0.75rem' }}>
-              AED{' '}
-            </Box>
-            {formatPrice(property?.price)}
-          </Typography>
+            <Calendar size={11} color="#C6A962" />
+            <Typography sx={{ color: '#0B1A2A', fontSize: '0.65rem', fontWeight: 600 }}>
+              {property?.handover || 'Q4 2025'}
+            </Typography>
+          </Box>
         </Box>
       </Box>
 
       {/* Content Section */}
-      <Box sx={{ p: 2.5, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Project Name */}
+      <Box sx={{ p: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Project Title */}
         <Typography
           sx={{
             fontWeight: 700,
-            fontSize: '1.1rem',
+            fontSize: '1.05rem',
             color: '#0B1A2A',
             fontFamily: '"Playfair Display", serif',
-            lineHeight: 1.3,
             mb: 0.75,
+            lineHeight: 1.3,
           }}
         >
           {property?.title}
         </Typography>
 
         {/* Location */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1.5 }}>
           <MapPin size={14} color="#C6A962" />
-          <Typography
-            sx={{
-              color: '#64748B',
-              fontSize: '0.8rem',
-              fontWeight: 500,
-            }}
-          >
+          <Typography sx={{ color: '#64748B', fontSize: '0.8rem' }}>
             {getLocationString(property?.location)}
           </Typography>
         </Box>
 
+        {/* Feature Tags Row */}
+        <Box sx={{ display: 'flex', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
+          {/* BHK Chip */}
+          <Chip
+            icon={<Bed size={12} color="#64748B" />}
+            label={getUnitRange(property?.configurations)}
+            size="small"
+            sx={{
+              bgcolor: '#F8FAFC',
+              color: '#64748B',
+              fontSize: '0.65rem',
+              fontWeight: 600,
+              height: 26,
+              border: '1px solid #E2E8F0',
+              '& .MuiChip-icon': {
+                ml: 0.5,
+              },
+            }}
+          />
 
-          {/* Developer */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 1 }}>
-            <Building2 size={14} color="#94A3B8" />
-            <Typography
-              sx={{
-                color: '#64748B',
-                fontSize: '0.75rem',
-                fontWeight: 500,
-              }}
-            >
-              {property?.developer || property?.builder?.name || 'Developer'}
-            </Typography>
-          </Box>
+          {/* Size Chip */}
+          <Chip
+            icon={<Maximize2 size={12} color="#64748B" />}
+            label={getSizeText(property)}
+            size="small"
+            sx={{
+              bgcolor: '#F8FAFC',
+              color: '#64748B',
+              fontSize: '0.65rem',
+              fontWeight: 600,
+              height: 26,
+              border: '1px solid #E2E8F0',
+              '& .MuiChip-icon': {
+                ml: 0.5,
+              },
+            }}
+          />
+        </Box>
 
-        {/* Developer + BHK + Arrow Row */}
+        {/* Payment Plan Tag */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5,
+            mb: 1.5,
+            p: 1,
+            borderRadius: 1.5,
+            bgcolor: 'rgba(198, 169, 98, 0.08)',
+            border: '1px solid rgba(198, 169, 98, 0.2)',
+          }}
+        >
+          <CheckCircle2 size={14} color="#C6A962" />
+          <Typography sx={{ color: '#A68B4B', fontSize: '0.7rem', fontWeight: 600 }}>
+            {getPaymentPlanText(property?.paymentPlan)}
+          </Typography>
+        </Box>
+
+        {/* Bottom Row - Developer & Arrow */}
         <Box
           sx={{
             display: 'flex',
@@ -238,45 +336,63 @@ const PropertyCard = ({ property }) => {
             mt: 'auto',
           }}
         >
-        
-
-          {/* BHK Badge */}
-          <Box
-            sx={{
-              bgcolor: 'rgba(198, 169, 98, 0.12)',
-              border: '1px solid rgba(198, 169, 98, 0.25)',
-              px: 1.25,
-              py: 0.5,
-              borderRadius: '100px',
-            }}
-          >
-            <Typography
+          {/* Developer Info */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+            <Box
               sx={{
-                color: '#A68B4B',
-                fontSize: '0.7rem',
-                fontWeight: 600,
+                width: 28,
+                height: 28,
+                borderRadius: 1.5,
+                bgcolor: '#F8FAFC',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid #E2E8F0',
               }}
             >
-              {getUnitRange(property?.configurations)}
-            </Typography>
+              <Building2 size={14} color="#64748B" />
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  color: '#94A3B8',
+                  fontSize: '0.55rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: 0.5,
+                  lineHeight: 1,
+                }}
+              >
+                Developer
+              </Typography>
+              <Typography sx={{ color: '#0B1A2A', fontSize: '0.75rem', fontWeight: 600, lineHeight: 1.2 }}>
+                {property?.developer || property?.builder?.name || 'Premium Developer'}
+              </Typography>
+            </Box>
           </Box>
 
           {/* Arrow Button */}
-          <IconButton
+          <Box
             sx={{
-              width: 34,
-              height: 34,
-              background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-              color: '#0B1A2A',
+              width: 36,
+              height: 36,
+              borderRadius: 2,
+              bgcolor: '#0B1A2A',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               transition: 'all 0.3s ease',
+              cursor: 'pointer',
               '&:hover': {
-                background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
-                transform: 'scale(1.1)',
+                bgcolor: '#C6A962',
+                transform: 'scale(1.05)',
+                '& svg': {
+                  color: '#0B1A2A',
+                },
               },
             }}
           >
-            <ArrowRight size={16} />
-          </IconButton>
+            <ArrowUpRight size={16} color="#C6A962" />
+          </Box>
         </Box>
       </Box>
     </Card>

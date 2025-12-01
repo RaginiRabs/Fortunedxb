@@ -3,263 +3,136 @@ import {
   Box,
   Typography,
   Button,
-  Avatar,
 } from '@mui/material';
-import { Phone, ChevronRight, BadgeCheck } from 'lucide-react';
+import { Phone, BadgeCheck, Building2, Star, ArrowUpRight, Award, ChevronRight, Crown, TrendingUp } from 'lucide-react';
 
-const DeveloperCard = ({ developer }) => {
+// Developer Images
+const developerImages = {
+  'emaar': 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop',
+  'damac': 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=600&h=400&fit=crop',
+  'nakheel': 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&h=400&fit=crop',
+  'meraas': 'https://images.unsplash.com/photo-1546412414-e1885259563a?w=600&h=400&fit=crop',
+  'sobha': 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop',
+  'binghatti': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop',
+  'azizi': 'https://images.unsplash.com/photo-1567449303078-57ad995bd329?w=600&h=400&fit=crop',
+  'danube': 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop',
+};
+
+const fallbackImages = [
+  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop',
+];
+
+const getDeveloperImage = (developer) => {
+  if (developer?.featuredImage) return developer.featuredImage;
+  if (developer?.image) return developer.image;
+  
+  const name = developer?.name?.toLowerCase() || '';
+  for (const [key, url] of Object.entries(developerImages)) {
+    if (name.includes(key)) return url;
+  }
+  
+  const hashCode = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return fallbackImages[hashCode % fallbackImages.length];
+};
+const DeveloperCard = ({ developer}) => {
   return (
     <Box
       sx={{
-        width: '100%',
-        maxWidth: 380,
-        mx: 'auto',
+        bgcolor: '#0B1A2A',
+        borderRadius: 4,
+        overflow: 'hidden',
+        height: 280,
+        position: 'relative',
+        cursor: 'pointer',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.2)',
+        transition: 'all 0.4s ease',
+        '&:hover': {
+          transform: 'translateY(-6px)',
+          // boxShadow: '0 20px 40px rgba(198, 169, 98, 0.2)',
+          '& .diagonal-image img': { transform: 'scale(1.1)' },
+        },
       }}
     >
+      {/* Diagonal Image Section */}
       <Box
+        className="diagonal-image"
         sx={{
-          position: 'relative',
-          bgcolor: '#FFFFFF',
-          borderRadius: 4,
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '55%',
+          height: '100%',
           overflow: 'hidden',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.18)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: `
-              0 24px 48px rgba(0, 0, 0, 0.22),
-              0 0 0 1px rgba(198, 169, 98, 0.4),
-              0 0 40px rgba(198, 169, 98, 0.12)
-            `,
-            '& .gold-bar': {
-              background: 'linear-gradient(180deg, #E8D5A3 0%, #C6A962 50%, #A68B4B 100%)',
-            },
-            '& .project-count': {
-              transform: 'scale(1.05)',
-            },
-          },
-          // Left Gold Accent Bar
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: 4,
-            background: 'linear-gradient(180deg, #C6A962 0%, #B8975A 50%, #C6A962 100%)',
-            transition: 'all 0.4s ease',
-          },
+          clipPath: 'polygon(25% 0, 100% 0, 100% 100%, 0% 100%)',
         }}
       >
-        {/* Gold Bar Overlay for Hover */}
         <Box
-          className="gold-bar"
+          component="img"
+          src={getDeveloperImage(developer)}
+          alt={developer?.name}
           sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: 4,
-            background: 'linear-gradient(180deg, #C6A962 0%, #B8975A 50%, #C6A962 100%)',
-            transition: 'all 0.4s ease',
-            zIndex: 1,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transition: 'transform 0.5s ease',
           }}
         />
+      </Box>
 
-        {/* Main Content */}
-        <Box
-          sx={{
-            pl: 3.5,
-            pr: 3,
-            pt: 3,
-            pb: 2,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
-          {/* Avatar */}
-          <Avatar
-            src={developer.logo}
-            sx={{
-              width: 52,
-              height: 52,
-              bgcolor: '#FBF7EF',
-              color: '#C6A962',
-              fontSize: '1.3rem',
-              fontWeight: 700,
-              fontFamily: '"Playfair Display", serif',
-              border: '2px solid #C6A962',
-              boxShadow: '0 4px 12px rgba(198, 169, 98, 0.2)',
-              flexShrink: 0,
-            }}
-          >
-            {developer.name?.charAt(0)}
-          </Avatar>
+      {/* Content on Left */}
+      <Box sx={{ position: 'relative', zIndex: 1, p: 2.5, width: '55%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+        {/* Verified Badge */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 2 }}>
+          <BadgeCheck size={14} color="#10B981" />
+          <Typography sx={{ color: '#10B981', fontSize: '0.65rem', fontWeight: 600 }}>Verified Developer</Typography>
+        </Box>
 
-          {/* Name & Details */}
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            {/* Name + Verified */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-              <Typography
-                sx={{
-                  fontWeight: 700,
-                  fontSize: '1.05rem',
-                  color: '#0B1A2A',
-                  fontFamily: '"Playfair Display", serif',
-                  lineHeight: 1.2,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-              >
-                {developer.name}
-              </Typography>
-              <BadgeCheck size={15} color="#C6A962" fill="#FBF7EF" />
-            </Box>
+        {/* Name */}
+        <Typography sx={{ color: 'white', fontWeight: 700, fontSize: '1.15rem', fontFamily: '"Playfair Display", serif', mb: 0.5 }}>
+          {developer?.name}
+        </Typography>
 
-            {/* Specialization */}
-            <Typography
-              sx={{
-                color: '#6B7C93',
-                fontSize: '0.68rem',
-                fontWeight: 500,
-                lineHeight: 1.4,
-                mb: 0.25,
-              }}
-            >
-              {developer.specializations?.slice(0, 2).join(' • ')}
+        {/* Specializations */}
+        <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem', mb: 2 }}>
+          {developer?.specializations?.slice(0, 2).join(' • ') || 'Luxury • Residential'}
+        </Typography>
+
+        {/* Stats */}
+        <Box sx={{ display: 'flex', gap: 2.5, mb: 'auto' }}>
+          <Box>
+            <Typography sx={{ color: '#C6A962', fontSize: '1.75rem', fontWeight: 700, fontFamily: '"Playfair Display", serif', lineHeight: 1 }}>
+              {developer?.completedProjects || 45}+
             </Typography>
-
-            {/* Years */}
-            <Typography
-              sx={{
-                color: '#C6A962',
-                fontSize: '0.65rem',
-                fontWeight: 600,
-              }}
-            >
-              {developer.experienceYears || 0}+ Years Experience
-            </Typography>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem', textTransform: 'uppercase' }}>Projects</Typography>
           </Box>
-
-          {/* Big Project Count */}
-          <Box
-            className="project-count"
-            sx={{
-              textAlign: 'right',
-              flexShrink: 0,
-              transition: 'transform 0.3s ease',
-            }}
-          >
-            <Typography
-              sx={{
-                color: '#C6A962',
-                fontWeight: 800,
-                fontSize: '2rem',
-                lineHeight: 1,
-                fontFamily: '"Playfair Display", serif',
-                textShadow: '0 2px 8px rgba(198, 169, 98, 0.2)',
-              }}
-            >
-              {developer.completedProjects || 0}+
+          <Box>
+            <Typography sx={{ color: '#C6A962', fontSize: '1.75rem', fontWeight: 700, fontFamily: '"Playfair Display", serif', lineHeight: 1 }}>
+              {developer?.experienceYears || 15}
             </Typography>
-            <Typography
-              sx={{
-                color: '#0B1A2A',
-                fontWeight: 700,
-                fontSize: '0.55rem',
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-              }}
-            >
-              Projects
-            </Typography>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem', textTransform: 'uppercase' }}>Years</Typography>
           </Box>
         </Box>
 
-        {/* Divider */}
-        <Box
+        {/* CTA */}
+        <Button
+          endIcon={<ChevronRight size={16} />}
           sx={{
-            height: 1,
-            ml: 3.5,
-            mr: 3,
-            background: 'linear-gradient(90deg, #E8ECF0 0%, transparent 100%)',
-          }}
-        />
-
-        {/* Footer */}
-        <Box
-          sx={{
-            pl: 3.5,
-            pr: 3,
-            py: 2,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+            color: '#0B1A2A',
+            fontWeight: 700,
+            fontSize: '0.75rem',
+            py: 1,
+            borderRadius: '100px',
+            textTransform: 'none',
+            width: 'fit-content',
+            '&:hover': { background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)' },
           }}
         >
-          {/* Explore Link */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.25,
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                '& .explore-text': { color: '#C6A962' },
-                '& .explore-icon': {
-                  transform: 'translateX(4px)',
-                  color: '#C6A962',
-                },
-              },
-            }}
-          >
-            <Typography
-              className="explore-text"
-              sx={{
-                color: '#6B7C93',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                transition: 'color 0.3s ease',
-              }}
-            >
-              Explore Projects
-            </Typography>
-            <ChevronRight
-              className="explore-icon"
-              size={16}
-              color="#6B7C93"
-              style={{ transition: 'all 0.3s ease' }}
-            />
-          </Box>
-
-          {/* Contact Button */}
-          <Button
-            variant="contained"
-            startIcon={<Phone size={14} />}
-            sx={{
-              background: 'linear-gradient(135deg, #C6A962 0%, #B8975A 100%)',
-              color: '#0B1A2A',
-              fontWeight: 700,
-              fontSize: '0.72rem',
-              px: 2.5,
-              py: 0.9,
-              borderRadius: '100px',
-              textTransform: 'none',
-              boxShadow: '0 4px 14px rgba(198, 169, 98, 0.3)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 6px 20px rgba(198, 169, 98, 0.4)',
-              },
-            }}
-          >
-            Contact
-          </Button>
-        </Box>
+          View Projects
+        </Button>
       </Box>
     </Box>
   );

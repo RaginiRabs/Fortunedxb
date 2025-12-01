@@ -157,10 +157,7 @@ const FeaturedProjects = ({
         <Grid container spacing={2.5}>
           {filteredProjects?.map((project, index) => (
             <Grid
-              item
-              xs={12}
-              sm={6}
-              lg={4}
+              size={{xs:12, md:4, lg:4, sm:6}}
               key={project?.id}
               sx={{
                 opacity: visibleCards.includes(index) ? 1 : 0,

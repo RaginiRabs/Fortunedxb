@@ -1,21 +1,64 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Typography, Grid, Container, Button, Chip } from '@mui/material';
-import { ArrowRight } from 'lucide-react';
+import {
+  Box,
+  Typography,
+  Grid,
+  Container,
+  Button,
+  Menu,
+  MenuItem,
+  Fade,
+} from '@mui/material';
+import {
+  ArrowRight,
+  ChevronDown,
+  Sparkles,
+  Filter,
+  LayoutGrid,
+  List,
+  Banknote,
+  BedDouble,
+} from 'lucide-react';
 import PropertyCard from '../../component/Propertycard';
 import properties from '../../Data/properties';
 
 // Filter Options
-const filterOptions = [
-  { id: 'all', label: 'All' },
-  { id: 'ready', label: 'Ready' },
+const statusOptions = [
+  { id: 'all', label: 'All Status' },
+  { id: 'ready', label: 'Ready to Move' },
   { id: 'new-launch', label: 'New Launch' },
-  { id: 'hot-selling', label: 'Hot' },
+  { id: 'upcoming', label: 'Upcoming' },
+  { id: 'under-construction', label: 'Under Construction' },
+];
+
+const priceOptions = [
+  { id: 'all', label: 'Any Price' },
+  { id: 'under-1m', label: 'Under AED 1M' },
+  { id: '1m-2m', label: 'AED 1M - 2M' },
+  { id: '2m-5m', label: 'AED 2M - 5M' },
+  { id: 'above-5m', label: 'Above AED 5M' },
+];
+
+const bedroomOptions = [
+  { id: 'all', label: 'Any Bedroom' },
+  { id: 'studio', label: 'Studio' },
+  { id: '1bhk', label: '1 BHK' },
+  { id: '2bhk', label: '2 BHK' },
+  { id: '3bhk', label: '3+ BHK' },
 ];
 
 const AllProject = () => {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeStatus, setActiveStatus] = useState('all');
+  const [activePrice, setActivePrice] = useState('all');
+  const [activeBedroom, setActiveBedroom] = useState('all');
   const [visibleCards, setVisibleCards] = useState([]);
+  const [viewMode, setViewMode] = useState('grid');
   const sectionRef = useRef(null);
+
+  // Dropdown Menu States
+  const [statusAnchor, setStatusAnchor] = useState(null);
+  const [priceAnchor, setPriceAnchor] = useState(null);
+  const [bedroomAnchor, setBedroomAnchor] = useState(null);
 
   // Scroll Animation
   useEffect(() => {
@@ -25,7 +68,7 @@ const AllProject = () => {
           properties.forEach((_, index) => {
             setTimeout(() => {
               setVisibleCards((prev) => [...prev, index]);
-            }, index * 80);
+            }, index * 60);
           });
         }
       },
@@ -39,195 +82,449 @@ const AllProject = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Reset animation on filter change
+  useEffect(() => {
+    setVisibleCards([]);
+    const timer = setTimeout(() => {
+      properties.forEach((_, index) => {
+        setTimeout(() => {
+          setVisibleCards((prev) => [...prev, index]);
+        }, index * 50);
+      });
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [activeStatus, activePrice, activeBedroom]);
+
   // Filter Logic
   const filteredProperties = properties?.filter((property) => {
-    if (activeFilter === 'all') return true;
-    if (activeFilter === 'ready') return property?.status?.toLowerCase().includes('ready');
-    if (activeFilter === 'new-launch') return property?.status?.toLowerCase().includes('new') || property?.status?.toLowerCase().includes('launch');
-    if (activeFilter === 'hot-selling') return property?.featured || property?.hot;
+    if (activeStatus !== 'all') {
+      const status = property?.status?.toLowerCase() || '';
+      if (activeStatus === 'ready' && !status.includes('ready')) return false;
+      if (activeStatus === 'new-launch' && !status.includes('new') && !status.includes('launch')) return false;
+      if (activeStatus === 'upcoming' && !status.includes('upcoming')) return false;
+      if (activeStatus === 'under-construction' && !status.includes('construction')) return false;
+    }
     return true;
   });
+
+  // Dropdown Component
+  const FilterDropdown = ({ label, icon: Icon, options, anchor, setAnchor, activeValue, setActiveValue }) => {
+    const selectedOption = options.find((opt) => opt.id === activeValue);
+
+    return (
+      <>
+        <Box
+          onClick={(e) => setAnchor(e.currentTarget)}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            px: 2,
+            py: 1.25,
+            borderRadius: 2,
+            bgcolor: anchor ? 'rgba(198, 169, 98, 0.15)' : 'rgba(255,255,255,0.05)',
+            border: '1px solid',
+            borderColor: anchor ? '#C6A962' : 'rgba(255,255,255,0.1)',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            minWidth: { xs: '100%', sm: 160 },
+            '&:hover': {
+              bgcolor: 'rgba(198, 169, 98, 0.1)',
+              borderColor: 'rgba(198, 169, 98, 0.5)',
+            },
+          }}
+        >
+          <Icon size={18} color="#C6A962" />
+          <Box sx={{ flex: 1 }}>
+            <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem', lineHeight: 1, mb: 0.25 }}>
+              {label}
+            </Typography>
+            <Typography sx={{ color: 'white', fontSize: '0.8rem', fontWeight: 600 }}>
+              {selectedOption?.label || 'Select'}
+            </Typography>
+          </Box>
+          <ChevronDown
+            size={16}
+            color="rgba(255,255,255,0.5)"
+            style={{
+              transform: anchor ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.3s ease',
+            }}
+          />
+        </Box>
+
+        <Menu
+          anchorEl={anchor}
+          open={Boolean(anchor)}
+          onClose={() => setAnchor(null)}
+          TransitionComponent={Fade}
+          disableScrollLock={true}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          slotProps={{
+            paper: {
+              sx: {
+                bgcolor: '#1E3A5F',
+                border: '1px solid rgba(198, 169, 98, 0.3)',
+                borderRadius: 2,
+                mt: 1,
+                minWidth: 180,
+                boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+                zIndex: 1300,
+              },
+            },
+          }}
+          sx={{
+            zIndex: 1300,
+          }}
+        >
+          {options.map((option) => (
+            <MenuItem
+              key={option.id}
+              onClick={() => {
+                setActiveValue(option.id);
+                setAnchor(null);
+              }}
+              sx={{
+                color: activeValue === option.id ? '#C6A962' : 'rgba(255,255,255,0.8)',
+                bgcolor: activeValue === option.id ? 'rgba(198, 169, 98, 0.1)' : 'transparent',
+                fontSize: '0.85rem',
+                py: 1.25,
+                px: 2,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  bgcolor: 'rgba(198, 169, 98, 0.15)',
+                  color: '#C6A962',
+                },
+              }}
+            >
+              {option.label}
+            </MenuItem>
+          ))}
+        </Menu>
+      </>
+    );
+  };
 
   return (
     <Box
       ref={sectionRef}
       sx={{
-        p: { xs: 2, md: 5 },
+        minHeight: '100em',
         bgcolor: '#0B1A2A',
         position: 'relative',
         overflow: 'hidden',
-        mt: { xs: 8, md: 8 },
       }}
     >
-      {/* Subtle Background Pattern */}
+      {/* Background Pattern */}
       <Box
         sx={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.02,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C6A962' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          opacity: 0.03,
+          backgroundImage: `
+            linear-gradient(90deg, #C6A962 1px, transparent 1px),
+            linear-gradient(0deg, #C6A962 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
           pointerEvents: 'none',
         }}
       />
 
-      <Container maxWidth="lg">
-        {/* Compact Header */}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: { xs: 'center', md: 'flex-end' },
-            justifyContent: 'space-between',
-            mb: { xs: 3, md: 4 },
-            gap: 2,
-          }}
-        >
-          {/* Left - Title */}
-          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-            <Typography
-              variant="h3"
+      {/* Gold Glow Effects */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '10%',
+          left: '-5%',
+          width: 400,
+          height: 400,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(198, 169, 98, 0.08) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '-10%',
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(198, 169, 98, 0.05) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* ========== HERO HEADER ========== */}
+      <Box
+        sx={{
+          pt: { xs: 12, md: 14 },
+          pb: { xs: 3, md: 4 },
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        <Container maxWidth="xl"> {/* Changed to xl for wider content */}
+          {/* Title Section */}
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Box
               sx={{
-                color: '#FFFFFF',
-                fontFamily: '"Playfair Display", serif',
-                fontWeight: 600,
-                fontSize: { xs: '1.6rem', md: '2rem' },
-                mb: 0.5,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 1,
+                bgcolor: 'rgba(198, 169, 98, 0.1)',
+                border: '1px solid rgba(198, 169, 98, 0.3)',
+                borderRadius: '100px',
+                px: 2,
+                py: 0.5,
+                mb: 2,
               }}
             >
-              Featured{' '}
+              <Sparkles size={14} color="#C6A962" />
+              <Typography sx={{ color: '#C6A962', fontSize: '0.7rem', fontWeight: 600, letterSpacing: 1 }}>
+                EXPLORE 500+ PROJECTS
+              </Typography>
+            </Box>
+
+            <Typography
+              sx={{
+                color: 'white',
+                fontFamily: '"Playfair Display", serif',
+                fontWeight: 600,
+                fontSize: { xs: '2rem', md: '2.8rem' },
+                lineHeight: 1.2,
+                mb: 1,
+              }}
+            >
+              Find Your Perfect{' '}
               <Box
                 component="span"
                 sx={{
-                  background: 'linear-gradient(135deg, #C6A962 0%, #E8D5A3 100%)',
+                  background: 'linear-gradient(135deg, #C6A962 0%, #E8D5A3 50%, #C6A962 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                Projects
+                Investment
               </Box>
             </Typography>
-            <Box
+
+            <Typography
               sx={{
-                width: 50,
-                height: 2,
-                background: 'linear-gradient(90deg, #C6A962 0%, transparent 100%)',
-                borderRadius: 1,
-                mx: { xs: 'auto', md: 0 },
+                color: 'rgba(255,255,255,0.6)',
+                fontSize: '0.95rem',
+                maxWidth: 500,
+                mx: 'auto',
               }}
-            />
+            >
+              Discover premium off-plan properties from Dubai's most trusted developers
+            </Typography>
           </Box>
 
-          {/* Right - Filters */}
+          {/* ========== FILTER BAR ========== */}
           <Box
             sx={{
               display: 'flex',
-              gap: 1,
-              flexWrap: 'wrap',
-              justifyContent: 'center',
+              flexDirection: { xs: 'column', md: 'row' },
+              alignItems: { xs: 'stretch', md: 'center' },
+              justifyContent: 'space-between',
+              gap: 2,
+              p: 2,
+              borderRadius: 3,
+              bgcolor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(10px)',
+              position: 'relative',
+              zIndex: 10,
             }}
           >
-            {filterOptions.map((filter) => (
-              <Chip
-                key={filter.id}
-                label={filter.label}
-                onClick={() => setActiveFilter(filter.id)}
-                sx={{
-                  height: 30,
-                  borderRadius: '100px',
-                  bgcolor: activeFilter === filter.id ? '#C6A962' : 'transparent',
-                  color: activeFilter === filter.id ? '#0B1A2A' : 'rgba(255,255,255,0.7)',
-                  border: '1px solid',
-                  borderColor: activeFilter === filter.id ? '#C6A962' : 'rgba(255,255,255,0.2)',
-                  fontWeight: 600,
-                  fontSize: '0.7rem',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    bgcolor: activeFilter === filter.id ? '#C6A962' : 'rgba(198, 169, 98, 0.15)',
-                    borderColor: '#C6A962',
-                  },
-                  '& .MuiChip-label': {
-                    px: 1.5,
-                  },
-                }}
-              />
-            ))}
-          </Box>
-        </Box>
-
-        {/* Properties Grid - 3 Cards per Row */}
-        <Grid container spacing={2.5}>
-          {filteredProperties?.map((property, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={property?.id}
+            {/* Left - Dropdowns */}
+            <Box
               sx={{
                 display: 'flex',
-                alignItems: 'center',
-                opacity: visibleCards.includes(index) ? 1 : 0,
-                transform: visibleCards.includes(index) ? 'translateY(0)' : 'translateY(25px)',
-                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                flexDirection: { xs: 'column', sm: 'row' },
+                flexWrap: 'wrap',
+                gap: 1.5,
               }}
             >
-              <PropertyCard property={property} />
-            </Grid>
-          ))}
-        </Grid>
+              <FilterDropdown
+                label="Status"
+                icon={Filter}
+                options={statusOptions}
+                anchor={statusAnchor}
+                setAnchor={setStatusAnchor}
+                activeValue={activeStatus}
+                setActiveValue={setActiveStatus}
+              />
 
-        {/* Footer - View All Button */}
-        <Box
-          sx={{
-            textAlign: 'center',
-            mt: { xs: 4, md: 5 },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 1.5,
-          }}
-        >
-          <Button
-            variant="contained"
-            endIcon={<ArrowRight size={16} />}
+              <FilterDropdown
+                label="Price Range"
+                icon={Banknote}
+                options={priceOptions}
+                anchor={priceAnchor}
+                setAnchor={setPriceAnchor}
+                activeValue={activePrice}
+                setActiveValue={setActivePrice}
+              />
+
+              <FilterDropdown
+                label="Bedrooms"
+                icon={BedDouble}
+                options={bedroomOptions}
+                anchor={bedroomAnchor}
+                setAnchor={setBedroomAnchor}
+                activeValue={activeBedroom}
+                setActiveValue={setActiveBedroom}
+              />
+            </Box>
+
+            {/* Right - View Toggle + Results */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: { xs: 'center', md: 'flex-end' } }}>
+              {/* Results Count */}
+              <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem' }}>
+                <Box component="span" sx={{ color: '#C6A962', fontWeight: 700 }}>
+                  {filteredProperties?.length}
+                </Box>{' '}
+                Projects Found
+              </Typography>
+
+              {/* View Toggle */}
+              <Box
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  alignItems: 'center',
+                  gap: 0.5,
+                  p: 0.5,
+                  borderRadius: 2,
+                  bgcolor: 'rgba(255,255,255,0.05)',
+                }}
+              >
+                <Box
+                  onClick={() => setViewMode('grid')}
+                  sx={{
+                    p: 1,
+                    borderRadius: 1.5,
+                    bgcolor: viewMode === 'grid' ? '#C6A962' : 'transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <LayoutGrid size={16} color={viewMode === 'grid' ? '#0B1A2A' : 'rgba(255,255,255,0.5)'} />
+                </Box>
+                <Box
+                  onClick={() => setViewMode('list')}
+                  sx={{
+                    p: 1,
+                    borderRadius: 1.5,
+                    bgcolor: viewMode === 'list' ? '#C6A962' : 'transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <List size={16} color={viewMode === 'list' ? '#0B1A2A' : 'rgba(255,255,255,0.5)'} />
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
+
+      {/* ========== PROJECTS GRID - 3 PER ROW ========== */}
+      <Box sx={{ py: { xs: 2, md: 4 }, position: 'relative', zIndex: 1 }}>
+        <Container maxWidth="lg" > 
+          <Grid container spacing={4}>
+            {filteredProperties?.map((property, index) => (
+              <Grid
+                size={{xs: 12, md: 4, sm:6, lg: 4}}
+                key={property?.id}
+                sx={{
+                  opacity: visibleCards.includes(index) ? 1 : 0,
+                  transform: visibleCards.includes(index) ? 'translateY(0)' : 'translateY(30px)',
+                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+              >
+                <PropertyCard property={property} />
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Empty State */}
+          {filteredProperties?.length === 0 && (
+            <Box sx={{ textAlign: 'center', py: 8 }}>
+              <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem' }}>
+                No projects found matching your criteria
+              </Typography>
+              <Button
+                onClick={() => {
+                  setActiveStatus('all');
+                  setActivePrice('all');
+                  setActiveBedroom('all');
+                }}
+                sx={{
+                  mt: 2,
+                  color: '#C6A962',
+                  borderColor: '#C6A962',
+                  '&:hover': { bgcolor: 'rgba(198, 169, 98, 0.1)' },
+                }}
+                variant="outlined"
+              >
+                Clear Filters
+              </Button>
+            </Box>
+          )}
+
+          {/* Load More Button */}
+          <Box
             sx={{
-              background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
-              color: '#0B1A2A',
-              px: 4,
-              py: 1.25,
-              borderRadius: '100px',
-              fontWeight: 700,
-              fontSize: '0.8rem',
-              textTransform: 'none',
-              boxShadow: '0 4px 20px rgba(198, 169, 98, 0.3)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 8px 30px rgba(198, 169, 98, 0.4)',
-              },
-              '& .MuiButton-endIcon': {
-                ml: 1,
-                transition: 'transform 0.3s ease',
-              },
-              '&:hover .MuiButton-endIcon': {
-                transform: 'translateX(4px)',
-              },
+              textAlign: 'center',
+              mt: { xs: 4, md: 5 },
+              pb: { xs: 4, md: 6 },
             }}
           >
-            View All Projects
-          </Button>
+            <Button
+              variant="contained"
+              endIcon={<ArrowRight size={16} />}
+              sx={{
+                background: 'linear-gradient(135deg, #C6A962 0%, #A68B4B 100%)',
+                color: '#0B1A2A',
+                px: 4,
+                py: 1.5,
+                borderRadius: '100px',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                textTransform: 'none',
+                boxShadow: '0 8px 25px rgba(198, 169, 98, 0.3)',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #D4B36E 0%, #C6A962 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 12px 35px rgba(198, 169, 98, 0.4)',
+                },
+              }}
+            >
+              Load More Projects
+            </Button>
 
-          <Typography
-            sx={{
-              color: 'rgba(255, 255, 255, 0.4)',
-              fontSize: '0.7rem',
-            }}
-          >
-            {filteredProperties?.length} of {properties?.length} projects
-          </Typography>
-        </Box>
-      </Container>
+            <Typography
+              sx={{
+                color: 'rgba(255,255,255,0.4)',
+                fontSize: '0.75rem',
+                mt: 2,
+              }}
+            >
+              Showing {filteredProperties?.length} of {properties?.length} total projects
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
     </Box>
   );
 };
