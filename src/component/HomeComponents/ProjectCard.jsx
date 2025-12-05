@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -19,7 +20,17 @@ import {
   BadgeCheck,
 } from 'lucide-react';
 
+// Helper function to create URL-friendly slugs
+const createSlug = (text) => {
+  return text
+    ?.toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '') || '';
+};
+
 const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handleInquiry }) => {
+  const navigate = useNavigate();
+
   const getStatusStyle = (status) => {
     const s = status?.toLowerCase() || '';
     if (s.includes('hot')) return { bg: '#C6A962', text: '#FFFFFF' };
@@ -36,6 +47,17 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
   const visibleAmenities = project?.amenities?.slice(0, 3) || [];
   const hiddenAmenities = project?.amenities?.slice(3) || [];
   const hiddenAmenitiesText = hiddenAmenities.join(', ');
+
+  // Handle card click - navigate to project details
+  const handleCardClick = () => {
+    const developerSlug = createSlug(project?.developer);
+    const projectSlug = createSlug(project?.name);
+    
+    // Navigate to dynamic route: /emaar-properties/the-heights-country-club
+    navigate(`/${developerSlug}/${projectSlug}`, {
+      state: { projectId: project?.id, project } // Pass project data via state
+    });
+  };
 
   return (
     <Card
@@ -58,7 +80,7 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
           },
         },
       }}
-      onClick={() => handleInquiry?.(project)}
+      onClick={handleCardClick}
     >
       {/* Image Section */}
       <Box sx={{ position: 'relative', overflow: 'hidden' }}>
@@ -386,7 +408,6 @@ const ProjectCard = ({ project, savedProperties = [], handleSaveProperty, handle
                 />
               </Tooltip>
             )}
-
           </Box>
 
           <Box
