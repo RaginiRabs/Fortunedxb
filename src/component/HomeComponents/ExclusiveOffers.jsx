@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Container,
@@ -117,7 +117,7 @@ const PerforatedEdge = () => (
   <Box
     sx={{
       position: 'absolute',
-      right: 90,
+      right: { xs: 80, sm: 90 },
       top: 0,
       bottom: 0,
       width: 20,
@@ -162,7 +162,7 @@ const PerforatedEdge = () => (
 );
 
 // Ticket Card Component
-const TicketCard = ({ project, isActive, handleInquiry, config }) => {
+const TicketCard = ({ project, isActive, handleInquiry, config, isMobile }) => {
   const Icon = config.icon;
 
   return (
@@ -178,7 +178,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
           : '0 4px 12px rgba(0,0,0,0.05)',
         position: 'relative',
         height: '100%',
-        width: '110%',
+        width: '100%',
         transition: 'all 0.3s ease',
       }}
     >
@@ -186,8 +186,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
       <Box
         sx={{
           flex: 1,
-          p: 2.5,
-          pr: 3,
+          p: { xs: 2, sm: 2.5 },
+          pr: { xs: 2, sm: 3 },
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -196,7 +196,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         <Box
           sx={{
             position: 'relative',
-            height: 120,
+            height: { xs: 100, sm: 120 },
             borderRadius: 1.5,
             overflow: 'hidden',
             mb: 1.5,
@@ -242,7 +242,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
           sx={{
             color: '#0B1A2A',
             fontWeight: 800,
-            fontSize: '1.1rem',
+            fontSize: { xs: '0.95rem', sm: '1.1rem' },
             fontFamily: '"Quicksand", sans-serif',
             fontStyle: 'italic',
             mb: 0.25,
@@ -285,7 +285,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         <Typography
           sx={{
             color: '#64748B',
-            fontSize: '0.65rem',
+            fontSize: { xs: '0.6rem', sm: '0.65rem' },
             lineHeight: 1.4,
             mb: 1.5,
             flex: 1,
@@ -323,14 +323,14 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
       {/* Right Section - Stub */}
       <Box
         sx={{
-          width: 90,
+          width: { xs: 80, sm: 90 },
           background: `linear-gradient(180deg, ${config.bgColor} 0%, rgba(255,255,255,0.5) 100%)`,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-between',
-          p: 1.5,
-          py: 2.5,
+          p: { xs: 1, sm: 1.5 },
+          py: { xs: 2, sm: 2.5 },
           borderLeft: 'none',
         }}
       >
@@ -338,8 +338,8 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
           <Box
             sx={{
-              width: 36,
-              height: 36,
+              width: { xs: 32, sm: 36 },
+              height: { xs: 32, sm: 36 },
               borderRadius: '50%',
               bgcolor: 'white',
               display: 'flex',
@@ -349,7 +349,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
               border: `2px solid ${config.color}`,
             }}
           >
-            <Icon size={16} color={config.color} />
+            <Icon size={isMobile ? 14 : 16} color={config.color} />
           </Box>
           <Typography
             sx={{
@@ -384,7 +384,7 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
             sx={{
               color: '#0B1A2A',
               fontWeight: 800,
-              fontSize: '0.85rem',
+              fontSize: { xs: '0.75rem', sm: '0.85rem' },
               lineHeight: 1.2,
               fontFamily: '"Quicksand", sans-serif',
               fontStyle: 'italic',
@@ -430,8 +430,12 @@ const TicketCard = ({ project, isActive, handleInquiry, config }) => {
 const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [slideDirection, setSlideDirection] = useState('next');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const offersProjects = projectsWithOffers.filter((project) => project.offer);
 
@@ -439,16 +443,42 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
 
   const handleNext = () => {
     if (isAnimating) return;
+    setSlideDirection('next');
     setIsAnimating(true);
-    setActiveIndex((prev) => (prev + 1) % offersProjects.length);
-    setTimeout(() => setIsAnimating(false), 400);
+    setTimeout(() => {
+      setActiveIndex((prev) => (prev + 1) % offersProjects.length);
+      setIsAnimating(false);
+    }, 300);
   };
 
   const handlePrev = () => {
     if (isAnimating) return;
+    setSlideDirection('prev');
     setIsAnimating(true);
-    setActiveIndex((prev) => (prev - 1 + offersProjects.length) % offersProjects.length);
-    setTimeout(() => setIsAnimating(false), 400);
+    setTimeout(() => {
+      setActiveIndex((prev) => (prev - 1 + offersProjects.length) % offersProjects.length);
+      setIsAnimating(false);
+    }, 300);
+  };
+
+  // Touch handlers for swipe
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
   };
 
   // Desktop: 5 cards visible (2 left, 1 center, 2 right)
@@ -537,7 +567,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
 
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
           <Typography
             variant="h4"
             sx={{
@@ -545,7 +575,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
               fontFamily: '"Quicksand", sans-serif',
               fontStyle: 'italic',
               fontWeight: 600,
-              fontSize: { xs: '1.5rem', md: '1.8rem' },
+              fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.8rem' },
               mb: 0.5,
             }}
           >
@@ -565,7 +595,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
           <Typography
             sx={{
               color: '#64748B',
-              fontSize: '0.85rem',
+              fontSize: { xs: '0.75rem', md: '0.85rem' },
               fontFamily: '"Quicksand", sans-serif',
               fontStyle: 'italic',
             }}
@@ -574,73 +604,151 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
           </Typography>
         </Box>
 
-        {/* MOBILE: Single Card with Navigation */}
-        {isMobile ? (
+        {/* MOBILE & TABLET: Single Card with Animation */}
+        {isTablet ? (
           <Box
             sx={{
               position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              px: 5,
+              px: { xs: 2, sm: 4 },
             }}
           >
-            {/* Left Navigation */}
+            {/* Navigation Buttons */}
             <IconButton
               onClick={handlePrev}
               sx={{
                 position: 'absolute',
-                left: 0,
+                left: { xs: -5, sm: 0 },
+                top: '50%',
+                transform: 'translateY(-50%)',
                 zIndex: 10,
-                width: 36,
-                height: 36,
+                width: { xs: 36, sm: 40 },
+                height: { xs: 36, sm: 40 },
                 bgcolor: 'white',
                 border: '1px solid #E2E8F0',
                 borderRadius: 1,
                 color: '#0B1A2A',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                transition: 'all 0.3s ease',
                 '&:hover': { bgcolor: '#0B1A2A', color: 'white' },
               }}
             >
               <ChevronLeft size={18} />
             </IconButton>
 
-            {/* Single Card */}
-            <Box
-              sx={{
-                width: '100%',
-                maxWidth: 340,
-                height: 340,
-                transition: 'all 0.4s ease',
-              }}
-            >
-              <TicketCard
-                project={offersProjects[activeIndex]}
-                isActive={true}
-                handleInquiry={handleInquiry}
-                config={getOfferConfig(offersProjects[activeIndex].offer?.type)}
-              />
-            </Box>
-
-            {/* Right Navigation */}
             <IconButton
               onClick={handleNext}
               sx={{
                 position: 'absolute',
-                right: 0,
+                right: { xs: -5, sm: 0 },
+                top: '50%',
+                transform: 'translateY(-50%)',
                 zIndex: 10,
-                width: 36,
-                height: 36,
+                width: { xs: 36, sm: 40 },
+                height: { xs: 36, sm: 40 },
                 bgcolor: 'white',
                 border: '1px solid #E2E8F0',
                 borderRadius: 1,
                 color: '#0B1A2A',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                transition: 'all 0.3s ease',
                 '&:hover': { bgcolor: '#0B1A2A', color: 'white' },
               }}
             >
               <ChevronRight size={18} />
             </IconButton>
+
+            {/* Slider Container */}
+            <Box
+              sx={{
+                overflow: 'hidden',
+                mx: { xs: 3, sm: 5 },
+              }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transform: isAnimating
+                    ? slideDirection === 'next'
+                      ? 'translateX(-15%) scale(0.9) rotateY(-5deg)'
+                      : 'translateX(15%) scale(0.9) rotateY(5deg)'
+                    : 'translateX(0) scale(1) rotateY(0)',
+                  opacity: isAnimating ? 0.4 : 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '100%',
+                    maxWidth: { xs: 320, sm: 380 },
+                    height: { xs: 320, sm: 360 },
+                  }}
+                >
+                  <TicketCard
+                    project={offersProjects[activeIndex]}
+                    isActive={true}
+                    handleInquiry={handleInquiry}
+                    config={getOfferConfig(offersProjects[activeIndex].offer?.type)}
+                    isMobile={isMobile}
+                  />
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Progress Dots */}
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1,
+                mt: 3,
+              }}
+            >
+              {offersProjects.map((_, index) => (
+                <Box
+                  key={index}
+                  onClick={() => {
+                    if (isAnimating) return;
+                    setSlideDirection(index > activeIndex ? 'next' : 'prev');
+                    setIsAnimating(true);
+                    setTimeout(() => {
+                      setActiveIndex(index);
+                      setIsAnimating(false);
+                    }, 300);
+                  }}
+                  sx={{
+                    width: index === activeIndex ? 24 : 10,
+                    height: 10,
+                    borderRadius: 1,
+                    bgcolor: index === activeIndex ? '#C6A962' : '#CBD5E1',
+                    cursor: 'pointer',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      bgcolor: index === activeIndex ? '#C6A962' : '#94A3B8',
+                      transform: 'scale(1.1)',
+                    },
+                  }}
+                />
+              ))}
+            </Box>
+
+            {/* Swipe Hint */}
+            <Typography
+              sx={{
+                textAlign: 'center',
+                color: '#94A3B8',
+                fontSize: '0.65rem',
+                mt: 1.5,
+                fontFamily: '"Quicksand", sans-serif',
+                fontStyle: 'italic',
+              }}
+            >
+              Swipe or tap arrows to explore
+            </Typography>
           </Box>
         ) : (
           /* DESKTOP: 5 Cards Coverflow */
@@ -693,6 +801,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                     key={project.id}
                     onClick={() => {
                       if (index !== activeIndex && !isAnimating) {
+                        setSlideDirection(index > activeIndex ? 'next' : 'prev');
                         setIsAnimating(true);
                         setActiveIndex(index);
                         setTimeout(() => setIsAnimating(false), 400);
@@ -716,6 +825,7 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
                       isActive={index === activeIndex}
                       handleInquiry={handleInquiry}
                       config={config}
+                      isMobile={false}
                     />
                   </Box>
                 );
@@ -745,38 +855,41 @@ const ExclusiveOffers = ({ projectsWithOffers, handleInquiry }) => {
           </Box>
         )}
 
-        {/* Dots */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 0.75,
-            mt: 3,
-          }}
-        >
-          {offersProjects.map((_, index) => (
-            <Box
-              key={index}
-              onClick={() => {
-                if (!isAnimating) {
-                  setIsAnimating(true);
-                  setActiveIndex(index);
-                  setTimeout(() => setIsAnimating(false), 400);
-                }
-              }}
-              sx={{
-                width: index === activeIndex ? 24 : 8,
-                height: 8,
-                borderRadius: 1,
-                bgcolor: index === activeIndex ? '#C6A962' : '#CBD5E1',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                '&:hover': { bgcolor: index === activeIndex ? '#C6A962' : '#94A3B8' },
-              }}
-            />
-          ))}
-        </Box>
+        {/* Desktop Dots */}
+        {!isTablet && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 0.75,
+              mt: 3,
+            }}
+          >
+            {offersProjects.map((_, index) => (
+              <Box
+                key={index}
+                onClick={() => {
+                  if (!isAnimating) {
+                    setSlideDirection(index > activeIndex ? 'next' : 'prev');
+                    setIsAnimating(true);
+                    setActiveIndex(index);
+                    setTimeout(() => setIsAnimating(false), 400);
+                  }
+                }}
+                sx={{
+                  width: index === activeIndex ? 24 : 8,
+                  height: 8,
+                  borderRadius: 1,
+                  bgcolor: index === activeIndex ? '#C6A962' : '#CBD5E1',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  '&:hover': { bgcolor: index === activeIndex ? '#C6A962' : '#94A3B8' },
+                }}
+              />
+            ))}
+          </Box>
+        )}
       </Container>
     </Box>
   );

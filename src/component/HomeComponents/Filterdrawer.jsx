@@ -74,11 +74,11 @@ const FilterDrawer = ({
       open={open}
       onClose={onClose}
       PaperProps={{
-        sx: { width: { xs: '100%', sm: 400 }, p: 3 },
+        sx: { width: { xs: '100%', sm: 400 }, p: 3, borderRadius: 1,},
       }}
     >
       {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
           Advanced Filters
         </Typography>
