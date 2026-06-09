@@ -1,0 +1,9 @@
+- Never string interpolation in SQL
+- Never ES modules in backend
+- Never class components in frontend
+- Never add Redux
+- Never commit .env files
+- Never change lead fingerprint algorithm
+- Never modify unified_leads without updating normalizer + lead service
+- Never push to client CRM without charset sanitization
+- Never use Hindi/Hinglish in user-facing text (errors, toasts, modals, logs, labels) — English only

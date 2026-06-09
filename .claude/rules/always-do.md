@@ -1,0 +1,6 @@
+- Always try/catch in async route handlers
+- Always use database.query() helper
+- Always log to both Winston and error_logs table
+- Always check is_active flags
+- Always use lead_push_logs for per-DB tracking
+- Always test DB connections before saving
