@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Menu, X, Sun, Moon, ArrowUpRight, ChevronDown } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { Menu, X, ArrowUpRight, ChevronDown } from 'lucide-react';
 
 const primaryLinks = [
   { label: 'Portfolios', href: '/projects' },
@@ -23,7 +22,6 @@ const navLink =
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme() || { theme: 'dark', toggleTheme: () => {} };
 
   const handleAdvisoryScroll = (e) => {
     e.preventDefault();
@@ -90,14 +88,6 @@ export default function Navbar() {
           {/* Action Hub */}
           <div className="hidden md:flex items-center gap-4">
             <button
-              onClick={toggleTheme}
-              className="p-2.5 text-white/50 hover:text-primary transition-colors duration-300 rounded-sm border border-white/[0.06]"
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-            </button>
-
-            <button
               onClick={handleAdvisoryScroll}
               className="px-5 py-2.5 text-[10px] uppercase tracking-[0.2em] font-medium text-primary bg-transparent border border-primary hover:bg-primary hover:text-navy rounded-sm transition-colors duration-300"
             >
@@ -132,13 +122,6 @@ export default function Navbar() {
           ))}
 
           <div className="pt-4 mt-2 border-t border-white/[0.06] flex flex-col gap-3">
-            <button
-              onClick={toggleTheme}
-              className="flex items-center justify-between px-4 py-2.5 text-[11px] uppercase tracking-[0.18em] text-white/50 border border-white/[0.06] rounded-sm"
-            >
-              <span>Theme Mode</span>
-              {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-primary" /> : <Moon className="w-3.5 h-3.5 text-primary" />}
-            </button>
             <button
               onClick={handleAdvisoryScroll}
               className="w-full text-center px-4 py-3 text-[10px] uppercase tracking-[0.2em] font-medium text-navy bg-primary rounded-sm flex items-center justify-center gap-1.5"
