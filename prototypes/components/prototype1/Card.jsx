@@ -1,7 +1,14 @@
 // prototype1 component — dark luxury. Only prototype1 imports this.
+import Link from 'next/link';
+
 export default function Card({ project }) {
+  // All cards open the single mock detail page for now (mock data).
+  const href = `/prototype1/project/${project.slug || 'one-by-nine'}`;
   return (
-    <article className="group border border-white/10 bg-[#1b1714] overflow-hidden hover:border-[#B0905E]/60 transition-colors">
+    <Link
+      href={href}
+      className="group block border border-white/10 bg-[#1b1714] overflow-hidden hover:border-[#B0905E]/60 transition-colors"
+    >
       <div className="aspect-[4/3] bg-white/[0.03] flex items-center justify-center text-white/25 text-xs uppercase tracking-[0.2em]">
         {project.area}
       </div>
@@ -15,6 +22,6 @@ export default function Card({ project }) {
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

@@ -6,11 +6,19 @@ html {
   scroll-behavior: smooth;
 }
 
+<<<<<<< Updated upstream
 /* Hide scrollbar but keep scrolling (opt-in via class) */
+=======
+/* Hide horizontal scrollbar on the project section-nav (prototype1). */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+>>>>>>> Stashed changes
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+<<<<<<< Updated upstream
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -23,3 +31,5 @@ html {
 .p4-fade {
   animation: p4-fade 180ms ease;
 }
+=======
+>>>>>>> Stashed changes
