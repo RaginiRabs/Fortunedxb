@@ -5,3 +5,21 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Hide scrollbar but keep scrolling (opt-in via class) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Soft dissolve for swapped previews */
+@keyframes p4-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.p4-fade {
+  animation: p4-fade 180ms ease;
+}
