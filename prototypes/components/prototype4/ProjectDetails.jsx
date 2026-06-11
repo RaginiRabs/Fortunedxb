@@ -46,10 +46,10 @@ const TABS = [
   ['FAQ', 'faq'],
 ];
 
-// Varied muted accents (brown, blue, green, red, violet).
-const DIST_COLORS = ['#80603f', '#2f6fae', '#2e8b57', '#b35454', '#6b5b95'];
-// Cycling icon-tile tones (blue, green, red, violet, brown).
-const TILE_TONES = ['bg-[#2f6fae]', 'bg-[#2e8b57]', 'bg-[#b35454]', 'bg-[#6b5b95]', 'bg-[#80603f]'];
+// Varied muted accents for unit-distribution bar + legend (amber, blue, green, red, violet).
+const DIST_COLORS = ['#d98c34', '#2f6fae', '#2e8b57', '#b35454', '#6b5b95'];
+// Amenity icon-tile tones — three colours only (blue, green, violet), cycled equally.
+const TILE_TONES = ['bg-[#2f6fae]', 'bg-[#2e8b57]', 'bg-[#6b5b95]'];
 // Payment-plan milestone circle tones (border + text).
 const STEP_TONES = [
   ['border-[#2f6fae]', 'text-[#2f6fae]'],
@@ -389,14 +389,14 @@ export default function ProjectDetails({ project }) {
             <section id="market-data" className="pt-12 scroll-mt-36">
               <SectionTitle no="02">Market Highlights</SectionTitle>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <Stat label="Total Units" value={project.totalUnits.toLocaleString()} tone="violet" />
-                <Stat label="Launch Date" value={project.launchDate} tone="blue" />
-                <Stat label="Handover" value={project.handover} tone="red" />
-                <Stat label="Status" value={project.status} tone="green" />
-                <Stat label="Avg Price / Sqft" value={money(project.avgPricePerSqft)} tone="violet" />
-                <Stat label="Sales Volume" value={project.salesVolume.toLocaleString()} tone="blue" />
+                <Stat label="Total Units" value={project.totalUnits.toLocaleString()} />
+                <Stat label="Launch Date" value={project.launchDate} />
+                <Stat label="Handover" value={project.handover} />
+                <Stat label="Status" value={project.status} />
+                <Stat label="Avg Price / Sqft" value={money(project.avgPricePerSqft)} />
+                <Stat label="Sales Volume" value={project.salesVolume.toLocaleString()} />
                 <Stat label="Est. ROI" value={`${project.roi}%`} highlight tone="green" />
-                <Stat label="Rental Yield" value={`${project.rentalYield}%`} highlight tone="blue" />
+                <Stat label="Rental Yield" value={`${project.rentalYield}%`} highlight tone="green" />
                 <Stat label="Price From" value={moneyM(project.priceFrom)} />
               </div>
             </section>
@@ -563,7 +563,7 @@ export default function ProjectDetails({ project }) {
                         <Icon size={18} />
                       </span>
                       <div className="min-w-0">
-                        <p className={`text-sm ${BODY} truncate`}>{p.name}</p>
+                        <p className={`text-sm ${BODY} leading-snug`}>{p.name}</p>
                         <p className="text-sm font-bold text-[#80603f] tabular-nums">{p.dist}</p>
                       </div>
                     </div>
@@ -605,6 +605,19 @@ export default function ProjectDetails({ project }) {
           {/* Sticky developer sidebar */}
           <aside className="lg:pt-2">
             <div className="lg:sticky lg:top-40 rounded-2xl border border-[#e8e2da] shadow-sm p-6 bg-white">
+              {/* Video tour — placed above the developer */}
+              <div id="video" className="mb-5 pb-5 border-b border-[#e8e2da] scroll-mt-24">
+                <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL} mb-2`}>Video Tour</p>
+                <div className="rounded-lg overflow-hidden border border-[#e8e2da] aspect-video bg-black">
+                  <iframe
+                    src={ytEmbed(project.videoUrl)}
+                    title={`${project.name} video tour`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
               <div className={`${GRAD} h-16 w-16 rounded-xl flex items-center justify-center text-white font-bold text-lg font-[family-name:var(--font-heading)]`}>
                 {project.developer.slice(0, 2).toUpperCase()}
               </div>
@@ -613,7 +626,7 @@ export default function ProjectDetails({ project }) {
 
               <div className="mt-5 pt-5 border-t border-[#e8e2da]">
                 <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL}`}>Launch Price ({project.launchPriceDate})</p>
-                <p className={`mt-1 text-3xl font-bold ${GRAD_TEXT} font-[family-name:var(--font-heading)] tabular-nums`}>{money(project.priceFrom)}</p>
+                <p className="mt-1 text-3xl font-bold text-[#2f6fae] font-[family-name:var(--font-heading)] tabular-nums">{money(project.priceFrom)}</p>
                 <p className="mt-1 text-[11px] text-[#675c4e]">Data as of {project.launchPriceDate}</p>
               </div>
 
@@ -631,27 +644,13 @@ export default function ProjectDetails({ project }) {
 
               <button
                 onClick={() => openLead()}
-                className={`${GRAD} mt-5 w-full text-white text-sm font-bold uppercase tracking-[0.1em] py-3 rounded-lg transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-6px_rgba(154,115,85,0.5)]`}
+                className="bg-[#2f6fae] mt-5 w-full text-white text-sm font-bold uppercase tracking-[0.1em] py-3 rounded-lg transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#3a7fc4] hover:shadow-[0_12px_32px_-6px_rgba(47,111,174,0.5)]"
               >
                 Register Your Interest
               </button>
               <a href={`${DOCS}/brochure.pdf`} target="_blank" rel="noopener" className="mt-3 flex items-center justify-center gap-1.5 w-full border border-[#e8e2da] text-sm font-semibold text-[#6a4b2e] hover:border-[#947049] hover:bg-[#faf7f3] py-3 rounded-lg transition-colors">
                 <Download size={15} /> Download Brochure
               </a>
-
-              {/* Video tour (inline embed) */}
-              <div id="video" className="mt-5 pt-5 border-t border-[#e8e2da] scroll-mt-24">
-                <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL} mb-2`}>Video Tour</p>
-                <div className="rounded-lg overflow-hidden border border-[#e8e2da] aspect-video bg-black">
-                  <iframe
-                    src={ytEmbed(project.videoUrl)}
-                    title={`${project.name} video tour`}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
             </div>
           </aside>
         </div>
@@ -666,7 +665,7 @@ export default function ProjectDetails({ project }) {
             <div>
               <p className="text-sm uppercase tracking-[0.15em] text-white/60 mb-3">I am interested to</p>
               <div className="grid grid-cols-3 gap-3">
-                {[['Buy', 'Find properties'], ['Sell', 'List with us'], ['Rent', 'Browse rentals']].map(([x, sub]) => (
+                {[['Buy', 'Properties'], ['Sell', 'List with us'], ['Rent', 'Browse rentals']].map(([x, sub]) => (
                   <button
                     key={x}
                     onClick={() => setLeadIntent(x)}
@@ -695,9 +694,9 @@ export default function ProjectDetails({ project }) {
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-[#e8e2da] px-4 py-3 flex items-center gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.14em] text-[#675c4e]">From</p>
-          <p className={`text-base font-bold ${GRAD_TEXT} tabular-nums leading-none`}>{money(project.priceFrom)}</p>
+          <p className="text-base font-bold text-[#2f6fae] tabular-nums leading-none">{money(project.priceFrom)}</p>
         </div>
-        <button onClick={() => openLead()} className={`${GRAD} ml-auto text-white text-sm font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-lg`}>
+        <button onClick={() => openLead()} className="bg-[#2f6fae] ml-auto text-white text-sm font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-lg hover:bg-[#3a7fc4]">
           Register Interest
         </button>
       </div>
