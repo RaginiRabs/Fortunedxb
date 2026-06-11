@@ -46,8 +46,18 @@ const TABS = [
   ['FAQ', 'faq'],
 ];
 
-// Monochrome brown tints (minimal, single-hue).
-const DIST_COLORS = ['#6a4b2e', '#80603f', '#ab8a6e', '#c2a88f', '#d9c6b2'];
+// Varied muted accents (brown, blue, green, red, violet).
+const DIST_COLORS = ['#80603f', '#2f6fae', '#2e8b57', '#b35454', '#6b5b95'];
+// Cycling icon-tile tones (blue, green, red, violet, brown).
+const TILE_TONES = ['bg-[#2f6fae]', 'bg-[#2e8b57]', 'bg-[#b35454]', 'bg-[#6b5b95]', 'bg-[#80603f]'];
+// Payment-plan milestone circle tones (border + text).
+const STEP_TONES = [
+  ['border-[#2f6fae]', 'text-[#2f6fae]'],
+  ['border-[#2e8b57]', 'text-[#2e8b57]'],
+  ['border-[#6b5b95]', 'text-[#6b5b95]'],
+  ['border-[#b35454]', 'text-[#b35454]'],
+  ['border-[#80603f]', 'text-[#6a4b2e]'],
+];
 
 const MarketMap = dynamic(() => import('@/components/prototype4/MarketMapGL'), {
   ssr: false,
@@ -113,7 +123,7 @@ export default function ProjectDetails({ project }) {
         const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible[0]) setActiveSection(visible[0].target.id);
       },
-      { rootMargin: '-72px 0px -65% 0px', threshold: 0 }
+      { rootMargin: '-150px 0px -65% 0px', threshold: 0 }
     );
     ids.forEach((id) => {
       const el = document.getElementById(id);
@@ -160,8 +170,8 @@ export default function ProjectDetails({ project }) {
 
   return (
     <div>
-      {/* Sticky tab nav + currency toggle */}
-      <nav className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-[#e8e2da]">
+      {/* Sticky tab nav + currency toggle — sticks below the main navbar */}
+      <nav className="sticky top-[81px] md:top-[89px] z-30 bg-white/95 backdrop-blur border-b border-[#e8e2da]">
         <div className="mx-auto max-w-6xl px-6 flex items-center gap-5 overflow-x-auto no-scrollbar">
           {TABS.map(([label, anchor]) => {
             const active = activeSection === anchor;
@@ -327,14 +337,14 @@ export default function ProjectDetails({ project }) {
       <div className="mx-auto max-w-6xl px-6 pt-6">
         <div className="rounded-2xl border border-[#e8e2da] bg-white shadow-[0_10px_34px_-16px_rgba(42,37,32,0.28)] grid grid-cols-2 md:grid-cols-5 divide-x divide-y md:divide-y-0 divide-[#e8e2da] overflow-hidden">
           {[
-            ['Price From', moneyM(project.priceFrom), Wallet],
-            ['Handover', project.handover, CalendarClock],
-            ['Total Units', project.totalUnits.toLocaleString(), Building2],
-            ['Est. ROI', `${project.roi}%`, TrendingUp],
-            ['Rental Yield', `${project.rentalYield}%`, Percent],
-          ].map(([label, value, Icon], i) => (
+            ['Price From', moneyM(project.priceFrom), Wallet, 'bg-[#faf7f3] text-[#80603f]'],
+            ['Handover', project.handover, CalendarClock, 'bg-[#eef4fa] text-[#2f6fae]'],
+            ['Total Units', project.totalUnits.toLocaleString(), Building2, 'bg-[#f1effa] text-[#6b5b95]'],
+            ['Est. ROI', `${project.roi}%`, TrendingUp, 'bg-[#ecf6f0] text-[#2e8b57]'],
+            ['Rental Yield', `${project.rentalYield}%`, Percent, 'bg-[#faeeee] text-[#b35454]'],
+          ].map(([label, value, Icon, tone], i) => (
             <div key={i} className={`flex items-center gap-3 px-5 py-4 transition-colors hover:bg-[#faf7f3] ${i === 4 ? 'col-span-2 md:col-span-1' : ''}`}>
-              <span className="h-9 w-9 rounded-lg bg-[#faf7f3] text-[#80603f] flex items-center justify-center shrink-0">
+              <span className={`h-9 w-9 rounded-lg ${tone} flex items-center justify-center shrink-0`}>
                 <Icon size={17} />
               </span>
               <div className="min-w-0">
@@ -351,7 +361,7 @@ export default function ProjectDetails({ project }) {
           {/* Main column */}
           <div className="min-w-0">
             {/* Overview */}
-            <section id="overview" className="pt-8 scroll-mt-20">
+            <section id="overview" className="pt-8 scroll-mt-36">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <span className="block text-[13px] font-black tracking-[0.2em] text-[#80603f] mb-1.5">01 —</span>
@@ -365,10 +375,10 @@ export default function ProjectDetails({ project }) {
               <div className="mt-5">
                 <div className="flex justify-between text-xs font-semibold mb-2">
                   <span className={`${LABEL} uppercase tracking-[0.12em]`}>Construction Progress</span>
-                  <span className={`font-bold ${GRAD_TEXT}`}>{project.completion}% completed</span>
+                  <span className="font-bold text-[#2e8b57]">{project.completion}% completed</span>
                 </div>
                 <div className="h-2.5 w-full rounded-full bg-[#efe8df] overflow-hidden">
-                  <div className={`${GRAD} h-full rounded-full`} style={{ width: `${Math.max(project.completion, 1)}%` }} />
+                  <div className="bg-[#2e8b57] h-full rounded-full" style={{ width: `${Math.max(project.completion, 1)}%` }} />
                 </div>
               </div>
 
@@ -376,23 +386,23 @@ export default function ProjectDetails({ project }) {
             </section>
 
             {/* Market Highlights */}
-            <section id="market-data" className="pt-12 scroll-mt-20">
+            <section id="market-data" className="pt-12 scroll-mt-36">
               <SectionTitle no="02">Market Highlights</SectionTitle>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <Stat label="Total Units" value={project.totalUnits.toLocaleString()} />
-                <Stat label="Launch Date" value={project.launchDate} />
-                <Stat label="Handover" value={project.handover} />
-                <Stat label="Status" value={project.status} />
-                <Stat label="Avg Price / Sqft" value={money(project.avgPricePerSqft)} />
-                <Stat label="Sales Volume" value={project.salesVolume.toLocaleString()} />
-                <Stat label="Est. ROI" value={`${project.roi}%`} highlight />
-                <Stat label="Rental Yield" value={`${project.rentalYield}%`} highlight />
+                <Stat label="Total Units" value={project.totalUnits.toLocaleString()} tone="violet" />
+                <Stat label="Launch Date" value={project.launchDate} tone="blue" />
+                <Stat label="Handover" value={project.handover} tone="red" />
+                <Stat label="Status" value={project.status} tone="green" />
+                <Stat label="Avg Price / Sqft" value={money(project.avgPricePerSqft)} tone="violet" />
+                <Stat label="Sales Volume" value={project.salesVolume.toLocaleString()} tone="blue" />
+                <Stat label="Est. ROI" value={`${project.roi}%`} highlight tone="green" />
+                <Stat label="Rental Yield" value={`${project.rentalYield}%`} highlight tone="blue" />
                 <Stat label="Price From" value={moneyM(project.priceFrom)} />
               </div>
             </section>
 
             {/* Payment Plan — separated panel, horizontal stepper */}
-            <section id="payment-plan" className="pt-12 scroll-mt-20">
+            <section id="payment-plan" className="pt-12 scroll-mt-36">
               <div className="rounded-2xl bg-[#faf7f3] border border-[#e8e2da] p-6 md:p-8">
                 <SectionTitle no="03">Payment Plan</SectionTitle>
                 <p className="text-xs uppercase tracking-[0.2em] text-[#675c4e] mb-7">
@@ -403,7 +413,7 @@ export default function ProjectDetails({ project }) {
                     {project.paymentPlan.schedule.map((s, i, arr) => (
                       <div key={i} className="flex-1 flex flex-col items-center relative px-1">
                         {i < arr.length - 1 && <span className="absolute top-6 left-1/2 w-full h-px bg-[#e8e2da]" />}
-                        <div className="relative z-10 h-12 w-12 rounded-full border border-[#80603f] bg-white flex items-center justify-center text-sm font-bold text-[#6a4b2e] tabular-nums transition-all duration-150 hover:bg-white hover:shadow-[0_4px_16px_-4px_rgba(154,115,85,0.25)]">
+                        <div className={`relative z-10 h-12 w-12 rounded-full border ${STEP_TONES[i % STEP_TONES.length][0]} ${STEP_TONES[i % STEP_TONES.length][1]} bg-white flex items-center justify-center text-sm font-bold tabular-nums transition-all duration-150 hover:bg-white hover:shadow-[0_4px_16px_-4px_rgba(154,115,85,0.25)]`}>
                           {s.percent}%
                         </div>
                         <span className="mt-3 text-[11px] text-[#574e44] text-center leading-tight max-w-[92px]">{s.label}</span>
@@ -416,7 +426,7 @@ export default function ProjectDetails({ project }) {
             </section>
 
             {/* Unit Plans — selector + large preview */}
-            <section id="floor-plans" className="pt-12 scroll-mt-20">
+            <section id="floor-plans" className="pt-12 scroll-mt-36">
               <SectionTitle no="04">Unit Plans</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] rounded-2xl border border-[#e8e2da] overflow-hidden bg-white">
                 {/* Left: bedroom-type pills */}
@@ -474,7 +484,7 @@ export default function ProjectDetails({ project }) {
             </section>
 
             {/* Unit Specifications */}
-            <section id="specifications" className="pt-12 scroll-mt-20">
+            <section id="specifications" className="pt-12 scroll-mt-36">
               <SectionTitle no="05">Unit Specifications</SectionTitle>
               <div className="flex h-4 w-full rounded-md overflow-hidden mb-3">
                 {project.distribution.map((d, i) => (
@@ -513,7 +523,7 @@ export default function ProjectDetails({ project }) {
                         <td className={`px-4 py-5 ${BODY}`}>{u.type}</td>
                         <td className={`px-4 py-5 ${BODY}`}>{u.units}</td>
                         <td className="px-4 py-5">
-                          <span className="inline-block rounded-full bg-[#80603f]/15 text-[#6a4b2e] text-xs font-bold px-3 py-1">{u.available} left</span>
+                          <span className="inline-block rounded-full bg-[#ecf6f0] text-[#2e8b57] text-xs font-bold px-3 py-1">{u.available} left</span>
                         </td>
                       </tr>
                     ))}
@@ -530,7 +540,7 @@ export default function ProjectDetails({ project }) {
                   const Icon = amenityIcon(a);
                   return (
                     <div key={i} className="rounded-xl border border-[#e8e2da] px-4 py-4 flex items-center gap-3 hover:border-[#947049] transition-colors">
-                      <span className={`${GRAD} h-9 w-9 rounded-lg flex items-center justify-center text-white shrink-0`}>
+                      <span className={`${TILE_TONES[i % TILE_TONES.length]} h-9 w-9 rounded-lg flex items-center justify-center text-white shrink-0`}>
                         <Icon size={18} />
                       </span>
                       <span className={`text-sm ${BODY}`}>{a}</span>
@@ -541,7 +551,7 @@ export default function ProjectDetails({ project }) {
             </section>
 
             {/* Location + metro map */}
-            <section id="location" className="pt-12 scroll-mt-20">
+            <section id="location" className="pt-12 scroll-mt-36">
               <SectionTitle no="07">Location &amp; Market</SectionTitle>
               <MarketMap />
               <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -549,7 +559,7 @@ export default function ProjectDetails({ project }) {
                   const Icon = nearbyIcon(p.type);
                   return (
                     <div key={i} className="rounded-xl border border-[#e8e2da] px-4 py-3 flex items-center gap-3">
-                      <span className="h-9 w-9 rounded-lg bg-[#80603f]/12 text-[#6a4b2e] flex items-center justify-center shrink-0">
+                      <span className="h-9 w-9 rounded-lg bg-[#eef4fa] text-[#2f6fae] flex items-center justify-center shrink-0">
                         <Icon size={18} />
                       </span>
                       <div className="min-w-0">
@@ -563,7 +573,7 @@ export default function ProjectDetails({ project }) {
             </section>
 
             {/* FAQ — numbered ghost list */}
-            <section id="faq" className="pt-12 scroll-mt-20">
+            <section id="faq" className="pt-12 scroll-mt-36">
               <SectionTitle no="08">Frequently Asked Questions</SectionTitle>
               <div className="border-t border-[#e8e2da]">
                 {project.faqs.map((f, i) => {
@@ -594,7 +604,7 @@ export default function ProjectDetails({ project }) {
 
           {/* Sticky developer sidebar */}
           <aside className="lg:pt-2">
-            <div className="lg:sticky lg:top-24 rounded-2xl border border-[#e8e2da] shadow-sm p-6 bg-white">
+            <div className="lg:sticky lg:top-40 rounded-2xl border border-[#e8e2da] shadow-sm p-6 bg-white">
               <div className={`${GRAD} h-16 w-16 rounded-xl flex items-center justify-center text-white font-bold text-lg font-[family-name:var(--font-heading)]`}>
                 {project.developer.slice(0, 2).toUpperCase()}
               </div>
@@ -647,7 +657,7 @@ export default function ProjectDetails({ project }) {
         </div>
 
         {/* CTA banner */}
-        <div className="mt-16 rounded-2xl bg-[#1a140f] text-white p-8 md:p-12">
+        <div className="mt-16 rounded-2xl bg-[#13202f] text-white p-8 md:p-12">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="text-3xl font-bold font-[family-name:var(--font-heading)]">Ready to make your move?</h3>
@@ -671,7 +681,7 @@ export default function ProjectDetails({ project }) {
               </div>
               <button
                 onClick={() => openLead(leadIntent)}
-                className={`${GRAD} mt-4 w-full py-3 rounded-xl text-sm font-bold uppercase tracking-[0.1em] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-6px_rgba(154,115,85,0.5)]`}
+                className="bg-[#2f6fae] mt-4 w-full py-3 rounded-xl text-sm font-bold uppercase tracking-[0.1em] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#3a7fc4] hover:shadow-[0_12px_32px_-6px_rgba(47,111,174,0.5)]"
               >
                 Continue
               </button>
@@ -827,15 +837,22 @@ function SectionTitle({ no, children }) {
   );
 }
 
-function Stat({ label, value, highlight }) {
+function Stat({ label, value, highlight, tone }) {
+  const tones = {
+    green: { box: 'border-[#cfe5d8] bg-[#ecf6f0]', text: 'text-[#2e8b57]' },
+    blue: { box: 'border-[#cfdfee] bg-[#eef4fa]', text: 'text-[#2f6fae]' },
+    red: { box: 'border-[#ecd4d4] bg-[#faeeee]', text: 'text-[#b35454]' },
+    violet: { box: 'border-[#dcd7ee] bg-[#f1effa]', text: 'text-[#6b5b95]' },
+  };
+  const t = tones[tone] || { box: 'border-[#e3d3bf] bg-[#faf7f3]', text: 'text-[#6a4b2e]' };
   return (
     <div
       className={`rounded-xl border p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_16px_-8px_rgba(154,115,85,0.4)] ${
-        highlight ? 'border-[#e3d3bf] bg-[#faf7f3]' : 'border-[#e8e2da] hover:border-[#947049]'
+        highlight ? t.box : 'border-[#e8e2da] hover:border-[#947049]'
       }`}
     >
       <p className="text-[10px] uppercase tracking-[0.12em] text-[#675c4e]">{label}</p>
-      <p className={`mt-1.5 font-bold tabular-nums ${highlight ? 'text-2xl text-[#6a4b2e]' : 'text-lg text-[#2a2520]'}`}>{value}</p>
+      <p className={`mt-1.5 font-bold tabular-nums ${highlight ? 'text-2xl' : 'text-lg'} ${tone ? t.text : highlight ? t.text : 'text-[#2a2520]'}`}>{value}</p>
     </div>
   );
 }

@@ -315,7 +315,7 @@ export default function MarketMap({
               <dt className="text-[#6B6B6B]">Projects</dt>
               <dd className="font-semibold text-[#1A1A1A]">{selected.projectCount}</dd>
             </div>
-          </dl>
+          </dl>``
         </div>
       )}
     </div>
