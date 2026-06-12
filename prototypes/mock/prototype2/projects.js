@@ -38,6 +38,30 @@ export const discountFacets = [
   { name: '40%+', count: 22 },
 ];
 
+// Resale (secondary-market) listings — verified, ready-to-move properties.
+export const resaleProperties = [
+  { id: 1, name: 'Burj Royale', area: 'Downtown Dubai', price: 2650000, original: 2950000, below: 10, beds: '2 Bed', sqft: '1,184 sq.ft', type: 'Apartment', status: 'Ready to Move', badge: 'Best Price', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80' },
+  { id: 2, name: 'Marina Gate 2', area: 'Dubai Marina', price: 1850000, original: 2100000, below: 12, beds: '1 Bed', sqft: '876 sq.ft', type: 'Apartment', status: 'Ready to Move', badge: 'Hot Deal', image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80' },
+  { id: 3, name: 'Maple 2', area: 'Dubai Hills Estate', price: 5400000, original: 6200000, below: 13, beds: '4 Bed', sqft: '3,523 sq.ft', type: 'Villa', status: 'Vacant', badge: 'Great Value', image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80' },
+  { id: 4, name: 'Sobha Creek Vistas', area: 'Sobha Hartland', price: 1720000, original: 2000000, below: 14, beds: '1 Bed', sqft: '780 sq.ft', type: 'Apartment', status: 'Tenanted', badge: 'Urgent Sale', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80' },
+  { id: 5, name: 'Seven Palm', area: 'Palm Jumeirah', price: 3900000, original: 4500000, below: 13, beds: '2 Bed', sqft: '1,348 sq.ft', type: 'Apartment', status: 'Ready to Move', badge: 'Negotiable', image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80' },
+  { id: 6, name: 'Arabian Ranches 3', area: 'Dubai', price: 4800000, original: 5500000, below: 13, beds: '3 Bed', sqft: '2,745 sq.ft', type: 'Townhouse', status: 'Vacant', badge: 'Vacant', image: 'https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1200&q=80' },
+  { id: 7, name: 'BLVD Heights', area: 'Downtown Dubai', price: 2300000, original: 2650000, below: 13, beds: '2 Bed', sqft: '1,098 sq.ft', type: 'Apartment', status: 'Ready to Move', badge: 'Best Price', image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&q=80' },
+  { id: 8, name: 'Vida Residence 1', area: 'Dubai Marina', price: 2100000, original: 2450000, below: 14, beds: '2 Bed', sqft: '1,146 sq.ft', type: 'Apartment', status: 'Tenanted', badge: 'Hot Deal', image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80' },
+];
+
+export const resaleTypeFacets = [
+  { name: 'Apartment', count: 186 },
+  { name: 'Villa', count: 42 },
+  { name: 'Townhouse', count: 18 },
+  { name: 'Penthouse', count: 12 },
+];
+
+export const resaleStatusFacets = [
+  { name: 'Ready to Move', count: 186 },
+  { name: 'Tenanted', count: 68 },
+];
+
 // Sidebar facets for the projects browser.
 export const developerFacets = [
   { name: 'All Developers', count: 500 },

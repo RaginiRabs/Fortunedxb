@@ -39,7 +39,7 @@ function Pill({ active, children, onClick }) {
       onClick={onClick}
       className={
         'rounded-lg border px-3.5 py-2 text-[13px] font-medium transition-colors ' +
-        (active ? 'border-brand bg-brand text-cream' : 'border-brand-pale text-ink-soft hover:border-brand-soft hover:text-ink')
+        (active ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale text-ink-soft hover:border-brand-soft hover:text-ink')
       }
     >
       {children}
@@ -47,10 +47,17 @@ function Pill({ active, children, onClick }) {
   );
 }
 
+const STATUS_COLOR = {
+  'New Launch': '#2E8B57',
+  'Off Plan': '#3B7DD8',
+  'Ready': '#2F9E8F',
+  'Under Construction': '#D08B2C',
+};
+
 function StatusBadge({ status }) {
   if (status === 'Featured') return null;
   return (
-    <span className="rounded-md bg-ink/65 px-2.5 py-1 text-[11px] font-semibold text-cream backdrop-blur-sm">
+    <span className="rounded-md px-2.5 py-1 text-[11px] font-semibold text-white" style={{ background: STATUS_COLOR[status] || '#8C6A52' }}>
       {status}
     </span>
   );
@@ -60,9 +67,9 @@ function ProjectCard({ p }) {
   return (
     <Link
       href={`/prototype2/${p.id}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-brand-pale bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#2F7E6E]/55 hover:shadow-[0_12px_30px_-14px_rgba(47,126,110,0.35)]"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-brand-pale bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#8C6A52]/50 hover:shadow-[0_14px_32px_-16px_rgba(58,44,34,0.4)]"
     >
-      <div className="relative aspect-[16/11] w-full overflow-hidden">
+      <div className="relative aspect-[16/9] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={p.image} alt={p.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
         <span className="absolute left-3 top-3">
@@ -86,7 +93,7 @@ function ProjectCard({ p }) {
             <span className="block text-[11px] text-ink-faint">Starting price</span>
             <span className="font-serif text-lg font-bold text-ink">{p.priceLabel}</span>
           </div>
-          <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-ink-soft transition-colors group-hover:text-[#2F7E6E]">
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-ink-soft transition-colors group-hover:text-[#8C6A52]">
             View Details <ArrowRight size={14} />
           </span>
         </div>
@@ -134,7 +141,7 @@ export default function ProjectsBrowser({ projects, developers }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search projects, locations..."
-            className="w-full rounded-full border border-brand-pale bg-white py-3 pl-11 pr-4 text-sm text-ink outline-none transition focus:border-brand"
+            className="w-full rounded-full border border-brand-pale bg-white py-3 pl-11 pr-4 text-sm text-ink outline-none transition focus:border-[#8C6A52]"
           />
         </div>
       </div>
@@ -142,12 +149,12 @@ export default function ProjectsBrowser({ projects, developers }) {
       {/* Body */}
       <div className="mt-7 grid gap-6 lg:grid-cols-[270px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5">
+        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px]">
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button
               onClick={() => { setBeds([]); setStatuses([]); setType('All Types'); setDevs(['All Developers']); setQuery(''); setTab('All Projects'); }}
-              className="text-[12px] font-medium text-brand hover:text-brand-dark"
+              className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]"
             >
               Clear All
             </button>
@@ -161,7 +168,7 @@ export default function ProjectsBrowser({ projects, developers }) {
                   return (
                     <label key={d.name} className="flex cursor-pointer items-center justify-between text-[13px]">
                       <span className="inline-flex items-center gap-2.5 text-ink-soft">
-                        <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-brand bg-brand text-cream' : 'border-brand-pale')}>
+                        <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale')}>
                           {on && <span className="text-[9px] leading-none">✓</span>}
                         </span>
                         {d.name}
@@ -171,7 +178,7 @@ export default function ProjectsBrowser({ projects, developers }) {
                     </label>
                   );
                 })}
-                <button className="text-[12px] font-medium text-brand hover:text-brand-dark">Show More ▾</button>
+                <button className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Show More ▾</button>
               </div>
             </FilterSection>
 
@@ -181,7 +188,7 @@ export default function ProjectsBrowser({ projects, developers }) {
                   const on = type === t;
                   return (
                     <label key={t} onClick={() => setType(t)} className="flex cursor-pointer items-center gap-2.5 text-[13px] text-ink-soft">
-                      <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-brand bg-brand text-cream' : 'border-brand-pale')}>
+                      <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale')}>
                         {on && <span className="text-[9px] leading-none">✓</span>}
                       </span>
                       {t}
@@ -193,14 +200,14 @@ export default function ProjectsBrowser({ projects, developers }) {
 
             <FilterSection title="Price Range (AED)">
               <div className="relative mt-1 h-1.5 w-full rounded-full bg-brand-pale">
-                <span className="absolute inset-y-0 left-[8%] right-[15%] rounded-full bg-brand" />
-                <span className="absolute left-[8%] top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand bg-white" />
-                <span className="absolute right-[15%] top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand bg-white" />
+                <span className="absolute inset-y-0 left-[8%] right-[15%] rounded-full bg-[#8C6A52]" />
+                <span className="absolute left-[8%] top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#8C6A52] bg-white" />
+                <span className="absolute right-[15%] top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#8C6A52] bg-white" />
               </div>
               <div className="mt-4 flex items-center gap-2">
-                <input defaultValue="500,000" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-brand" />
+                <input defaultValue="500,000" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-[#8C6A52]" />
                 <span className="text-ink-faint">to</span>
-                <input defaultValue="10,000,000+" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-brand" />
+                <input defaultValue="10,000,000+" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-[#8C6A52]" />
               </div>
             </FilterSection>
 
@@ -212,7 +219,7 @@ export default function ProjectsBrowser({ projects, developers }) {
               </div>
             </FilterSection>
 
-            <button className="mt-4 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-brand-dark">
+            <button className="mt-4 w-full rounded-lg bg-ink py-2.5 text-sm font-semibold text-cream transition-colors hover:bg-brand-deeper">
               Apply Filters
             </button>
           </div>
@@ -229,7 +236,7 @@ export default function ProjectsBrowser({ projects, developers }) {
                   onClick={() => setTab(t)}
                   className={
                     'whitespace-nowrap rounded-full border px-4 py-2 text-[13px] font-medium transition-colors ' +
-                    (tab === t ? 'border-brand bg-brand text-cream' : 'border-brand-pale bg-white text-ink-soft hover:border-brand-soft hover:text-ink')
+                    (tab === t ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale bg-white text-ink-soft hover:border-brand-soft hover:text-ink')
                   }
                 >
                   {t}
@@ -239,10 +246,10 @@ export default function ProjectsBrowser({ projects, developers }) {
 
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1 rounded-lg border border-brand-pale bg-white p-1">
-                <button onClick={() => setView('grid')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'grid' ? 'bg-brand text-cream' : 'text-ink-faint')}>
+                <button onClick={() => setView('grid')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'grid' ? 'bg-[#8C6A52] text-cream' : 'text-ink-faint')}>
                   <LayoutGrid size={15} />
                 </button>
-                <button onClick={() => setView('list')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'list' ? 'bg-brand text-cream' : 'text-ink-faint')}>
+                <button onClick={() => setView('list')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'list' ? 'bg-[#8C6A52] text-cream' : 'text-ink-faint')}>
                   <List size={15} />
                 </button>
               </div>
@@ -270,7 +277,7 @@ export default function ProjectsBrowser({ projects, developers }) {
                 key={i}
                 className={
                   'grid h-9 min-w-9 place-items-center rounded-lg px-2 text-sm font-medium ' +
-                  (n === '1' ? 'bg-brand text-cream' : n === '…' ? 'text-ink-faint' : 'border border-brand-pale text-ink-soft hover:bg-brand-pale')
+                  (n === '1' ? 'bg-[#8C6A52] text-cream' : n === '…' ? 'text-ink-faint' : 'border border-brand-pale text-ink-soft hover:bg-brand-pale')
                 }
               >
                 {n}

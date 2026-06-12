@@ -58,9 +58,9 @@ export default function Gallery({ images }) {
   const current = images[active];
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row">
+    <div className="flex flex-col gap-3 sm:h-[400px] sm:flex-row lg:h-[440px]">
       {/* Main image */}
-      <div className="group relative aspect-[16/11] flex-1 overflow-hidden rounded-2xl bg-[#e6e1d8]">
+      <div className="group relative h-[260px] flex-1 overflow-hidden rounded-2xl bg-[#e6e1d8] sm:h-full">
         <Photo image={current} className="h-full w-full object-cover" />
         <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
@@ -95,7 +95,7 @@ export default function Gallery({ images }) {
             key={img.id}
             type="button"
             onClick={() => setActive(i)}
-            className={`relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-xl transition sm:w-full ${
+            className={`relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-xl transition sm:aspect-auto sm:w-full sm:flex-1 sm:min-h-0 ${
               i === active ? 'ring-2 ring-[#8C6A57] ring-offset-2 ring-offset-[#F7F6F3]' : 'opacity-60 hover:opacity-100'
             }`}
           >

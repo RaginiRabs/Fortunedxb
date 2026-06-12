@@ -1,16 +1,35 @@
-import Card from '@/components/prototype1/Card';
-import { projects } from '@/mock/prototype1/projects';
+// prototype1 home page — Fortune Realty LLC landing. Multi-page site: home preview sections. Mock only.
+import Hero from '@/components/prototype1/Hero';
+import Partners from '@/components/prototype1/Partners';
+import Communities from '@/components/prototype1/Communities';
+import FeaturedProjects from '@/components/prototype1/FeaturedProjects';
+import DistressDeals from '@/components/prototype1/DistressDeals';
+import ResaleProperties from '@/components/prototype1/ResaleProperties';
+import Testimonials from '@/components/prototype1/Testimonials';
+import Reveal from '@/components/prototype1/Reveal';
+
+function Band({ children, tint = false, blob }) {
+  return (
+    <section className={`relative overflow-hidden ${tint ? 'bg-gradient-to-b from-[#faf6ef] to-white' : 'bg-white'}`}>
+      {blob && <div className={`pointer-events-none absolute h-80 w-80 rounded-full bg-[#80603f]/10 blur-3xl ${blob}`} />}
+      <Reveal className="relative mx-auto max-w-[1400px] px-4 py-16 md:px-8">{children}</Reveal>
+    </section>
+  );
+}
 
 export default function Prototype1Home() {
   return (
-    <section className="px-6 md:px-12 py-16">
-      <p className="text-[11px] uppercase tracking-[0.3em] text-[#B0905E]">Off-plan · Dubai</p>
-      <h1 className="mt-3 text-4xl md:text-6xl font-light tracking-tight">Featured Projects</h1>
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((p) => (
-          <Card key={p.id} project={p} />
-        ))}
-      </div>
-    </section>
+    <div className="bg-white">
+      {/* Hero — kept as-is */}
+      <Hero />
+      <Partners />
+
+      <Band blob="-left-32 top-10"><Communities /></Band>
+      <Band tint blob="-right-40 top-0"><FeaturedProjects /></Band>
+      <Band><DistressDeals /></Band>
+      <Band tint blob="-left-32 top-10"><ResaleProperties /></Band>
+
+      <Reveal><Testimonials /></Reveal>
+    </div>
   );
 }

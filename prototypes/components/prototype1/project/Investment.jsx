@@ -1,6 +1,7 @@
 // Investment — AED/sqft price-trend chart (project vs area) + ROI metric cards.
 // Lightweight hand-built SVG chart (no chart library). prototype1 ONLY. Mock.
 import { TrendingUp } from 'lucide-react';
+import Money from './Money';
 
 const W = 600;
 const H = 230;
@@ -42,7 +43,7 @@ export default function Investment({ investment }) {
         {investment.roi.map((r) => (
           <div key={r.label} className="rounded-2xl border border-black/[0.06] bg-white p-4">
             <p className="text-[11px] uppercase tracking-[0.14em] text-[#9a917f]">{r.label}</p>
-            <p className="mt-1 text-xl font-semibold text-[#1A1A1A]">{r.value}</p>
+            <p className="mt-1 text-xl font-semibold text-[#1A1A1A]"><Money>{r.value}</Money></p>
             <p className="mt-1 text-[12px] text-[#9a917f]">{r.hint}</p>
           </div>
         ))}

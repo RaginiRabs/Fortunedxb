@@ -4,6 +4,7 @@
 // prototype1 ONLY. Mock data. Inspired by investmentmap.ai's chess view.
 import { useEffect, useState } from 'react';
 import { Grid3x3, X, ChevronDown } from 'lucide-react';
+import Money from './Money';
 
 const money = (n) => {
   if (n >= 1_000_000) return `AED ${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
@@ -61,7 +62,7 @@ function FloorRow({ row, selected, onSelect }) {
           >
             {u.sold ? (
               <>
-                <p className="text-[16px] font-semibold text-[#1A1A1A]">{money(u.price)}</p>
+                <p className="text-[16px] font-semibold text-[#1A1A1A]"><Money>{money(u.price)}</Money></p>
                 <p className="mt-0.5 text-[11px] text-[#7a7a72]">
                   {u.sqft.toLocaleString()} sqft · {u.perSqft.toLocaleString()}/sqft
                 </p>
