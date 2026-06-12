@@ -1,29 +1,32 @@
-// prototype1 OWN layout + theme — dark luxury (charcoal + champagne gold).
+// prototype1 OWN layout + theme — light luxury (white + champagne gold).
+// Fonts: Montserrat (headings) + Work Sans (body), loaded by the browser via
+// a Google Fonts <link> (next/font is avoided so the build stays offline-safe).
+import Navbar from '@/components/prototype1/Navbar';
+import Footer from '@/components/prototype1/Footer';
+
 export const metadata = { title: 'Fortune Realty L.L.C — Prototype 1' };
 
 export default function Prototype1Layout({ children }) {
   return (
-    <div className="min-h-screen bg-[#F7F6F3] text-[#1A1A1A] flex flex-col font-sans">
-      <header className="flex items-center justify-between border-b border-black/[0.06] bg-white px-6 md:px-12 py-3">
-        <a href="/prototype1" className="inline-flex">
-          <img src="/images/fortune-logo.png" alt="Fortune Realty L.L.C" className="h-9 w-auto" />
-        </a>
-        <nav className="flex items-center gap-6 text-[13px] font-medium text-[#5B5B5B]">
-          <a href="/prototype1" className="hover:text-[#8C6A57] transition-colors">Home</a>
-          <a href="/" className="hover:text-[#8C6A57] transition-colors">Projects</a>
-          <a
-            href="#"
-            className="rounded-full bg-[#8C6A57] px-4 py-2 text-white hover:bg-[#74543F] transition-colors"
-          >
-            Contact Us
-          </a>
-        </nav>
-      </header>
-      <main className="flex-1">{children}</main>
-      <footer className="flex flex-col items-center gap-2 border-t border-black/[0.06] bg-white px-6 md:px-12 py-8 text-center">
-        <img src="/images/fortune-logo.png" alt="Fortune Realty L.L.C" className="h-7 w-auto" />
-        <p className="text-xs text-[#9a917f]">© Fortune Realty L.L.C · Prototype · mock data</p>
-      </footer>
-    </div>
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Work+Sans:wght@300;400;500;600&display=swap"
+      />
+      <style>{`
+        .p1-root { font-family: "Work Sans", "Work Sans Fallback", system-ui, sans-serif; }
+        .p1-root h1, .p1-root h2, .p1-root h3, .p1-root h4, .p1-root h5, .p1-root h6 {
+          font-family: "Montserrat", "Montserrat Fallback", system-ui, sans-serif;
+        }
+      `}</style>
+
+      <div className="p1-root min-h-screen bg-white text-[#1a1a1a] flex flex-col">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
+    </>
   );
 }

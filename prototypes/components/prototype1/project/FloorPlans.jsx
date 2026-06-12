@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { ChevronDown, Layers, Maximize2, X, ChevronLeft, ChevronRight, Compass } from 'lucide-react';
 import SmartImg from './SmartImg';
+import Money from './Money';
 
 // Schematic placeholder shown until the real plan image is dropped in /public.
 function PlanSketch({ small = false }) {
@@ -42,7 +43,7 @@ function Group({ group, open, onToggle, onOpenPlan }) {
       >
         <div className="flex-1">
           <span className="text-base font-semibold text-[#1A1A1A]">{group.type}</span>
-          <span className="ml-2 text-sm text-[#8a8a8a]">from {group.fromPrice}</span>
+          <span className="ml-2 text-sm text-[#8a8a8a]">from <Money>{group.fromPrice}</Money></span>
         </div>
         <span className="hidden items-center gap-1.5 text-[13px] text-[#6B6B6B] sm:inline-flex">
           <Maximize2 size={13} />
@@ -148,7 +149,7 @@ function PlanModal({ list, index, setIndex, fromPrice, groupType, onClose }) {
           </div>
           <div className="text-right">
             <p className="text-[11px] uppercase tracking-[0.14em] text-[#9a917f]">Starting from</p>
-            <p className="text-lg font-semibold text-[#1A1A1A]">{fromPrice}</p>
+            <p className="text-lg font-semibold text-[#1A1A1A]"><Money>{fromPrice}</Money></p>
           </div>
         </div>
       </div>

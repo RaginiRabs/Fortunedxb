@@ -1,4 +1,5 @@
 // Transactions — recent sales table. prototype1 ONLY. Mock.
+import Money from './Money';
 
 export default function Transactions({ transactions }) {
   return (
@@ -28,7 +29,7 @@ export default function Transactions({ transactions }) {
                   </td>
                   <td className="px-5 py-3.5 text-[#3A3A3A]">{t.beds}</td>
                   <td className="px-5 py-3.5 text-[#5B5B5B]">{t.size}</td>
-                  <td className="px-5 py-3.5 text-right font-semibold text-[#1A1A1A]">{t.price}</td>
+                  <td className="px-5 py-3.5 text-right font-semibold text-[#1A1A1A]"><Money>{t.price}</Money></td>
                 </tr>
               ))}
             </tbody>

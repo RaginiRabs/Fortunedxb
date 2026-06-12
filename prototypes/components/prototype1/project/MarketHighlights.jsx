@@ -1,5 +1,6 @@
 // Market Highlights — grid of key-stat cards. prototype1 ONLY. Mock.
 import { Building2, Calendar, CircleCheck, Clock, DollarSign, Activity } from 'lucide-react';
+import Money from './Money';
 
 const ICONS = {
   building: Building2,
@@ -28,7 +29,7 @@ export default function MarketHighlights({ highlights }) {
               <p className="mt-3 text-[11px] uppercase tracking-[0.16em] text-[#9a917f]">
                 {h.label}
               </p>
-              <p className="mt-0.5 text-lg font-semibold text-[#1A1A1A]">{h.value}</p>
+              <p className="mt-0.5 text-lg font-semibold text-[#1A1A1A]"><Money>{h.value}</Money></p>
             </div>
           );
         })}
