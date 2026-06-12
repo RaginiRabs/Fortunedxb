@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST https://overpass-api.de/api/interpreter --data-urlencode 'data=[out:json][timeout:120];area\\(3603766483\\)->.dubai;\\(relation[\"name\"~\"مرسى دبي|Marsa Dubai\",i]\\(area.dubai\\);way[\"name\"~\"مرسى دبي|Marsa Dubai\",i]\\(area.dubai\\);relation[\"name\"=\"Dubai Marina\"]\\(area.dubai\\);way[\"name\"=\"Dubai Marina\"]\\(area.dubai\\);\\);out tags;' -o marina_check.json)",
+      "Bash(curl -s -X POST https://overpass-api.de/api/interpreter --data @q.txt -o marina_check.json)",
+      "Bash(curl -s -X POST https://overpass-api.de/api/interpreter --data @q.txt -o dubai_residential.json)",
+      "Bash(curl -s -X POST https://overpass.kumi.systems/api/interpreter --data @q.txt -o dubai_residential.json)",
+      "Bash(npx -y osmtogeojson dubai_osm.json)",
+      "Bash(npx -y osmtogeojson dubai_places.json)",
+      "Bash(npx -y osmtogeojson dubai_residential.json)",
+      "Bash(cd \"/c/Users/DELL/Desktop/Rabs_Ragini/Fortunedxb_next/prototypes/mock/prototype4\" && cp export.geojson export.geojson.bak && node merge_areas.js)",
+      "Read(//c/tmp/**)",
+      "Bash(curl -s -L --max-time 60 \"https://dxbinteract.com/dubai-house-prices/\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/126.0 Safari/537.36\" -o dxb_page.html)",
+      "Bash(curl -s --max-time 60 \"https://hub.arcgis.com/api/v3/datasets?q=dubai%20communities&page%5Bsize%5D=10\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s --max-time 90 \"https://hub.arcgis.com/api/v3/datasets/e89d8423fac047d49d97386002de27c6_0\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(curl -s --max-time 120 \"https://services6.arcgis.com/ckJWw331Vb2Y6f5Q/arcgis/rest/services/Dubai_Communities/FeatureServer/0/query?where=1%3D1&outFields=Community_,Descriptio&outSR=4326&f=geojson&resultRecordCount=2000\" -H \"User-Agent: Mozilla/5.0\" -o dld_communities.geojson)",
+      "Bash(curl -s --max-time 90 \"https://hub.arcgis.com/api/v3/datasets/1f513e1cba094fc7a608a1c3b69204db\" -H \"User-Agent: Mozilla/5.0\")",
+      "Bash(cp export.geojson ../../public/data/dubai_communities.geojson)",
+      "Bash(rm -f transform_dxb.js dld_communities.geojson)"
+    ],
+    "additionalDirectories": [
+      "c:\\c\\Users\\DELL\\Desktop\\Rabs_Ragini\\Fortunedxb_next\\prototypes\\mock\\prototype4"
+    ]
+  }
+}
