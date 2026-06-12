@@ -19,13 +19,15 @@ const compact = (n) =>
 export default function Card({ project }) {
   const accent = typeAccent[project.type] || typeAccent['off-plan'];
   const savings = project.marketPrice ? project.marketPrice - project.priceFrom : 0;
+  // All cards use the new UAE dirham symbol in place of the "AED" text.
+  const aed = <DirhamSign className="inline-block h-[0.9em] w-[0.9em] align-[-0.12em]" />;
 
   // Three most decision-relevant facts per type — Handover only shows for off-plan
   const specs =
     project.type === 'distress'
       ? [
-          { label: 'Discount', value: `${project.discount}%`, accent: 'red' },
-          { label: 'You save', value: `AED ${compact(savings)}`, accent: 'green' },
+          { label: 'Discount', value: `${project.discount}%`, accent: 'green' },
+          { label: 'You save', value: <>{aed}{compact(savings)}</>, accent: 'green' },
           { label: 'Yield', value: project.yield },
         ]
       : project.type === 'resale'
@@ -73,12 +75,12 @@ export default function Card({ project }) {
                 {project.type === 'distress' ? 'Distress price' : 'Starting from'}
               </p>
               {project.type === 'distress' && project.marketPrice && (
-                <p className="text-xs leading-none text-white/55 line-through">
-                  AED {project.marketPrice.toLocaleString()}
+                <p className="text-xs leading-none text-white/55 line-through" dir="ltr">
+                  {aed}{project.marketPrice.toLocaleString()}
                 </p>
               )}
-              <p className="text-[22px] leading-tight sm:text-[26px]" style={{ fontFamily: HEAD, fontWeight: 600 }}>
-                AED {project.priceFrom.toLocaleString()}
+              <p className="text-[22px] leading-tight sm:text-[26px]" style={{ fontFamily: HEAD, fontWeight: 600 }} dir="ltr">
+                {aed}{project.priceFrom.toLocaleString()}
               </p>
             </div>
 
@@ -126,16 +128,18 @@ export default function Card({ project }) {
           <p className="mt-2 hidden text-[12.5px] leading-relaxed text-[#9A9AA3] sm:line-clamp-2">{project.highlight}</p>
 
           {/* divided spec strip — 3 decision facts */}
-          <div className="mt-3.5 grid grid-cols-3 divide-x divide-[rgba(10,10,18,0.10)] overflow-hidden rounded-xl border border-[rgba(10,10,18,0.10)] bg-[#FAFAF8] sm:mt-4">
-            {specs.map((s) => (
-              <div key={s.label} className="px-2.5 py-2.5 sm:px-3 sm:py-3">
-                <p className="whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.08em] text-[#9A9AA3]">{s.label}</p>
+          {/* metrics — equal thirds, value on top (left), label below; clean dividers, wraps not cut */}
+          <div className="mt-4 grid grid-cols-3 divide-x divide-[rgba(10,10,18,0.07)] border-t border-[rgba(10,10,18,0.08)] pt-3.5">
+            {specs.map((s, i) => (
+              <div key={s.label} className="min-w-0 px-3 first:pl-0 last:pr-0">
                 <p
-                  className={`mt-1.5 whitespace-nowrap text-[15px] font-bold leading-none ${s.accent === 'red' ? 'text-[#C83C3C]' : s.accent === 'green' ? 'text-[#2E9E63]' : 'text-[#0A0A12]'}`}
+                  dir="ltr"
+                  className={`break-words text-[13px] font-bold leading-tight sm:text-[15px] ${['text-[#2E9E63]', 'text-[#CA8A04]', 'text-[#2F6FAE]'][i]}`}
                   style={{ fontFamily: HEAD }}
                 >
                   {s.value}
                 </p>
+                <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.06em] text-[#9A9AA3]">{s.label}</p>
               </div>
             ))}
           </div>
@@ -154,5 +158,29 @@ export default function Card({ project }) {
         </div>
       </article>
     </Link>
+  );
+}
+
+// New UAE Dirham symbol (2025) — drawn inline so it renders everywhere regardless of font support.
+function DirhamSign({ className = '' }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      role="img"
+      aria-label="AED"
+    >
+      {/* D letterform */}
+      <path d="M8 4.5h3.5a7.5 7.5 0 0 1 0 15H8z" />
+      <path d="M8 4.5v15" />
+      {/* two horizontal bars */}
+      <path d="M3.5 10.3h9.2" />
+      <path d="M3.5 14.3h9.2" />
+    </svg>
   );
 }
