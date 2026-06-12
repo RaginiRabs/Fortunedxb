@@ -97,7 +97,7 @@ export default function MarketMapGL({ center = DUBAI.center, zoom = DUBAI.zoom }
   // push data to the source + fit bounds when it changes
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !ready) return;
+    if (!map || !ready || !map.isStyleLoaded()) return;
     const src = map.getSource('communities');
     if (src) src.setData(data);
     try {
@@ -109,7 +109,7 @@ export default function MarketMapGL({ center = DUBAI.center, zoom = DUBAI.zoom }
   useEffect(() => {
     metricRef.current = metric;
     const map = mapRef.current;
-    if (!map || !ready) return;
+    if (!map || !ready || !map.isStyleLoaded()) return;
     map.setPaintProperty('comm-fill', 'fill-color', rampExpression(metric));
     map.setPaintProperty('comm-fill', 'fill-opacity', mode === 'areas' ? 0.7 : 0.14);
   }, [metric, mode, ready]);
@@ -117,7 +117,7 @@ export default function MarketMapGL({ center = DUBAI.center, zoom = DUBAI.zoom }
   // project-count badges (projects mode)
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !ready) return;
+    if (!map || !ready || !map.isStyleLoaded()) return;
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
     if (mode === 'projects') {

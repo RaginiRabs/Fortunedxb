@@ -1,19 +1,20 @@
 // Topbar — back, brand, actions. prototype3 ONLY.
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Bookmark, Share2 } from 'lucide-react';
 
 export default function TopBar({ project }) {
   const [solid, setSolid] = useState(false);
 
-  if (typeof window !== 'undefined') {
-    if (!window.__topbarListener) {
-      window.__topbarListener = true;
-      window.addEventListener('scroll', () => {
-        setSolid(window.scrollY > 60);
-      }, { passive: true });
-    }
-  }
+  useEffect(() => {
+    const handleScroll = () => setSolid(window.scrollY > 60);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-60 flex items-center justify-between px-4 py-3 transition-all ${solid ? 'bg-white/82 backdrop-blur-[14px] border-b border-black/10 shadow-sm' : ''}`}>

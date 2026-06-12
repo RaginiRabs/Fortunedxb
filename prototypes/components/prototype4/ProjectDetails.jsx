@@ -626,7 +626,7 @@ export default function ProjectDetails({ project }) {
 
               <div className="mt-5 pt-5 border-t border-[#e8e2da]">
                 <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL}`}>Launch Price ({project.launchPriceDate})</p>
-                <p className="mt-1 text-3xl font-bold text-[#2f6fae] font-[family-name:var(--font-heading)] tabular-nums">{money(project.priceFrom)}</p>
+                <p className="mt-1 text-3xl font-bold text-[#6a4b2e] font-[family-name:var(--font-heading)] tabular-nums">{money(project.priceFrom)}</p>
                 <p className="mt-1 text-[11px] text-[#675c4e]">Data as of {project.launchPriceDate}</p>
               </div>
 
@@ -644,7 +644,7 @@ export default function ProjectDetails({ project }) {
 
               <button
                 onClick={() => openLead()}
-                className="bg-[#2f6fae] mt-5 w-full text-white text-sm font-bold uppercase tracking-[0.1em] py-3 rounded-lg transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#3a7fc4] hover:shadow-[0_12px_32px_-6px_rgba(47,111,174,0.5)]"
+                className="bg-[#80603f] mt-5 w-full text-white text-sm font-bold uppercase tracking-[0.1em] py-3 rounded-lg transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#9d7754] hover:shadow-[0_12px_32px_-6px_rgba(128,96,63,0.5)]"
               >
                 Register Your Interest
               </button>
@@ -694,9 +694,9 @@ export default function ProjectDetails({ project }) {
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-[#e8e2da] px-4 py-3 flex items-center gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.14em] text-[#675c4e]">From</p>
-          <p className="text-base font-bold text-[#2f6fae] tabular-nums leading-none">{money(project.priceFrom)}</p>
+          <p className="text-base font-bold text-[#6a4b2e] tabular-nums leading-none">{money(project.priceFrom)}</p>
         </div>
-        <button onClick={() => openLead()} className="bg-[#2f6fae] ml-auto text-white text-sm font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-lg hover:bg-[#3a7fc4]">
+        <button onClick={() => openLead()} className="bg-[#80603f] ml-auto text-white text-sm font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-lg hover:bg-[#9d7754]">
           Register Interest
         </button>
       </div>
