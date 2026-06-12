@@ -3,6 +3,7 @@
 import { Phone, MessageCircle, BadgeCheck } from 'lucide-react';
 import DevLogo from './DevLogo';
 import RegisterInterest from './RegisterInterest';
+import Money from './Money';
 
 export default function DeveloperCard({ project }) {
   const { developer, developerTag, developerLogo, launch } = project;
@@ -28,7 +29,7 @@ export default function DeveloperCard({ project }) {
         <p className="text-[11px] uppercase tracking-[0.18em] text-[#9a917f]">{launch.label}</p>
         <div className="mt-1 flex items-baseline gap-2">
           <p className="font-serif text-[32px] leading-none text-[#1A1A1A]">
-            AED {launch.price.toLocaleString()}
+            <Money>{`AED ${launch.price.toLocaleString()}`}</Money>
           </p>
         </div>
 

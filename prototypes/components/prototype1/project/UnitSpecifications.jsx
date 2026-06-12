@@ -1,4 +1,5 @@
 // Unit Specifications — distribution bar + responsive specs table. prototype1 ONLY. Mock.
+import Money from './Money';
 
 function DistributionBar({ distribution }) {
   return (
@@ -52,8 +53,8 @@ export default function UnitSpecifications({ distribution, specs }) {
                   <td className="px-5 py-4 font-medium text-[#1A1A1A]">{s.beds}</td>
                   <td className="px-5 py-4 text-[#5B5B5B]">{s.sizes}</td>
                   <td className="px-5 py-4">
-                    <span className="font-semibold text-[#1A1A1A]">{s.avgPrice}</span>
-                    <span className="block text-[12px] text-[#9a917f]">{s.perSqft}</span>
+                    <span className="font-semibold text-[#1A1A1A]"><Money>{s.avgPrice}</Money></span>
+                    <span className="block text-[12px] text-[#9a917f]"><Money>{s.perSqft}</Money></span>
                   </td>
                   <td className="px-5 py-4 text-[#5B5B5B]">{s.type}</td>
                   <td className="px-5 py-4 text-[#5B5B5B]">{s.units}</td>
