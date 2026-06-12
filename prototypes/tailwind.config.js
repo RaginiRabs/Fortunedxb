@@ -29,8 +29,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif, ui-serif)', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        sans: ['var(--font-sans, ui-sans-serif)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
       },
       boxShadow: {
         card: '0 1px 2px rgba(58,44,34,0.04), 0 8px 24px rgba(58,44,34,0.06)',

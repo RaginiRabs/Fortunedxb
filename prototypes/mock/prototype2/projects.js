@@ -1,10 +1,51 @@
 // Mock data for prototype2 ONLY. Mock only — no backend, no API.
-// List used by the old card view.
+// Listing used by the home + projects pages (each links to /prototype2/[id]).
 export const projects = [
-  { id: 1, name: 'Marina Heights', developer: 'Emaar', area: 'Dubai Marina', priceFrom: 1850000, status: 'New Launch' },
-  { id: 2, name: 'Palm Vista Residences', developer: 'Nakheel', area: 'Palm Jumeirah', priceFrom: 4200000, status: 'Under Construction' },
-  { id: 3, name: 'Downtown Pulse', developer: 'DAMAC', area: 'Downtown Dubai', priceFrom: 2650000, status: 'Ready' },
-  { id: 4, name: 'Creek Horizon', developer: 'Emaar', area: 'Dubai Creek', priceFrom: 3100000, status: 'New Launch' },
+  { id: 1, name: 'One By Nine', developer: 'Nine Developments', area: 'Nad Al Sheba First, Dubai', priceFrom: 610000, priceLabel: 'AED 610,000', beds: '1 - 3', units: 47, roi: '7.2%', status: 'New Launch', type: 'Apartments', availability: 'Off Plan', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80' },
+  { id: 2, name: 'Sobha One', developer: 'Sobha Realty', area: 'Sobha Hartland, Dubai', priceFrom: 2400000, priceLabel: 'AED 2.40M', beds: '1 - 4', units: 412, roi: '6.8%', status: 'Featured', type: 'Apartments', availability: 'Off Plan', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80' },
+  { id: 3, name: 'Binghatti Skyrise', developer: 'Binghatti', area: 'Business Bay, Dubai', priceFrom: 1700000, priceLabel: 'AED 1.70M', beds: 'Studio - 3', units: 386, roi: '7.1%', status: 'Off Plan', type: 'Apartments', availability: 'Off Plan', image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&q=80' },
+  { id: 4, name: 'Azizi Venice', developer: 'Azizi', area: 'Dubai South, Dubai', priceFrom: 1200000, priceLabel: 'AED 1.20M', beds: 'Studio - 2', units: 268, roi: '6.5%', status: 'New Launch', type: 'Apartments', availability: 'Off Plan', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80' },
+  { id: 5, name: 'Danube Bayz', developer: 'Danube Properties', area: 'Business Bay, Dubai', priceFrom: 1600000, priceLabel: 'AED 1.60M', beds: '1 - 3', units: 256, roi: '7.0%', status: 'Off Plan', type: 'Apartments', availability: 'Off Plan', image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80' },
+  { id: 6, name: 'Palm Beach Towers', developer: 'Nakheel', area: 'Palm Jumeirah, Dubai', priceFrom: 4800000, priceLabel: 'AED 4.80M', beds: '1 - 4', units: 320, roi: '6.2%', status: 'Featured', type: 'Apartments', availability: 'Ready', image: 'https://images.unsplash.com/photo-1546412414-e1885259563a?auto=format&fit=crop&w=1200&q=80' },
+  { id: 7, name: 'The Valley', developer: 'Emaar', area: 'Dubai Land, Dubai', priceFrom: 1100000, priceLabel: 'AED 1.10M', beds: '3 - 4', units: 500, roi: '6.0%', status: 'Off Plan', type: 'Villas', availability: 'Off Plan', image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=1200&q=80' },
+  { id: 8, name: 'Sobha Verde', developer: 'Sobha Realty', area: 'Jumeirah Lake Towers, Dubai', priceFrom: 1500000, priceLabel: 'AED 1.50M', beds: '1 - 2', units: 182, roi: '6.7%', status: 'New Launch', type: 'Apartments', availability: 'Ready', image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80' },
+];
+
+// Distress deals (discounted / repossessed listings).
+export const distressDeals = [
+  { id: 1, name: 'Marina Heights Tower', area: 'Dubai Marina, Dubai', price: 1250000, original: 2080000, discount: 40, below: 40, dealType: 'Bank Repossessed', beds: '2 Bed', sqft: '1,235 sqft', type: 'Apartment', secondsLeft: 311325, image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80' },
+  { id: 2, name: 'The Springs 11', area: 'The Springs, Dubai', price: 2150000, original: 3300000, discount: 35, below: 35, dealType: 'Motivated Seller', beds: '3 Bed', sqft: '2,745 sqft', type: 'Villa', secondsLeft: 202530, image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80' },
+  { id: 3, name: 'JLT Cluster P', area: 'Jumeirah Lake Towers, Dubai', price: 850000, original: 1210000, discount: 30, below: 30, dealType: 'Off Market Deal', beds: '1 Bed', sqft: '850 sqft', type: 'Apartment', secondsLeft: 132010, image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80' },
+  { id: 4, name: 'Jumeirah Village Circle', area: 'JVC, Dubai', price: 1780000, original: 2450000, discount: 28, below: 28, dealType: 'Auction Property', beds: '4 Bed', sqft: '3,100 sqft', type: 'Villa', secondsLeft: 380000, image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80' },
+  { id: 5, name: 'Burj Views A', area: 'Downtown Dubai', price: 1950000, original: 2600000, discount: 25, below: 25, dealType: 'Bank Repossessed', beds: '2 Bed', sqft: '1,100 sqft', type: 'Apartment', secondsLeft: 311285, image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80' },
+  { id: 6, name: 'Arabian Ranches 3', area: 'Arabian Ranches, Dubai', price: 1680000, original: 2150000, discount: 22, below: 22, dealType: 'Motivated Seller', beds: '3 Bed', sqft: '2,200 sqft', type: 'Townhouse', secondsLeft: 231055, image: 'https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1200&q=80' },
+  { id: 7, name: 'Business Bay Lux Tower', area: 'Business Bay, Dubai', price: 1100000, original: 1375000, discount: 20, below: 20, dealType: 'Off Market Deal', beds: 'Studio', sqft: '550 sqft', type: 'Apartment', secondsLeft: 114315, image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80' },
+  { id: 8, name: 'Executive Bay Tower', area: 'Business Bay, Dubai', price: 3400000, original: 4000000, discount: 15, below: 15, dealType: 'Auction Property', beds: 'Office', sqft: '2,100 sqft', type: 'Commercial', secondsLeft: 473140, image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80' },
+];
+
+export const dealTypeFacets = [
+  { name: 'All Deals', count: 128 },
+  { name: 'Bank Repossessed', count: 42 },
+  { name: 'Motivated Seller', count: 36 },
+  { name: 'Auction Properties', count: 18 },
+  { name: 'Off Market Deals', count: 32 },
+];
+
+export const discountFacets = [
+  { name: '10% - 20%', count: 28 },
+  { name: '20% - 30%', count: 46 },
+  { name: '30% - 40%', count: 32 },
+  { name: '40%+', count: 22 },
+];
+
+// Sidebar facets for the projects browser.
+export const developerFacets = [
+  { name: 'All Developers', count: 500 },
+  { name: 'Emaar', count: 98 },
+  { name: 'Nakheel', count: 76 },
+  { name: 'Sobha Realty', count: 64 },
+  { name: 'Danube Properties', count: 52 },
+  { name: 'Binghatti', count: 45 },
 ];
 
 // Full single-project detail — drives the property overview page.
