@@ -33,16 +33,32 @@ export const topCommunities = [
 ];
 
 export const featuredProjects = [
-  { id: 1, name: 'Serenia Living', area: 'Palm Jumeirah', developer: 'Nakheel', price: '2.4M', handover: '2027', featured: true, img: img('1546412414-e1885259563a') },
-  { id: 2, name: 'Bayview by Address', area: 'Emaar Beachfront', developer: 'Emaar', price: '3.2M', handover: '2026', featured: false, img: img('1526495124232-a04e1849168c') },
-  { id: 3, name: 'Sobha One', area: 'Sobha Hartland', developer: 'Sobha Realty', price: '2.1M', handover: '2028', featured: false, img: img('1580674684081-7617fbf3d745') },
-  { id: 4, name: 'Binghatti Skyhall', area: 'Business Bay', developer: 'Binghatti', price: '1.7M', handover: '2026', featured: false, img: img('1597659840241-37e2b9c2f55f') },
+  { id: 1, name: 'Sobha One', location: 'Sobha Hartland, Dubai', status: 'Featured', price: '2.40M', beds: '1 - 4', units: 412, roi: '6.8%', img: img('1580674684081-7617fbf3d745') },
+  { id: 2, name: 'Binghatti Skyrise', location: 'Business Bay, Dubai', status: 'Off Plan', price: '1.70M', beds: 'Studio - 3', units: 386, roi: '7.1%', img: img('1597659840241-37e2b9c2f55f') },
+  { id: 3, name: 'Serenia Living', location: 'Palm Jumeirah, Dubai', status: 'New Launch', price: '2.40M', beds: '1 - 3', units: 128, roi: '6.5%', img: img('1546412414-e1885259563a') },
+  { id: 4, name: 'Azizi Venice', location: 'Dubai South, Dubai', status: 'New Launch', price: '1.20M', beds: 'Studio - 2', units: 268, roi: '6.5%', img: img('1526495124232-a04e1849168c') },
+];
+
+export const distressDeals = [
+  { id: 1, name: 'Marina Heights Tower', location: 'Dubai Marina, Dubai', dealType: 'Bank Repossessed', discount: 40, dealPrice: '1,250,000', marketPrice: '2,080,000', beds: '2 Bed', sqft: '1,235 sqft', type: 'Apartment', expires: '03d : 14h : 28m', img: img('1528702748617-c64d49f918af') },
+  { id: 2, name: 'The Springs 11', location: 'The Springs, Dubai', dealType: 'Motivated Seller', discount: 35, dealPrice: '2,150,000', marketPrice: '3,300,000', beds: '3 Bed', sqft: '2,745 sqft', type: 'Villa', expires: '02d : 08h : 15m', img: img('1489516408517-0c0a15662682') },
+  { id: 3, name: 'JLT Cluster P', location: 'Jumeirah Lake Towers, Dubai', dealType: 'Off Market Deal', discount: 30, dealPrice: '850,000', marketPrice: '1,210,000', beds: '1 Bed', sqft: '850 sqft', type: 'Apartment', expires: '01d : 12h : 40m', img: img('1582672060674-bc2bd808a8b5') },
+  { id: 4, name: 'JVC Garden Villa', location: 'JVC, Dubai', dealType: 'Auction Property', discount: 28, dealPrice: '1,780,000', marketPrice: '2,450,000', beds: '4 Bed', sqft: '3,100 sqft', type: 'Villa', expires: '04d : 09h : 33m', img: img('1518684079-3c830dcef090') },
+];
+
+export const resaleProperties = [
+  { id: 1, name: 'Burj Royale', location: 'Downtown Dubai', tag: 'BEST PRICE', tone: 'bg-emerald-500', price: '2,650,000', marketPrice: '2,950,000', below: 10, beds: '2 Bed', sqft: '1,184 sq.ft', type: 'Apartment', img: img('1512453979798-5ea266f8880c') },
+  { id: 2, name: 'Marina Gate 2', location: 'Dubai Marina', tag: 'HOT DEAL', tone: 'bg-red-500', price: '1,850,000', marketPrice: '2,100,000', below: 12, beds: '1 Bed', sqft: '876 sq.ft', type: 'Apartment', img: img('1528702748617-c64d49f918af') },
+  { id: 3, name: 'Maple 2', location: 'Dubai Hills Estate', tag: 'GREAT VALUE', tone: 'bg-[#80603f]', price: '5,400,000', marketPrice: '6,200,000', below: 13, beds: '4 Bed', sqft: '3,523 sq.ft', type: 'Villa', img: img('1546412414-e1885259563a') },
+  { id: 4, name: 'Sobha Creek Vistas', location: 'Sobha Hartland', tag: 'URGENT SALE', tone: 'bg-purple-500', price: '1,720,000', marketPrice: '2,000,000', below: 14, beds: '1 Bed', sqft: '780 sq.ft', type: 'Apartment', img: img('1597659840241-37e2b9c2f55f') },
+  { id: 5, name: 'BLVD Heights', location: 'Downtown Dubai', tag: 'BEST PRICE', tone: 'bg-emerald-500', price: '2,300,000', marketPrice: '2,650,000', below: 13, beds: '2 Bed', sqft: '1,098 sq.ft', type: 'Apartment', img: img('1518684079-3c830dcef090') },
+  { id: 6, name: 'Vida Residence 1', location: 'Dubai Marina', tag: 'HOT DEAL', tone: 'bg-red-500', price: '2,100,000', marketPrice: '2,450,000', below: 14, beds: '2 Bed', sqft: '1,146 sq.ft', type: 'Apartment', img: img('1582672060674-bc2bd808a8b5') },
 ];
 
 export const marketInsights = [
-  { id: 1, label: 'Price Trend', value: '+12.5%', sub: 'vs last year', accent: '#B89149' },
-  { id: 2, label: 'ROI Growth', value: '+6.8%', sub: 'vs last year', accent: '#B89149' },
-  { id: 3, label: 'Demand', value: 'High', sub: 'in Luxury Segment', accent: '#B89149' },
+  { id: 1, label: 'Price Trend', value: '+12.5%', sub: 'vs last year', accent: '#80603f' },
+  { id: 2, label: 'ROI Growth', value: '+6.8%', sub: 'vs last year', accent: '#80603f' },
+  { id: 3, label: 'Demand', value: 'High', sub: 'in Luxury Segment', accent: '#80603f' },
 ];
 
 export const whyInvest = [
@@ -85,7 +101,48 @@ export const metroPaths = [
   { color: '#C8A227', path: [[25.08, 55.14], [25.05, 55.16], [25.04, 55.19], [25.06, 55.22], [25.09, 55.24]] },
 ];
 
-export const partners = ['Emaar', 'Nakheel', 'Sobha', 'DAMAC', 'Binghatti', 'Azizi', 'Meraas', 'Danube'];
+export const partners = [
+  { name: 'Emaar', domain: 'emaar.com' },
+  { name: 'Nakheel', domain: 'nakheel.com' },
+  { name: 'Sobha', domain: 'sobharealty.com' },
+  { name: 'DAMAC', domain: 'damacproperties.com' },
+  { name: 'Binghatti', domain: 'binghatti.com' },
+  { name: 'Azizi', domain: 'azizidevelopments.com' },
+  { name: 'Meraas', domain: 'meraas.com' },
+  { name: 'Danube', domain: 'danubeproperties.com' },
+  { name: 'Ellington', domain: 'ellingtonproperties.ae' },
+  { name: 'Omniyat', domain: 'omniyat.com' },
+];
+
+export const exploreCategories = [
+  { label: 'Off Plan Projects', count: '320 Listings', img: img('1597659840241-37e2b9c2f55f') },
+  { label: 'Ready Properties', count: '210 Listings', img: img('1512453979798-5ea266f8880c') },
+  { label: 'Resale Properties', count: '258 Listings', img: img('1546412414-e1885259563a') },
+  { label: 'Distress Deals', count: '128 Listings', img: img('1582672060674-bc2bd808a8b5') },
+  { label: 'Luxury Villas', count: '96 Listings', img: img('1489516408517-0c0a15662682') },
+  { label: 'Waterfront Homes', count: '74 Listings', img: img('1528702748617-c64d49f918af') },
+];
+
+export const aboutStats = [
+  { value: '12+', label: 'Years Experience' },
+  { value: '5,000+', label: 'Happy Clients' },
+  { value: '500+', label: 'Projects Sold' },
+  { value: 'AED 2B+', label: 'Total Sales' },
+];
+
+export const aboutPoints = [
+  'RERA-certified advisors with deep local market expertise',
+  'Exclusive access to off-plan, resale & distress inventory',
+  'End-to-end support — buying, financing & relocation',
+  'Transparent deals with verified, honest pricing',
+];
+
+export const agents = [
+  { id: 1, name: 'Rachel Jensen', role: 'Senior Broker', phone: '+971 50 111 2233', deals: '120+ Deals', img: img('1494790108377-be9c29b29330', 500) },
+  { id: 2, name: 'Omar Khalid', role: 'Property Advisor', phone: '+971 50 222 3344', deals: '95+ Deals', img: img('1500648767791-00dcc994a43e', 500) },
+  { id: 3, name: 'David Chen', role: 'Investment Specialist', phone: '+971 50 333 4455', deals: '140+ Deals', img: img('1507003211169-0a1dd7228f2d', 500) },
+  { id: 4, name: 'Sofia Martinez', role: 'Luxury Consultant', phone: '+971 50 444 5566', deals: '110+ Deals', img: img('1438761681033-6461ffad8d80', 500) },
+];
 
 export const testimonials = [
   {
@@ -115,7 +172,7 @@ export const testimonials = [
 ];
 
 export const footerLinks = {
-  quick: ['Home', 'Projects', 'Developers', 'Communities', 'Market Insights', 'About Us', 'Contact Us'],
+  quick: ['Home', 'Projects', 'Distress Deals', 'Resale Properties', 'About Us', 'Contact Us'],
   categories: [
     'Off Plan Projects',
     'Ready Properties',

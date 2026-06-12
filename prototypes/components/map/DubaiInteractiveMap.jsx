@@ -246,6 +246,7 @@ export default function DubaiInteractiveMap({
   projectCounts = {},
   initialZoom = 10.5,
   center = [55.2744, 25.2048],
+  focus = null,
 }) {
   const ref = useRef(null);
   const mapRef = useRef(null);
@@ -637,6 +638,13 @@ export default function DubaiInteractiveMap({
     if (!map || !ready) return;
     map.getSource('badges')?.setData(badgesGeoJSON(communitiesRef.current, projectCounts));
   }, [ready, projectCounts]);
+
+  // optional: fly to an externally-selected community (controlled by a side panel)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready || !focus?.center) return;
+    map.flyTo({ center: focus.center, zoom: focus.zoom ?? 12.5, duration: 900, essential: true });
+  }, [ready, focus?.center?.[0], focus?.center?.[1], focus?.zoom]);
 
   return (
     <div

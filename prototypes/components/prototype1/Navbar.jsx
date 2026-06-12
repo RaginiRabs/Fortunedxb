@@ -22,7 +22,7 @@ function ConsultModal({ onClose }) {
           >
             <X className="h-4 w-4" />
           </button>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D9B45F]">Free Consultation</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#c4a98f]">Free Consultation</p>
           <h3 className="mt-1 text-xl font-semibold text-white">Let&apos;s find your perfect property</h3>
         </div>
 
@@ -35,7 +35,7 @@ function ConsultModal({ onClose }) {
             <p className="mt-1 text-sm text-gray-500">Our team will reach out to you shortly.</p>
             <button
               onClick={onClose}
-              className="mt-6 rounded-full bg-gradient-to-r from-[#C8A24E] to-[#A37F3C] px-6 py-2.5 text-sm font-medium text-white"
+              className="mt-6 rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] px-6 py-2.5 text-sm font-medium text-white"
             >
               Done
             </button>
@@ -48,26 +48,26 @@ function ConsultModal({ onClose }) {
             }}
             className="space-y-3 px-7 py-6"
           >
-            <div className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 focus-within:border-[#B89149]">
-              <User className="h-4 w-4 text-[#B89149]" />
+            <div className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 focus-within:border-[#80603f]">
+              <User className="h-4 w-4 text-[#80603f]" />
               <input required placeholder="Full Name" className="w-full bg-transparent py-2.5 text-sm outline-none" />
             </div>
-            <div className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 focus-within:border-[#B89149]">
-              <Phone className="h-4 w-4 text-[#B89149]" />
+            <div className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 focus-within:border-[#80603f]">
+              <Phone className="h-4 w-4 text-[#80603f]" />
               <input required placeholder="Phone Number" className="w-full bg-transparent py-2.5 text-sm outline-none" />
             </div>
-            <div className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 focus-within:border-[#B89149]">
-              <Mail className="h-4 w-4 text-[#B89149]" />
+            <div className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 focus-within:border-[#80603f]">
+              <Mail className="h-4 w-4 text-[#80603f]" />
               <input type="email" placeholder="Email Address" className="w-full bg-transparent py-2.5 text-sm outline-none" />
             </div>
             <textarea
               rows={3}
               placeholder="Tell us what you're looking for..."
-              className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#B89149]"
+              className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-[#80603f]"
             />
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#C8A24E] to-[#A37F3C] py-3 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg hover:brightness-105"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] py-3 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg hover:brightness-105"
             >
               Request Consultation <ArrowRight className="h-4 w-4" />
             </button>
@@ -100,12 +100,12 @@ export default function Navbar() {
                   key={l}
                   href="#"
                   className={`group relative inline-flex items-center py-2 text-[14px] transition-colors ${
-                    active ? 'text-[#B89149]' : 'text-gray-700 hover:text-[#B89149]'
+                    active ? 'text-[#80603f]' : 'text-gray-700 hover:text-[#80603f]'
                   }`}
                 >
                   {l}
                   <span
-                    className={`absolute -bottom-0.5 left-0 right-0 h-0.5 origin-left rounded-full bg-gradient-to-r from-[#C8A24E] to-[#A37F3C] transition-transform duration-300 ${
+                    className={`absolute -bottom-0.5 left-0 right-0 h-0.5 origin-left rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] transition-transform duration-300 ${
                       active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                   />
@@ -118,7 +118,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setConsult(true)}
-              className="hidden items-center gap-2 rounded-full bg-gradient-to-r from-[#C8A24E] to-[#A37F3C] px-5 py-2.5 text-sm font-medium text-white shadow-md ring-1 ring-[#B89149]/30 transition-all hover:shadow-lg hover:brightness-105 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] px-5 py-2.5 text-sm font-medium text-white shadow-md ring-1 ring-[#80603f]/30 transition-all hover:shadow-lg hover:brightness-105 sm:inline-flex"
             >
               Get Consultation <ArrowRight className="h-4 w-4" />
             </button>
@@ -140,7 +140,7 @@ export default function Navbar() {
                 key={l}
                 href="#"
                 className={`block rounded-lg px-3 py-2 text-sm ${
-                  l === 'Home' ? 'bg-[#B89149]/10 font-medium text-[#B89149]' : 'text-gray-700 hover:text-[#B89149]'
+                  l === 'Home' ? 'bg-[#80603f]/10 font-medium text-[#80603f]' : 'text-gray-700 hover:text-[#80603f]'
                 }`}
               >
                 {l}
@@ -151,7 +151,7 @@ export default function Navbar() {
                 setOpen(false);
                 setConsult(true);
               }}
-              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#C8A24E] to-[#A37F3C] px-5 py-2.5 text-sm font-medium text-white"
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] px-5 py-2.5 text-sm font-medium text-white"
             >
               Get Consultation <ArrowRight className="h-4 w-4" />
             </button>

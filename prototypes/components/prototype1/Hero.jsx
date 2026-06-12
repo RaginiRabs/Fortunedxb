@@ -23,7 +23,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative mx-auto max-w-[1400px] px-4 pb-16 pt-[120px] md:px-8 md:pb-20 md:pt-[140px]">
         <div className="max-w-2xl">
-          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[#f6f1e6] px-3 py-1 text-[11px] font-medium text-[#B89149]">
+          <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[#f6f1e6] px-3 py-1 text-[11px] font-medium text-[#80603f]">
             ✦ Discover 500+ Verified Projects
           </span>
 
@@ -40,15 +40,15 @@ export default function Hero() {
             {FILTERS.map((f) => (
               <button
                 key={f.sub}
-                className="flex min-w-[120px] flex-1 flex-col items-start rounded-lg px-3 py-2 text-left hover:bg-gray-50"
+                className="flex min-w-[132px] flex-1 flex-col items-start rounded-lg px-3 py-2 text-left hover:bg-gray-50"
               >
-                <span className="flex w-full items-center justify-between text-sm font-medium text-[#1a1a1a]">
-                  {f.label} <ChevronDown className="w-4 h-4 text-gray-400" />
+                <span className="flex w-full items-center justify-between gap-2 whitespace-nowrap text-sm font-medium text-[#1a1a1a]">
+                  {f.label} <ChevronDown className="h-4 w-4 shrink-0 text-gray-400" />
                 </span>
                 <span className="text-[11px] text-gray-400">{f.sub}</span>
               </button>
             ))}
-            <button className="grid h-12 w-12 place-items-center rounded-lg bg-[#B89149] text-white hover:bg-[#a37f3c]">
+            <button className="grid h-12 w-12 place-items-center rounded-lg bg-[#80603f] text-white hover:bg-[#a37f3c]">
               <Search className="w-5 h-5" />
             </button>
           </div>
@@ -62,9 +62,9 @@ export default function Hero() {
                   key={s.id}
                   className="rounded-2xl border border-white/60 bg-white/95 px-4 py-4 text-center shadow-[0_12px_34px_-12px_rgba(20,18,15,0.28)] backdrop-blur transition-shadow hover:shadow-[0_18px_44px_-12px_rgba(184,145,73,0.35)]"
                 >
-                  <Icon className="mx-auto mb-2 h-5 w-5 text-[#B89149]" />
+                  <Icon className="mx-auto mb-2 h-5 w-5 text-[#80603f]" />
                   <div className="text-xl font-semibold text-[#1a1a1a]">
-                    {s.currency && <Dirham className="mr-0.5 text-[#B89149]" />}
+                    {s.currency && <Dirham className="mr-0.5 text-[#80603f]" />}
                     {s.value}
                   </div>
                   <div className="mt-0.5 text-[11px] text-gray-400">{s.label}</div>

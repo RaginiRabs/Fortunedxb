@@ -13,7 +13,7 @@ export default function TopDevelopers() {
     <aside className="rounded-3xl border border-gray-100 bg-white p-5 shadow-[0_14px_40px_-14px_rgba(20,18,15,0.22)]">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#B89149]">Brands</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Brands</p>
           <h3 className="mt-0.5 text-lg font-semibold text-[#1a1a1a]">Top Developers</h3>
         </div>
         <button className="text-gray-400 hover:text-gray-600" aria-label="Close">
@@ -27,16 +27,16 @@ export default function TopDevelopers() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search developers..."
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm outline-none transition-colors focus:border-[#B89149] focus:bg-white"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-sm outline-none transition-colors focus:border-[#80603f] focus:bg-white"
         />
       </div>
 
       <ul className="mt-4 space-y-1">
         {list.map((d) => (
           <li key={d.id}>
-            <label className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-2.5 transition-colors hover:bg-[#B89149]/[0.07]">
+            <label className="flex cursor-pointer items-center justify-between rounded-xl px-2.5 py-2.5 transition-colors hover:bg-[#80603f]/[0.07]">
               <span className="flex items-center gap-2.5 text-sm text-gray-700">
-                <input type="checkbox" className="h-4 w-4 accent-[#B89149]" />
+                <input type="checkbox" className="h-4 w-4 accent-[#80603f]" />
                 {d.name} <span className="text-gray-400">({d.count})</span>
               </span>
               <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
@@ -47,7 +47,7 @@ export default function TopDevelopers() {
         ))}
       </ul>
 
-      <button className="mt-4 w-full rounded-xl bg-gradient-to-r from-[#C8A24E] to-[#A37F3C] py-2.5 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg hover:brightness-105">
+      <button className="mt-4 w-full rounded-xl bg-gradient-to-r from-[#96714a] to-[#6b4f33] py-2.5 text-sm font-medium text-white shadow-md transition-all hover:shadow-lg hover:brightness-105">
         View All Developers
       </button>
     </aside>

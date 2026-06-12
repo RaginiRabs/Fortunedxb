@@ -1,87 +1,81 @@
-'use client';
-
-import { useState } from 'react';
-import Card from '@/components/prototype3/Card';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import Footer from '@/components/prototype3/Footer';
+import Reveal from '@/components/prototype3/Reveal';
+import HeroSearch from '@/components/prototype3/HeroSearch';
+import FeaturedCarousel from '@/components/prototype3/FeaturedCarousel';
+import DevelopersStrip from '@/components/prototype3/DevelopersStrip';
+import DistressBand from '@/components/prototype3/DistressBand';
+import MapExplorer from '@/components/prototype3/MapExplorer';
+import PaymentCalculator from '@/components/prototype3/PaymentCalculator';
+import CtaBand from '@/components/prototype3/CtaBand';
 import { projects } from '@/mock/prototype3/projects';
+import { featured } from '@/mock/prototype3/featured';
 
-const TABS = [
-  { key: 'all', label: 'All' },
-  { key: 'off-plan', label: 'Off-Plan' },
-  { key: 'distress', label: 'Distress' },
-  { key: 'resale', label: 'Resale' },
-];
+export const metadata = { title: 'Fortune — Dubai Off-Plan & Resale' };
 
 export default function Prototype3Home() {
-  const [tab, setTab] = useState('all');
-
-  // Data is limited — show all 3 cards in every tab, but bring the
-  // selected type to the front so it leads the horizontal scroll.
-  const ordered =
-    tab === 'all'
-      ? projects
-      : [...projects.filter((p) => p.type === tab), ...projects.filter((p) => p.type !== tab)];
+  const distress = projects.filter((p) => p.type === 'distress').slice(0, 4);
 
   return (
-    <section
-      className="mx-auto max-w-7xl px-6 py-14 md:px-10"
-      style={{ fontFamily: '"Work Sans", "Work Sans Fallback", sans-serif' }}
-    >
-      <header className="mb-10 max-w-3xl text-center md:mb-12 md:text-left">
-        <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#C49A3C]">
-          Prototype 3 —
-        </span>
-        <h1
-          className="text-4xl font-medium tracking-tight text-[#0A0A12] md:text-5xl"
-          style={{ fontFamily: '"Montserrat", "Montserrat Fallback", sans-serif' }}
-        >
-          Redesigned Project Cards
-        </h1>
-        <p className="mt-3 leading-relaxed text-[#4C4C56]">
-          Compare our three distinct property card formats tailored specifically for the Dubai real estate market: Off-Plan timelines, high-impact Distress Deals, and yield-focused ready Resales.
-        </p>
-      </header>
+    <div>
+      {/* Hero */}
+      <section className="mx-auto max-w-[1600px] px-6 pt-8 md:px-12">
+        <HeroSearch />
+      </section>
 
-      {/* ---------- Desktop / tablet: grid ---------- */}
-      <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p) => (
-          <Card key={p.id} project={p} />
-        ))}
+      {/* Featured */}
+      <section className="mx-auto mt-16 max-w-[1600px] px-6 md:px-12">
+        <Reveal className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">
+              Featured
+            </span>
+            <h2 className="text-3xl font-bold tracking-tight text-[#0A0A12] md:text-4xl font-[family-name:var(--font-heading)]">
+              Properties this week
+            </h2>
+          </div>
+          <Link
+            href="/prototype3/projects"
+            className="hidden shrink-0 items-center gap-1.5 text-sm font-semibold text-[#0A0A12] outline-none transition-colors hover:text-[#80603f] focus-visible:text-[#80603f] sm:inline-flex"
+          >
+            View all <ArrowUpRight size={16} />
+          </Link>
+        </Reveal>
+
+        <Reveal>
+          <FeaturedCarousel projects={featured} />
+        </Reveal>
+      </section>
+
+      {/* Distress */}
+      <Reveal className="mt-16">
+        <DistressBand deals={distress} />
+      </Reveal>
+
+      {/* Map + interactive explorer */}
+      <Reveal className="mt-16 md:mt-20">
+        <MapExplorer />
+      </Reveal>
+
+      {/* Mortgage & yield calculator */}
+      <Reveal className="mt-16 md:mt-20">
+        <PaymentCalculator />
+      </Reveal>
+
+      {/* Trusted developers */}
+      <Reveal className="mt-16 md:mt-20">
+        <DevelopersStrip />
+      </Reveal>
+
+      {/* Closing CTA */}
+      <Reveal className="mt-16 md:mt-20">
+        <CtaBand />
+      </Reveal>
+
+      <div className="mt-16">
+        <Footer />
       </div>
-
-      {/* ---------- Mobile: tabs + horizontal snap-scroll ---------- */}
-      <div className="sm:hidden">
-        {/* tabs */}
-        <div className="-mr-6 flex gap-2 overflow-x-auto pr-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {TABS.map((t) => {
-            const active = tab === t.key;
-            return (
-              <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                className={`shrink-0 rounded-full px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors ${
-                  active
-                    ? 'bg-[#0A0A12] text-white'
-                    : 'border border-[rgba(10,10,18,0.14)] bg-white text-[#4C4C56]'
-                }`}
-              >
-                {t.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 1.25-card horizontal scroller (scrollbar hidden) */}
-        <div
-          key={tab}
-          className="-mr-6 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto pr-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {ordered.map((p) => (
-            <div key={p.id} className="w-[80%] shrink-0 snap-start">
-              <Card project={p} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    </div>
   );
 }
