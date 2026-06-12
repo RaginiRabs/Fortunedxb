@@ -8,9 +8,6 @@ import {
   ShieldCheck, Clock, BadgeCheck, Lock, Headset, SlidersHorizontal,
 } from 'lucide-react';
 
-const RED = '#D14343';
-const GREEN = '#2E8B57';
-
 const STATS = [
   { icon: Gift, value: '120+', label: 'Exclusive Deals' },
   { icon: TrendingDown, value: 'Up to 45%', label: 'Below Market Price' },
@@ -47,7 +44,7 @@ function Check({ on, label, count, onClick }) {
   return (
     <label onClick={onClick} className="flex cursor-pointer items-center justify-between text-[13px]">
       <span className="inline-flex items-center gap-2.5 text-ink-soft">
-        <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-brand bg-brand text-cream' : 'border-brand-pale')}>
+        <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale')}>
           {on && <span className="text-[9px] leading-none">✓</span>}
         </span>
         {label}
@@ -61,12 +58,12 @@ function DealCard({ d, seconds }) {
   return (
     <Link
       href={`/prototype2/${d.id}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-brand-pale bg-white transition-all duration-300 hover:-translate-y-1 hover:border-brand-soft"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-brand-pale bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#8C6A52]/50 hover:shadow-[0_14px_32px_-16px_rgba(58,44,34,0.4)]"
     >
-      <div className="relative aspect-[16/11] w-full overflow-hidden">
+      <div className="relative aspect-[16/9] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={d.image} alt={d.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="absolute left-3 top-3 rounded-md px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: RED }}>
+        <span className="absolute left-3 top-3 rounded-md px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: '#D14343' }}>
           {d.discount}% OFF
         </span>
       </div>
@@ -90,14 +87,14 @@ function DealCard({ d, seconds }) {
 
         {/* Countdown — boxed, eye-catching (above View Details) */}
         <div className="mt-auto pt-3.5">
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.12em]" style={{ color: RED }}>
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8C6A52]">
             <Clock size={12} className="animate-pulse" /> Expires in
           </span>
           <div className="mt-1.5 flex items-center gap-1.5">
             {parts(seconds).map(([num, u]) => (
-              <span key={u} className="flex items-baseline gap-0.5 rounded-md px-2 py-1.5" style={{ background: '#FBEDED' }}>
-                <span className="font-mono text-[14px] font-extrabold leading-none tabular-nums" style={{ color: RED }}>{num}</span>
-                <span className="text-[9px] font-bold leading-none" style={{ color: `${RED}aa` }}>{u}</span>
+              <span key={u} className="flex items-baseline gap-0.5 rounded-md bg-[#F2EAE1] px-2 py-1.5">
+                <span className="font-mono text-[14px] font-extrabold leading-none tabular-nums text-[#5E4636]">{num}</span>
+                <span className="text-[9px] font-bold leading-none text-[#8C6A52]">{u}</span>
               </span>
             ))}
           </div>
@@ -154,12 +151,12 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by project name, location..."
-              className="w-full rounded-full border border-brand-pale bg-white py-2.5 pl-10 pr-4 text-[13px] text-ink outline-none transition focus:border-brand"
+              className="w-full rounded-full border border-brand-pale bg-white py-2.5 pl-10 pr-4 text-[13px] text-ink outline-none transition focus:border-[#8C6A52]"
             />
           </div>
           <div className="flex shrink-0 items-center gap-1 rounded-lg border border-brand-pale bg-white p-1">
-            <button onClick={() => setView('grid')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'grid' ? 'bg-brand text-cream' : 'text-ink-faint')}><LayoutGrid size={15} /></button>
-            <button onClick={() => setView('list')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'list' ? 'bg-brand text-cream' : 'text-ink-faint')}><List size={15} /></button>
+            <button onClick={() => setView('grid')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'grid' ? 'bg-[#8C6A52] text-cream' : 'text-ink-faint')}><LayoutGrid size={15} /></button>
+            <button onClick={() => setView('list')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'list' ? 'bg-[#8C6A52] text-cream' : 'text-ink-faint')}><List size={15} /></button>
           </div>
         </div>
       </div>
@@ -167,10 +164,10 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
       {/* Body */}
       <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5">
+        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px]">
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
-            <button onClick={() => { setDealType('All Deals'); setPtype('All Types'); setDisc([]); setQuery(''); }} className="text-[12px] font-medium text-brand hover:text-brand-dark">Clear All</button>
+            <button onClick={() => { setDealType('All Deals'); setPtype('All Types'); setDisc([]); setQuery(''); }} className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Clear All</button>
           </div>
 
           <div className="mt-4">
@@ -184,14 +181,14 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
 
             <FilterSection title="Price Range (AED)">
               <div className="relative mt-1 h-1.5 w-full rounded-full bg-brand-pale">
-                <span className="absolute inset-y-0 left-[5%] right-[12%] rounded-full bg-brand" />
-                <span className="absolute left-[5%] top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand bg-white" />
-                <span className="absolute right-[12%] top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-brand bg-white" />
+                <span className="absolute inset-y-0 left-[5%] right-[12%] rounded-full bg-[#8C6A52]" />
+                <span className="absolute left-[5%] top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#8C6A52] bg-white" />
+                <span className="absolute right-[12%] top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#8C6A52] bg-white" />
               </div>
               <div className="mt-4 flex items-center gap-2">
-                <input defaultValue="200,000" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-brand" />
+                <input defaultValue="200,000" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-[#8C6A52]" />
                 <span className="text-ink-faint">to</span>
-                <input defaultValue="10,000,000+" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-brand" />
+                <input defaultValue="10,000,000+" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-[#8C6A52]" />
               </div>
             </FilterSection>
 
@@ -225,7 +222,7 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
           <div className="mt-9 flex items-center justify-center gap-2">
             <button className="grid h-9 w-9 place-items-center rounded-lg border border-brand-pale text-ink-soft hover:bg-brand-pale"><ChevronLeft size={16} /></button>
             {['1', '2', '3'].map((n) => (
-              <button key={n} className={'grid h-9 min-w-9 place-items-center rounded-lg px-2 text-sm font-medium ' + (n === '1' ? 'bg-brand text-cream' : 'border border-brand-pale text-ink-soft hover:bg-brand-pale')}>{n}</button>
+              <button key={n} className={'grid h-9 min-w-9 place-items-center rounded-lg px-2 text-sm font-medium ' + (n === '1' ? 'bg-[#8C6A52] text-cream' : 'border border-brand-pale text-ink-soft hover:bg-brand-pale')}>{n}</button>
             ))}
             <button className="grid h-9 w-9 place-items-center rounded-lg border border-brand-pale text-ink-soft hover:bg-brand-pale"><ChevronRight size={16} /></button>
           </div>
@@ -235,7 +232,7 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
       {/* Bottom strip */}
       <div className="mt-10 flex flex-col items-center justify-between gap-6 rounded-2xl border border-brand-pale bg-white px-6 py-6 lg:flex-row">
         <div className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-pale text-brand"><Gift size={18} /></span>
+          <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#F2EAE1] text-[#8C6A52]"><Gift size={18} /></span>
           <div>
             <div className="text-[15px] font-bold text-ink">High Discounts. Limited Time.</div>
             <div className="text-[12px] text-ink-soft">These deals won&apos;t last long. Act now!</div>
@@ -249,7 +246,7 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
             { icon: Headset, t: 'Expert', s: 'Support' },
           ].map((x) => (
             <div key={x.t} className="flex items-center gap-2">
-              <x.icon size={18} className="text-brand" />
+              <x.icon size={18} className="text-[#8C6A52]" />
               <div className="leading-tight">
                 <div className="text-[12px] font-semibold text-ink">{x.t}</div>
                 <div className="text-[11px] text-ink-faint">{x.s}</div>
@@ -257,7 +254,7 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
             </div>
           ))}
         </div>
-        <button className="inline-flex items-center gap-2 rounded-full border border-brand px-5 py-2.5 text-[13px] font-semibold text-brand transition-colors hover:bg-brand hover:text-cream">
+        <button className="inline-flex items-center gap-2 rounded-full border border-[#8C6A52] px-5 py-2.5 text-[13px] font-semibold text-[#8C6A52] transition-colors hover:bg-[#8C6A52] hover:text-cream">
           View All Deals <ArrowRight size={14} />
         </button>
       </div>
