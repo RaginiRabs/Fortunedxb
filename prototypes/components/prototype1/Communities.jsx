@@ -9,7 +9,7 @@ export default function Communities() {
       <div className="flex items-end justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Locations</p>
-          <h2 className="mt-1 text-2xl font-semibold text-[#1a1a1a]">Explore Communities</h2>
+          <h2 className="mt-1 text-2xl font-semibold text-[#1a1a1a]">Explore Locations</h2>
         </div>
         <a href="#" className="inline-flex items-center gap-2 rounded-full border border-[#80603f]/40 bg-white px-4 py-2 text-sm text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
           View All <ArrowRight className="w-4 h-4" />

@@ -101,7 +101,18 @@ export const metroPaths = [
   { color: '#C8A227', path: [[25.08, 55.14], [25.05, 55.16], [25.04, 55.19], [25.06, 55.22], [25.09, 55.24]] },
 ];
 
-export const partners = ['Emaar', 'Nakheel', 'Sobha', 'DAMAC', 'Binghatti', 'Azizi', 'Meraas', 'Danube'];
+export const partners = [
+  { name: 'Emaar', domain: 'emaar.com' },
+  { name: 'Nakheel', domain: 'nakheel.com' },
+  { name: 'Sobha', domain: 'sobharealty.com' },
+  { name: 'DAMAC', domain: 'damacproperties.com' },
+  { name: 'Binghatti', domain: 'binghatti.com' },
+  { name: 'Azizi', domain: 'azizidevelopments.com' },
+  { name: 'Meraas', domain: 'meraas.com' },
+  { name: 'Danube', domain: 'danubeproperties.com' },
+  { name: 'Ellington', domain: 'ellingtonproperties.ae' },
+  { name: 'Omniyat', domain: 'omniyat.com' },
+];
 
 export const exploreCategories = [
   { label: 'Off Plan Projects', count: '320 Listings', img: img('1597659840241-37e2b9c2f55f') },

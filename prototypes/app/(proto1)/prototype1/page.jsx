@@ -1,11 +1,10 @@
 // prototype1 home page — Fortune Realty LLC landing. Multi-page site: home preview sections. Mock only.
 import Hero from '@/components/prototype1/Hero';
 import Partners from '@/components/prototype1/Partners';
-import CategoryExplore from '@/components/prototype1/CategoryExplore';
+import Communities from '@/components/prototype1/Communities';
 import FeaturedProjects from '@/components/prototype1/FeaturedProjects';
 import DistressDeals from '@/components/prototype1/DistressDeals';
 import ResaleProperties from '@/components/prototype1/ResaleProperties';
-import Communities from '@/components/prototype1/Communities';
 import Testimonials from '@/components/prototype1/Testimonials';
 import Reveal from '@/components/prototype1/Reveal';
 
@@ -25,11 +24,10 @@ export default function Prototype1Home() {
       <Hero />
       <Partners />
 
-      <Band blob="-left-32 top-10"><CategoryExplore /></Band>
+      <Band blob="-left-32 top-10"><Communities /></Band>
       <Band tint blob="-right-40 top-0"><FeaturedProjects /></Band>
       <Band><DistressDeals /></Band>
       <Band tint blob="-left-32 top-10"><ResaleProperties /></Band>
-      <Band><Communities /></Band>
 
       <Reveal><Testimonials /></Reveal>
     </div>
