@@ -63,7 +63,7 @@ function DealCard({ d, seconds }) {
       <div className="relative aspect-[16/9] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={d.image} alt={d.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="absolute left-3 top-3 rounded-md px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: '#D14343' }}>
+        <span className="absolute left-3 top-3 rounded-md px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: '#2E8B57' }}>
           {d.discount}% OFF
         </span>
       </div>
@@ -87,14 +87,14 @@ function DealCard({ d, seconds }) {
 
         {/* Countdown — boxed, eye-catching (above View Details) */}
         <div className="mt-auto pt-3.5">
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8C6A52]">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#D14343]">
             <Clock size={12} className="animate-pulse" /> Expires in
           </span>
           <div className="mt-1.5 flex items-center gap-1.5">
             {parts(seconds).map(([num, u]) => (
-              <span key={u} className="flex items-baseline gap-0.5 rounded-md bg-[#F2EAE1] px-2 py-1.5">
-                <span className="font-mono text-[14px] font-extrabold leading-none tabular-nums text-[#5E4636]">{num}</span>
-                <span className="text-[9px] font-bold leading-none text-[#8C6A52]">{u}</span>
+              <span key={u} className="flex items-baseline gap-0.5 rounded-md bg-[#FBEDED] px-2 py-1.5">
+                <span className="font-mono text-[14px] font-extrabold leading-none tabular-nums text-[#D14343]">{num}</span>
+                <span className="text-[9px] font-bold leading-none text-[#D14343]">{u}</span>
               </span>
             ))}
           </div>
