@@ -1,36 +1,75 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Calculator, ArrowUpRight } from 'lucide-react';
+import { Calculator, ArrowUpRight, Minus, Plus } from 'lucide-react';
 
 const aed = (n) => `AED ${Math.round(n).toLocaleString()}`;
 
-// Slider row with live value.
-function Slider({ label, value, set, min, max, step, format }) {
-  const pct = ((value - min) / (max - min)) * 100;
+// Premium value field — comma-formatted, type directly or nudge with − / +.
+// Shows raw digits while typing (no caret jump) and re-formats on blur.
+function Field({ label, value, set, min, max, step, prefix, suffix, decimals = 0 }) {
+  const clamp = (v) => Math.min(max, Math.max(min, v));
+  const fmt = (v) => (decimals ? Number(v).toFixed(decimals) : Number(v).toLocaleString());
+  const [draft, setDraft] = useState(fmt(value));
+  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (!focused) setDraft(fmt(value));
+  }, [value, focused]); // keep display in sync with stepper / preset changes
+
+  const onChange = (e) => {
+    const raw = e.target.value;
+    setDraft(raw);
+    const num = Number(raw.replace(/[^0-9.]/g, ''));
+    if (raw.trim() !== '' && !Number.isNaN(num)) set(clamp(num));
+  };
+  const nudge = (dir) => set(clamp(Number((value + dir * step).toFixed(decimals))));
+
+  const Btn = ({ dir, Icon, disabled }) => (
+    <button
+      type="button"
+      aria-label={`${dir < 0 ? 'Decrease' : 'Increase'} ${label}`}
+      onClick={() => nudge(dir)}
+      disabled={disabled}
+      className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[#FAF7F3] text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-[#FAF7F3] disabled:hover:text-[#80603f]"
+    >
+      <Icon size={16} />
+    </button>
+  );
+
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <label className="text-[13px] font-semibold text-[#2E231B]">{label}</label>
-        <span className="text-[13px] font-bold text-[#80603f] tabular-nums font-[family-name:var(--font-heading)]">
-          {format(value)}
-        </span>
+      <label className="mb-1.5 block text-[13px] font-semibold text-[#2E231B]">{label}</label>
+      <div className="flex items-center gap-2 rounded-xl border border-[rgba(10,10,18,0.12)] bg-white p-1.5 transition focus-within:border-[#80603f] focus-within:ring-2 focus-within:ring-[#80603f]/15">
+        <Btn dir={-1} Icon={Minus} disabled={value <= min} />
+        <div className="flex flex-1 items-baseline justify-center gap-1 px-1">
+          {prefix && <span className="text-sm font-semibold text-[#9A9AA3]">{prefix}</span>}
+          <input
+            inputMode="decimal"
+            value={draft}
+            onChange={onChange}
+            onFocus={() => setFocused(true)}
+            onBlur={() => {
+              setFocused(false);
+              setDraft(fmt(value));
+            }}
+            className="w-full min-w-0 bg-transparent text-center text-lg font-bold tabular-nums text-[#0A0A12] outline-none font-[family-name:var(--font-heading)]"
+          />
+          {suffix && <span className="text-sm font-semibold text-[#9A9AA3]">{suffix}</span>}
+        </div>
+        <Btn dir={1} Icon={Plus} disabled={value >= max} />
       </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => set(Number(e.target.value))}
-        aria-label={label}
-        className="mt-2.5 h-1.5 w-full cursor-pointer appearance-none rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#80603f]/40 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:bg-[#80603f] [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:bg-[#80603f]"
-        style={{ background: `linear-gradient(to right, #80603f ${pct}%, #E7DFD5 ${pct}%)` }}
-      />
     </div>
   );
 }
+
+const PRICE_PRESETS = [
+  [1000000, '1M'],
+  [1800000, '1.8M'],
+  [3000000, '3M'],
+  [5000000, '5M'],
+];
 
 export default function PaymentCalculator() {
   const [price, setPrice] = useState(1800000);
@@ -44,21 +83,18 @@ export default function PaymentCalculator() {
   const r = rate / 100 / 12;
   const n = years * 12;
   const emi = r === 0 ? loan / n : (loan * r * (1 + r) ** n) / ((1 + r) ** n - 1);
-  const annualRent = (price * yieldPct) / 100;
-  const monthlyRent = annualRent / 12;
+  const monthlyRent = (price * yieldPct) / 100 / 12;
   const netMonthly = monthlyRent - emi;
 
   return (
-    <section className="mx-auto max-w-[1600px] px-6 md:px-12">
-      <div className="mb-8 max-w-2xl">
-        <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">
-          Plan your purchase
-        </span>
+    <section className="mx-auto max-w-[1600px] px-4 sm:px-6 md:px-12">
+      <div className="mb-7 max-w-2xl sm:mb-8">
+        <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Plan your purchase</span>
         <h2 className="text-3xl font-bold tracking-tight text-[#0A0A12] md:text-4xl font-[family-name:var(--font-heading)]">
           Mortgage &amp; yield calculator
         </h2>
         <p className="mt-3 leading-relaxed text-[#55555E]">
-          Move the sliders to see your down payment, monthly mortgage and rental cash-flow in real time.
+          Type your numbers or nudge them to see your down payment, monthly mortgage and rental cash-flow update live.
         </p>
       </div>
 
@@ -71,9 +107,7 @@ export default function PaymentCalculator() {
 
           <div className="rounded-2xl bg-white/10 p-5">
             <p className="text-[11px] uppercase tracking-[0.14em] text-white/60">Monthly mortgage</p>
-            <p className="mt-1 text-[34px] font-bold leading-none tabular-nums font-[family-name:var(--font-heading)]">
-              {aed(emi)}
-            </p>
+            <p className="mt-1 text-[34px] font-bold leading-none tabular-nums font-[family-name:var(--font-heading)]">{aed(emi)}</p>
           </div>
 
           <dl className="grid grid-cols-2 gap-3">
@@ -102,12 +136,30 @@ export default function PaymentCalculator() {
 
         {/* Inputs */}
         <div className="rounded-3xl border border-[rgba(10,10,18,0.08)] bg-white p-6 shadow-[0_8px_30px_-22px_rgba(10,10,18,0.2)] sm:p-8">
-          <div className="space-y-6">
-            <Slider label="Property price" value={price} set={setPrice} min={500000} max={10000000} step={50000} format={aed} />
-            <Slider label="Down payment" value={downPct} set={setDownPct} min={10} max={60} step={1} format={(v) => `${v}%`} />
-            <Slider label="Loan tenure" value={years} set={setYears} min={5} max={30} step={1} format={(v) => `${v} yrs`} />
-            <Slider label="Interest rate" value={rate} set={setRate} min={2} max={8} step={0.1} format={(v) => `${v.toFixed(1)}%`} />
-            <Slider label="Rental yield" value={yieldPct} set={setYieldPct} min={4} max={9} step={0.1} format={(v) => `${v.toFixed(1)}%`} />
+          <div className="space-y-5">
+            <div>
+              <Field label="Property price" value={price} set={setPrice} min={500000} max={10000000} step={50000} prefix="AED" />
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {PRICE_PRESETS.map(([v, l]) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setPrice(v)}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                      price === v
+                        ? 'border-[#80603f] bg-[#80603f]/8 text-[#80603f]'
+                        : 'border-[rgba(10,10,18,0.12)] text-[#55555E] hover:border-[#80603f]/50'
+                    }`}
+                  >
+                    AED {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <Field label="Down payment" value={downPct} set={setDownPct} min={10} max={60} step={1} suffix="%" />
+            <Field label="Loan tenure" value={years} set={setYears} min={5} max={30} step={1} suffix="yrs" />
+            <Field label="Interest rate" value={rate} set={setRate} min={2} max={8} step={0.1} suffix="%" decimals={1} />
+            <Field label="Rental yield" value={yieldPct} set={setYieldPct} min={4} max={9} step={0.1} suffix="%" decimals={1} />
           </div>
         </div>
       </div>

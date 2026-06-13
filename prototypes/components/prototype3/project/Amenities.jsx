@@ -1,11 +1,11 @@
 // Amenities grid. prototype3 ONLY.
 export default function Amenities({ amenities }) {
   return (
-    <section className="py-12">
-      <div className="wrap max-w-5xl mx-auto px-6">
-        <div className="mb-6">
-          <span className="eyebrow text-xs uppercase tracking-widest text-amber-600">Lifestyle</span>
-          <h2 className="font-serif text-4xl mt-3 text-black">World-class amenities</h2>
+    <section className="py-6 sm:py-8">
+      <div>
+        <div className="mb-5">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C49A3C]">Lifestyle</span>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#0A0A12] sm:text-3xl">World-class amenities</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">

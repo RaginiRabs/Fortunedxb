@@ -1,31 +1,54 @@
-// Payment plan steps. prototype3 ONLY.
-export default function PaymentPlan({ payment }) {
-  return (
-    <section className="py-12">
-      <div className="wrap max-w-5xl mx-auto px-6">
-        <div className="mb-6">
-          <span className="eyebrow text-xs uppercase tracking-widest text-amber-600">Flexible Terms</span>
-          <h2 className="font-serif text-4xl mt-3 text-black">Payment plan</h2>
-          <p className="text-slate-600 text-sm mt-2 max-w-2xl">A 60 / 40 structure — pay as you build, balance on handover.</p>
-        </div>
+// Payment plan — proportional split bar + step cards. prototype3 ONLY.
+// Column-agnostic: page controls max-width & horizontal padding.
+import { Info } from 'lucide-react';
 
-        <div className="grid md:grid-cols-3 gap-3 mb-4">
+export default function PaymentPlan({ payment }) {
+  const total = payment.steps.reduce((s, x) => s + x.pct, 0) || 100;
+
+  return (
+    <section className="py-6 sm:py-8">
+      <div className="mb-5">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C49A3C]">Flexible Terms</span>
+        <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#0A0A12] sm:text-3xl">Payment plan</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#55555E]">
+          Pay as you build, balance on handover — a {payment.steps.map((s) => s.pct).join(' / ')} structure.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-[0_8px_30px_-22px_rgba(10,10,18,0.25)] sm:p-7">
+        {/* Proportional split bar */}
+        <div className="flex h-12 w-full overflow-hidden rounded-xl">
           {payment.steps.map((s, i) => (
-            <div key={i} className="bg-white border border-black/10 rounded-lg p-5 relative overflow-hidden">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-600" />
-              <div className="text-xs text-slate-500 uppercase tracking-widest font-semibold">{s.stage}</div>
-              <div className="font-serif text-4xl text-amber-600 mt-2">{s.pct}<span className="text-lg">%</span></div>
-              <div className="text-sm text-slate-600 mt-2">{s.when}</div>
+            <div
+              key={i}
+              className="flex items-center justify-center border-r border-white/40 text-sm font-bold text-white last:border-0 font-[family-name:var(--font-heading)]"
+              style={{ width: `${(s.pct / total) * 100}%`, background: `linear-gradient(135deg,#C9A84C,#A87F2D)`, opacity: 1 - i * 0.18 }}
+            >
+              {s.pct}%
             </div>
           ))}
         </div>
 
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex gap-3">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2" className="flex-shrink-0 mt-0.5">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 16v-4M12 8h.01" />
-          </svg>
-          <span className="text-sm text-amber-900">{payment.note}</span>
+        {/* Steps */}
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {payment.steps.map((s, i) => (
+            <div key={i} className="rounded-xl border border-black/8 bg-[#FAF7F3] p-4">
+              <div className="flex items-center gap-2">
+                <span className="grid h-6 w-6 place-items-center rounded-full bg-[#C49A3C] text-[11px] font-bold text-white">{i + 1}</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#80603f]">{s.stage}</span>
+              </div>
+              <div className="mt-2 text-3xl font-bold text-[#0A0A12] font-[family-name:var(--font-heading)]">
+                {s.pct}<span className="text-base text-[#C49A3C]">%</span>
+              </div>
+              <p className="mt-1 text-[13px] leading-snug text-[#55555E]">{s.when}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Note */}
+        <div className="mt-4 flex gap-2.5 rounded-xl border border-amber-200 bg-amber-50/70 p-4">
+          <Info size={16} className="mt-0.5 shrink-0 text-[#B45309]" />
+          <span className="text-[13px] leading-relaxed text-amber-900">{payment.note}</span>
         </div>
       </div>
     </section>

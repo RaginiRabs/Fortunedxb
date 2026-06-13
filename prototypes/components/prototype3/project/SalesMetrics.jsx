@@ -15,12 +15,12 @@ export default function SalesMetrics({ sales }) {
   }, []);
 
   return (
-    <section className="py-12 bg-white/50">
-      <div className="wrap max-w-5xl mx-auto px-6">
-        <div className="mb-6">
-          <span className="eyebrow text-xs uppercase tracking-widest text-amber-600">Market Performance</span>
-          <h2 className="font-serif text-4xl mt-3 text-black">Sales & Demand</h2>
-          <p className="text-slate-600 text-sm mt-2 max-w-2xl">Tracking real transaction momentum — how this development is moving against the market.</p>
+    <section className="py-6 sm:py-8">
+      <div>
+        <div className="mb-5">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#C49A3C]">Market Performance</span>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#0A0A12] sm:text-3xl">Sales &amp; demand</h2>
+          <p className="mt-2 max-w-2xl text-sm text-[#55555E]">Tracking real transaction momentum — how this development is moving against the market.</p>
         </div>
 
         {/* Metrics grid */}

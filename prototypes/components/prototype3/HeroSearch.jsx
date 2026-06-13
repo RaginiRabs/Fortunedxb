@@ -70,7 +70,7 @@ export default function HeroSearch() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative min-h-[560px] w-full overflow-hidden rounded-3xl bg-white ring-1 ring-black/5"
+      className="relative min-h-[500px] w-full overflow-hidden rounded-2xl bg-white ring-1 ring-black/5 sm:min-h-[540px] sm:rounded-3xl md:min-h-[560px]"
     >
       {/* background image — full width, decorative */}
       <img
@@ -85,7 +85,7 @@ export default function HeroSearch() {
       <div className="absolute inset-0 hidden bg-gradient-to-r from-white from-[18%] via-white/70 via-[46%] to-transparent md:block" />
 
       {/* content inside the image */}
-      <div className="relative flex min-h-[560px] flex-col justify-center gap-7 p-7 motion-safe:animate-[fadeUp_0.5s_ease-out] sm:p-9 md:max-w-[52%] md:p-14">
+      <div className="relative flex min-h-[500px] flex-col justify-center gap-6 p-6 motion-safe:animate-[fadeUp_0.7s_cubic-bezier(0.22,1,0.36,1)] sm:min-h-[540px] sm:gap-7 sm:p-9 md:min-h-[560px] md:max-w-[52%] md:p-14">
         <div>
           <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(10,10,18,0.1)] bg-white px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8A6A1F]">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-[#80603f]" /> Dubai · Off-Plan, Resale &amp; Distress
@@ -101,7 +101,7 @@ export default function HeroSearch() {
           </p>
 
           {/* quick stats */}
-          <dl className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+          <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-3 sm:gap-x-8">
             {STATS.map(([v, l]) => (
               <div key={l}>
                 <dt className="sr-only">{l}</dt>

@@ -8,7 +8,7 @@ import { COMMUNITIES, METRICS } from '@/mock/prototype4/communities';
 
 const DubaiInteractiveMap = dynamic(() => import('@/components/map/DubaiInteractiveMap'), {
   ssr: false,
-  loading: () => <div className="h-[560px] animate-pulse rounded-3xl border border-[#e8e2da] bg-[#faf7f3]" />,
+  loading: () => <div className="h-full min-h-[420px] animate-pulse rounded-3xl border border-[#e8e2da] bg-[#faf7f3]" />,
 });
 
 const FEATURES = COMMUNITIES.features.map((f) => f.properties);
@@ -27,8 +27,8 @@ export default function MapExplorer() {
   };
 
   return (
-    <section className="mx-auto max-w-[1600px] px-6 md:px-12">
-      <div className="mb-8 flex items-end justify-between gap-4">
+    <section className="mx-auto max-w-[1600px] px-4 sm:px-6 md:px-12">
+      <div className="mb-7 flex items-end justify-between gap-4 sm:mb-8">
         <div>
           <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">
             Explore by location
@@ -45,7 +45,7 @@ export default function MapExplorer() {
         </Link>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+      <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-stretch">
         {/* Interactive panel */}
         <div className="flex flex-col gap-4">
           {/* Selected community stats */}
@@ -113,10 +113,10 @@ export default function MapExplorer() {
           </div>
         </div>
 
-        {/* Map */}
-        <div className="overflow-hidden rounded-3xl ring-1 ring-black/5">
+        {/* Map — fills the full height of the left panel */}
+        <div className="h-full min-h-[420px] overflow-hidden rounded-3xl ring-1 ring-black/5">
           <DubaiInteractiveMap
-            height="560px"
+            height="100%"
             focus={focus}
             onCommunityClick={onCommunityClick}
             projectCounts={PROJECT_COUNTS}
