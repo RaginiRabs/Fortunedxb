@@ -1,14 +1,8 @@
 // prototype1 hero — full-bleed background image with content overlaid on the left.
-import { Search, MapPin, Building2, Wallet, Home, ChevronDown } from 'lucide-react';
+import { MapPin, Building2, Wallet, Home } from 'lucide-react';
 import Dirham from '@/components/prototype1/Dirham';
+import HeroSearch from '@/components/prototype1/HeroSearch';
 import { stats, heroImage } from '@/mock/prototype1/home';
-
-const FILTERS = [
-  { label: 'All Communities', sub: 'Community' },
-  { label: 'All Developers', sub: 'Developer' },
-  { label: 'Any Budget', sub: 'Budget' },
-  { label: 'All Types', sub: 'Property Type' },
-];
 
 const STAT_ICONS = { projects: MapPin, developers: Building2, communities: Home, price: Wallet };
 
@@ -22,7 +16,7 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative mx-auto max-w-[1400px] px-4 pb-16 pt-[120px] md:px-8 md:pb-20 md:pt-[140px]">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl">
           <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[#f6f1e6] px-3 py-1 text-[11px] font-medium text-[#80603f]">
             ✦ Discover 500+ Verified Projects
           </span>
@@ -35,23 +29,8 @@ export default function Hero() {
             Explore premium properties from top developers in Dubai&apos;s most sought-after communities.
           </p>
 
-          {/* Search filters */}
-          <div className="mt-7 flex flex-wrap items-end gap-3 rounded-2xl border border-white/60 bg-white/95 p-3 shadow-[0_18px_50px_-15px_rgba(20,18,15,0.35)] backdrop-blur">
-            {FILTERS.map((f) => (
-              <button
-                key={f.sub}
-                className="flex min-w-[132px] flex-1 flex-col items-start rounded-lg px-3 py-2 text-left hover:bg-gray-50"
-              >
-                <span className="flex w-full items-center justify-between gap-2 whitespace-nowrap text-sm font-medium text-[#1a1a1a]">
-                  {f.label} <ChevronDown className="h-4 w-4 shrink-0 text-gray-400" />
-                </span>
-                <span className="text-[11px] text-gray-400">{f.sub}</span>
-              </button>
-            ))}
-            <button className="grid h-12 w-12 place-items-center rounded-lg bg-[#80603f] text-white hover:bg-[#a37f3c]">
-              <Search className="w-5 h-5" />
-            </button>
-          </div>
+          {/* Search filters (functional) */}
+          <HeroSearch />
 
           {/* Stat cards */}
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">

@@ -8,6 +8,15 @@ import {
 import { footerLinks, contactInfo, footerBadges } from '@/mock/prototype1/home';
 
 const SOCIALS = [Instagram, Facebook, Linkedin, Youtube];
+
+const hrefFor = (l) =>
+  l === 'Home' ? '/prototype1'
+    : l === 'Projects' ? '/prototype1/projects'
+    : l === 'Distress Deals' ? '/prototype1/distress-deals'
+    : l === 'Resale Properties' ? '/prototype1/resale-properties'
+    : l === 'About Us' ? '/prototype1/about'
+    : l === 'Contact Us' ? '/prototype1/contact'
+    : '#';
 const CATEGORY_ICONS = [Building2, Key, Repeat, BadgePercent, Gem, Waves];
 const BADGE_ICONS = [BadgeCheck, Building2, Users, ShieldCheck];
 
@@ -79,7 +88,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-2.5">
             {footerLinks.quick.map((l) => (
               <li key={l}>
-                <a href="#" className="group inline-flex items-center gap-1.5 text-[13px] text-gray-500 transition-colors hover:text-[#80603f]">
+                <a href={hrefFor(l)} className="group inline-flex items-center gap-1.5 text-[13px] text-gray-500 transition-colors hover:text-[#80603f]">
                   <ChevronRight className="h-3.5 w-3.5 text-[#80603f] transition-transform group-hover:translate-x-0.5" />
                   {l}
                 </a>
@@ -158,7 +167,8 @@ export default function Footer() {
           </div>
         </div>
         <p className="border-t border-[#80603f]/10 py-3 text-center text-[11px] text-[#9c8a72]">
-          Designed by <span className="font-medium text-[#80603f]">RABS Net Solutions</span>
+          Designed by{' '}
+          <a href="https://www.rabsnetsolutions.com/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#80603f] hover:underline">RABS Net Solutions Pvt. Ltd.</a>
         </p>
       </div>
     </footer>
