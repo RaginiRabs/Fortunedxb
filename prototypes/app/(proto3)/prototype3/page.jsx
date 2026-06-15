@@ -4,9 +4,12 @@ import Footer from '@/components/prototype3/Footer';
 import Reveal from '@/components/prototype3/Reveal';
 import HeroSearch from '@/components/prototype3/HeroSearch';
 import FeaturedCarousel from '@/components/prototype3/FeaturedCarousel';
-import DevelopersStrip from '@/components/prototype3/DevelopersStrip';
+// import DevelopersStrip from '@/components/prototype3/DevelopersStrip'; // replaced by DevelopersShowcase below
+import DevelopersShowcase from '@/components/prototype3/DevelopersShowcase';
 import DistressBand from '@/components/prototype3/DistressBand';
-import MapExplorer from '@/components/prototype3/MapExplorer';
+import ResaleBand from '@/components/prototype3/ResaleBand';
+import ExploreLocation from '@/components/prototype3/ExploreLocation';
+// import MapExplorer from '@/components/prototype3/MapExplorer'; // map section commented out per request
 import PaymentCalculator from '@/components/prototype3/PaymentCalculator';
 import CtaBand from '@/components/prototype3/CtaBand';
 import { projects } from '@/mock/prototype3/projects';
@@ -16,6 +19,7 @@ export const metadata = { title: 'Fortune — Dubai Off-Plan & Resale' };
 
 export default function Prototype3Home() {
   const distress = projects.filter((p) => p.type === 'distress').slice(0, 4);
+  const resale = featured.filter((p) => p.type === 'resale').slice(0, 8);
 
   return (
     <div>
@@ -25,7 +29,7 @@ export default function Prototype3Home() {
       </section>
 
       {/* Featured */}
-      <section className="mx-auto mt-16 max-w-[1600px] px-4 sm:mt-20 sm:px-6 md:mt-28 md:px-12">
+      <section className="mx-auto mt-8 max-w-[1600px] px-4 sm:mt-10 sm:px-6 md:mt-14 md:px-12">
         <Reveal className="mb-7 flex items-end justify-between gap-4 sm:mb-8">
           <div>
             <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">
@@ -44,36 +48,53 @@ export default function Prototype3Home() {
         </Reveal>
 
         <Reveal delay={90}>
-          <FeaturedCarousel projects={featured} />
+          <FeaturedCarousel projects={featured} hideHighlight />
         </Reveal>
       </section>
 
       {/* Distress */}
-      <Reveal className="mt-16 sm:mt-20 md:mt-28">
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
         <DistressBand deals={distress} />
       </Reveal>
 
-      {/* Map + interactive explorer */}
-      <Reveal className="mt-16 sm:mt-20 md:mt-28">
+      {/* Map + interactive explorer — commented out per request (kept for later)
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
         <MapExplorer />
+      </Reveal>
+      */}
+
+      {/* Explore by location — interactive, no map */}
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
+        <ExploreLocation />
+      </Reveal>
+
+      {/* Resale */}
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
+        <ResaleBand deals={resale} />
       </Reveal>
 
       {/* Mortgage & yield calculator */}
-      <Reveal className="mt-16 sm:mt-20 md:mt-28">
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
         <PaymentCalculator />
       </Reveal>
 
-      {/* Trusted developers */}
-      <Reveal className="mt-16 sm:mt-20 md:mt-28">
+      {/* Trusted developers — old marquee strip commented out per request (kept for later)
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
         <DevelopersStrip />
+      </Reveal>
+      */}
+
+      {/* Developers — name, image and a short about */}
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
+        <DevelopersShowcase />
       </Reveal>
 
       {/* Closing CTA */}
-      <Reveal className="mt-16 sm:mt-20 md:mt-28">
+      <Reveal className="mt-8 sm:mt-10 md:mt-14">
         <CtaBand />
       </Reveal>
 
-      <div className="mt-16 sm:mt-20 md:mt-28">
+      <div className="mt-8 sm:mt-10 md:mt-14">
         <Footer />
       </div>
     </div>

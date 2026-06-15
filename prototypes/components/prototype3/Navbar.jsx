@@ -10,7 +10,6 @@ const LINKS = [
   ['Projects', '/prototype3/projects'],
   ['Distress', '/prototype3/distress'],
   ['Map', '/prototype3/map'],
-  ['Developers', '/prototype3/developers'],
   ['About', '/prototype3/about'],
   ['Contact', '/prototype3/contact'],
 ];

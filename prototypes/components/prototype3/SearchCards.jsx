@@ -43,7 +43,7 @@ function Group({ label, children }) {
   );
 }
 
-export default function SearchCards({ projects, placeholder = 'Search project or area…' }) {
+export default function SearchCards({ projects, placeholder = 'Search project or area…', wide = false }) {
   const [q, setQ] = useState('');
   const [developer, setDeveloper] = useState('');
   const [area, setArea] = useState('');
@@ -233,7 +233,7 @@ export default function SearchCards({ projects, placeholder = 'Search project or
             </button>
           </div>
         ) : view === 'grid' ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 min-[1200px]:grid-cols-3">
+          <div className={`grid grid-cols-1 gap-6 sm:grid-cols-2 ${wide ? '' : 'min-[1200px]:grid-cols-3'}`}>
             {paged.map((p) => (
               <Card key={p.id} project={p} />
             ))}

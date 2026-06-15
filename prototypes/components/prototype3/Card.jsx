@@ -1,6 +1,8 @@
 'use client';
 
+import { useRef, useState } from 'react';
 import Link from 'next/link';
+import { BedDouble, DraftingCompass } from 'lucide-react';
 
 const HEAD = '"Montserrat", "Montserrat Fallback", sans-serif';
 const BODY = '"Work Sans", "Work Sans Fallback", sans-serif';
@@ -16,7 +18,17 @@ const typeAccent = {
 const compact = (n) =>
   n >= 1_000_000 ? `${(n / 1_000_000).toFixed(n % 1_000_000 ? 1 : 0)}M` : `${Math.round(n / 1000)}K`;
 
-export default function Card({ project }) {
+export default function Card({ project, hideHighlight = false }) {
+  // Full name reveals on hover — but only when the name is actually clipped.
+  const nameRef = useRef(null);
+  const [clipped, setClipped] = useState(false);
+  const [showName, setShowName] = useState(false);
+  const onNameEnter = () => {
+    const el = nameRef.current;
+    if (el) setClipped(el.scrollWidth > el.clientWidth + 1);
+    setShowName(true);
+  };
+
   const accent = typeAccent[project.type] || typeAccent['off-plan'];
   const savings = project.marketPrice ? project.marketPrice - project.priceFrom : 0;
   // All cards use the new UAE dirham symbol in place of the "AED" text.
@@ -27,7 +39,8 @@ export default function Card({ project }) {
     project.type === 'distress'
       ? [
           { label: 'Discount', value: `${project.discount}%`, accent: 'green' },
-          { label: 'You save', value: <>{aed}{compact(savings)}</>, accent: 'green' },
+          // "You save" — dirham sign sits inline right next to the amount, kept on one line.
+          { label: 'You save', value: <span className="whitespace-nowrap">{aed}{compact(savings)}</span>, accent: 'green' },
           { label: 'Yield', value: project.yield },
         ]
       : project.type === 'resale'
@@ -109,23 +122,42 @@ export default function Card({ project }) {
             <span className="font-medium normal-case tracking-normal text-[#7A7A85]">{project.area}</span>
           </div>
 
-          {/* name — hero */}
-          <h3
-            className="mt-1.5 text-[21px] leading-[1.08] tracking-[-0.02em] text-[#0A0A12] transition-colors duration-300 group-hover:text-[#9A7625] sm:text-[24px]"
-            style={{ fontFamily: HEAD, fontWeight: 600 }}
-          >
-            {project.name}
-          </h3>
+          {/* name — hero (one line; full name on hover only when clipped) */}
+          <div className="relative mt-1.5" onMouseEnter={onNameEnter} onMouseLeave={() => setShowName(false)}>
+            <h3
+              ref={nameRef}
+              className="min-w-0 truncate text-[21px] leading-[1.08] tracking-[-0.02em] text-[#0A0A12] transition-colors duration-300 group-hover:text-[#9A7625] sm:text-[24px]"
+              style={{ fontFamily: HEAD, fontWeight: 600 }}
+            >
+              {project.name}
+            </h3>
+            {clipped && showName && (
+              <span
+                className="pointer-events-none absolute left-0 top-full z-30 mt-1.5 max-w-[260px] rounded-lg bg-[#0A0A12] px-3 py-1.5 text-[12px] font-medium leading-snug text-white shadow-[0_12px_30px_-10px_rgba(10,10,18,0.5)]"
+                style={{ fontFamily: BODY }}
+              >
+                {project.name}
+              </span>
+            )}
+          </div>
 
-          {/* beds · size — key configuration */}
-          <p className="mt-2 flex items-center gap-2 text-[13px] font-semibold text-[#2A2A32]">
-            {project.beds}
-            <span className="h-3 w-px bg-[rgba(10,10,18,0.15)]" />
-            {project.size}
-          </p>
+          {/* beds · size — key configuration, clean text with subtle icons */}
+          <div className="mt-2.5 flex items-center gap-3 text-[13px] font-semibold text-[#2A2A32]">
+            <span className="inline-flex min-w-0 items-center gap-1.5">
+              <BedDouble size={15} className="shrink-0 text-[#80603f]" />
+              <span className="truncate">{project.beds}</span>
+            </span>
+            <span className="h-3.5 w-px shrink-0 bg-[rgba(10,10,18,0.14)]" />
+            <span className="inline-flex min-w-0 items-center gap-1.5">
+              <DraftingCompass size={15} className="shrink-0 text-[#80603f]" />
+              <span className="truncate">{project.size}</span>
+            </span>
+          </div>
 
-          {/* highlight — supporting copy (hidden on mobile to reduce clutter) */}
-          <p className="mt-2 hidden text-[12.5px] leading-relaxed text-[#9A9AA3] sm:line-clamp-2">{project.highlight}</p>
+          {/* highlight — supporting copy (hidden on mobile to reduce clutter; fully hidden on the home page to keep cards short) */}
+          {!hideHighlight && (
+            <p className="mt-2 hidden text-[12.5px] leading-relaxed text-[#9A9AA3] sm:line-clamp-2">{project.highlight}</p>
+          )}
 
           {/* divided spec strip — 3 decision facts */}
           {/* metrics — equal thirds, value on top (left), label below; clean dividers, wraps not cut */}
@@ -144,8 +176,8 @@ export default function Card({ project }) {
             ))}
           </div>
 
-          {/* footer CTA */}
-          <div className="mt-auto flex items-center justify-between pt-4">
+          {/* footer CTA — home cards (hideHighlight) sit tight under the metrics; elsewhere pin to the bottom for equal-height alignment */}
+          <div className={`flex items-center justify-between ${hideHighlight ? 'mt-4' : 'mt-auto pt-4'}`}>
             <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#0A0A12]">
               View details
             </span>

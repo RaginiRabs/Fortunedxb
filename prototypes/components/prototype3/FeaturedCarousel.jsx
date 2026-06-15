@@ -6,7 +6,7 @@ import Card from '@/components/prototype3/Card';
 
 // Horizontal scroll carousel — ~3.25 cards per frame on desktop (4th peeks),
 // hidden scrollbar, arrow buttons scroll by ~one frame.
-export default function FeaturedCarousel({ projects }) {
+export default function FeaturedCarousel({ projects, hideHighlight = false }) {
   const ref = useRef(null);
 
   const scroll = (dir) => {
@@ -43,7 +43,7 @@ export default function FeaturedCarousel({ projects }) {
             key={p.id}
             className="w-[80%] shrink-0 snap-start sm:w-[44%] lg:w-[calc((100%-3.75rem)/3.25)]"
           >
-            <Card project={p} />
+            <Card project={p} hideHighlight={hideHighlight} />
           </div>
         ))}
       </div>

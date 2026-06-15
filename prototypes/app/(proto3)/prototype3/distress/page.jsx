@@ -41,7 +41,7 @@ export default function DistressPage() {
           ))}
         </Reveal>
 
-        <SearchCards projects={deals} placeholder="Search distress deals…" />
+        <SearchCards projects={deals} placeholder="Search distress deals…" wide />
       </section>
 
       {/* FAQ + advisor CTA, side by side */}
