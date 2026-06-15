@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { projects, project as detailTemplate } from '@/mock/prototype2/projects';
 import ProjectDetail from '@/components/prototype2/ProjectDetail';
-
+     
 export default async function Prototype2DetailPage({ params }) {
   const { id } = await params;
   const listed = projects.find((p) => String(p.id) === String(id));

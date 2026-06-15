@@ -1,9 +1,21 @@
    ▲ Next.js 16.0.7 (Turbopack)
-   - Local:         http://localhost:3199
-   - Network:       http://192.168.1.83:3199
+   - Local:         http://localhost:3000
+   - Network:       http://192.168.1.58:3000
 
  ✓ Starting...
 [baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
- ⨯ Unable to acquire lock at C:\Users\HP EliteBook\Documents\Aftab\Fortune\Fortunedxb\prototypes\.next\dev\lock, is another instance of next dev running?
-   Suggestion: If you intended to restart next dev, terminate the other process, and then try again.
-[?25h
+ ✓ Ready in 2.5s
+ ○ Compiling / ...
+ GET / 200 in 11.8s (compile: 10.4s, render: 1393ms)
+ ○ Compiling /prototype2/distress-deals ...
+ GET /prototype2/distress-deals 200 in 4.2s (compile: 3.5s, render: 689ms)
+ GET /prototype1 200 in 6.0s (compile: 3.0s, render: 3.0s)
+ GET /prototype2 200 in 1228ms (compile: 760ms, render: 468ms)
+ GET /prototype2/projects 200 in 1029ms (compile: 830ms, render: 200ms)
+ GET /prototype2/resale 200 in 1188ms (compile: 797ms, render: 391ms)
+ GET /prototype2/distress-deals 200 in 442ms (compile: 81ms, render: 361ms)
+ GET /prototype4 200 in 1582ms (compile: 1103ms, render: 479ms)
+ GET /prototype1 200 in 785ms (compile: 29ms, render: 756ms)
+ GET / 200 in 281ms (compile: 24ms, render: 258ms)
+ GET /prototype2 200 in 358ms (compile: 17ms, render: 341ms)
+ GET /prototype2/distress-deals 200 in 59ms (compile: 6ms, render: 53ms)
