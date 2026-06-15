@@ -19,7 +19,7 @@ export default function SiteNav() {
 
   return (
     <header className="sticky top-0 z-50 px-4 pt-4 md:px-6">
-      <div className="mx-auto flex h-[80px] max-w-[1400px] items-center justify-between gap-6 rounded-full border border-brand-pale/80 bg-cream/80 px-3 pl-5 shadow-[0_10px_40px_-16px_rgba(58,44,34,0.35)] backdrop-blur-xl md:pl-6">
+      <div className="mx-auto flex h-[80px] max-w-[1400px] items-center justify-between gap-6 rounded-full border border-brand-pale/80 bg-cream/85 px-3 pl-5 shadow-[0_10px_40px_-16px_rgba(58,44,34,0.35)] backdrop-blur-xl md:pl-6">
         {/* Logo */}
         <Link href="/prototype2" className="flex shrink-0 items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}

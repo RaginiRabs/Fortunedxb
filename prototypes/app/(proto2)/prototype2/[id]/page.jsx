@@ -1,22 +1,24 @@
 import { notFound } from 'next/navigation';
-import { projects, project as detailTemplate } from '@/mock/prototype2/projects';
-import ProjectDetail from '@/components/prototype2/ProjectDetail';
-     
+import { projects } from '@/mock/prototype2/projects';
+import { projects as proto4Projects } from '@/mock/prototype4/projects';
+import ProjectDetails from '@/components/prototype4/ProjectDetails';
+
 export default async function Prototype2DetailPage({ params }) {
   const { id } = await params;
   const listed = projects.find((p) => String(p.id) === String(id));
   if (!listed) notFound();
 
-  // The rich detail content is a shared template; overlay the selected
-  // card's headline fields so each project's page feels distinct.
+  // Use the finalised prototype4 detail layout for every project page.
+  // Rich content comes from the matching prototype4 template (fallback to the
+  // first), overlaid with the selected card's headline fields.
+  const template = proto4Projects.find((p) => String(p.id) === String(id)) || proto4Projects[0];
   const project = {
-    ...detailTemplate,
+    ...template,
     name: listed.name,
     developer: listed.developer,
     area: listed.area,
-    launchPrice: listed.priceFrom,
-    heroImage: listed.image || detailTemplate.heroImage,
+    priceFrom: listed.priceFrom ?? template.priceFrom,
   };
 
-  return <ProjectDetail project={project} />;
+  return <ProjectDetails project={project} />;
 }

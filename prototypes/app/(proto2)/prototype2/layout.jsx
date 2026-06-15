@@ -20,6 +20,7 @@ export const metadata = { title: 'Fortune Realty — Off-plan Dubai' };
 export default function Prototype2Layout({ children }) {
   return (
     <div
+      style={{ '--font-heading': 'var(--font-serif)' }}
       className={`${serif.variable} ${sans.variable} min-h-screen bg-cream text-ink flex flex-col font-sans antialiased selection:bg-brand/20`}
     >
       <SiteNav />

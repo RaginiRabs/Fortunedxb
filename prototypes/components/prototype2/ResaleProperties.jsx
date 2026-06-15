@@ -241,7 +241,7 @@ export default function ResaleProperties({ properties, typeFacets, statusFacets 
                 onClick={() => setTab(t)}
                 className={
                   'whitespace-nowrap rounded-full border px-4 py-2 text-[13px] font-medium transition-colors ' +
-                  (tab === t ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale bg-white text-ink-soft hover:border-[#8C6A52]/60 hover:text-ink')
+                  (tab === t ? 'border-[#8C6A52] bg-white text-[#8C6A52]' : 'border-brand-pale bg-white text-ink-soft hover:border-[#8C6A52]/60 hover:text-ink')
                 }
               >
                 {t}
