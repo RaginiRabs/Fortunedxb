@@ -70,7 +70,7 @@ export default function ExploreLocation() {
 
       <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
         {/* Cinematic hero — cross-fades between communities */}
-        <div className="relative min-h-[240px] overflow-hidden rounded-3xl ring-1 ring-black/5 lg:min-h-[300px]">
+        <div className="relative min-h-[380px] overflow-hidden rounded-3xl ring-1 ring-black/5 lg:min-h-[300px]">
           {sorted.map((c) => (
             <img
               key={c.name}
@@ -97,25 +97,29 @@ export default function ExploreLocation() {
                 {BLURB[selected.name] || 'A sought-after Dubai community with active inventory and strong investor demand.'}
               </p>
 
-              {/* inline stat strip */}
-              <div className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-3">
-                {[
-                  [Building2, `${selected.projectCount}`, 'Projects'],
-                  [TrendingUp, METRICS.avgPrice.fmt(selected.avgPrice), 'Avg price'],
-                  [Hash, selected.salesVolume.toLocaleString(), 'Sales / yr'],
-                ].map(([Icon, value, label]) => (
-                  <div key={label} className="flex items-center gap-2.5">
-                    <Icon aria-hidden="true" size={18} className="text-[#E0C3A0]" />
-                    <div>
-                      <p className="text-[17px] font-bold leading-none tracking-tight font-[family-name:var(--font-heading)]">{value}</p>
-                      <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-white/55">{label}</p>
+              {/* stats + CTA — 3-col grid on mobile, inline on desktop */}
+              <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+                <div className="grid grid-cols-3 gap-x-3 sm:flex sm:flex-wrap sm:items-center sm:gap-x-7">
+                  {[
+                    [Building2, `${selected.projectCount}`, 'Projects'],
+                    [TrendingUp, METRICS.avgPrice.fmt(selected.avgPrice), 'Avg price'],
+                    [Hash, selected.salesVolume.toLocaleString(), 'Sales / yr'],
+                  ].map(([Icon, value, label]) => (
+                    <div key={label} className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+                      <Icon aria-hidden="true" size={18} className="hidden shrink-0 text-[#E0C3A0] sm:block" />
+                      <div className="min-w-0">
+                        <p className="truncate text-[16px] font-bold leading-none tracking-tight font-[family-name:var(--font-heading)] sm:text-[17px]">
+                          {value}
+                        </p>
+                        <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-white/55">{label}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
 
                 <Link
                   href={`/prototype3/projects?area=${encodeURIComponent(selected.name)}`}
-                  className="group ml-auto inline-flex items-center gap-2 rounded-full bg-[#E0C3A0] px-5 py-2.5 text-sm font-semibold text-[#2E231B] outline-none transition-all hover:bg-white focus-visible:ring-2 focus-visible:ring-white/60"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#E0C3A0] px-5 py-2.5 text-sm font-semibold text-[#2E231B] outline-none transition-all hover:bg-white focus-visible:ring-2 focus-visible:ring-white/60 sm:ml-auto sm:w-auto"
                 >
                   View projects
                   <ArrowUpRight size={15} className="transition-transform motion-safe:group-hover:translate-x-0.5" />

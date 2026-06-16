@@ -41,7 +41,7 @@ export default function FeaturedCarousel({ projects, hideHighlight = false }) {
         {projects.map((p) => (
           <div
             key={p.id}
-            className="w-[80%] shrink-0 snap-start sm:w-[44%] lg:w-[calc((100%-3.75rem)/3.25)]"
+            className="w-[85%] shrink-0 snap-start sm:w-[44%] lg:w-[calc((100%-3.75rem)/3.25)]"
           >
             <Card project={p} hideHighlight={hideHighlight} />
           </div>

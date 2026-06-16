@@ -1,6 +1,7 @@
 // prototype3 OWN layout — clean luxury (light neutral + gold), own fresh navbar.
 import { Montserrat, Work_Sans } from 'next/font/google';
 import Navbar from '@/components/prototype3/Navbar';
+import ContactDock from '@/components/prototype3/ContactDock';
 
 const heading = Montserrat({ subsets: ['latin'], weight: ['500', '600', '700', '800'], variable: '--font-heading' });
 const body = Work_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-body' });
@@ -23,6 +24,7 @@ export default function Prototype3Layout({ children }) {
       `}</style>
       <Navbar />
       <main className="flex-1">{children}</main>
+      <ContactDock />
     </div>
   );
 }

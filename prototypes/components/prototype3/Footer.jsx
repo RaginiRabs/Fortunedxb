@@ -16,11 +16,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link href="/prototype3" className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#C49A3C] text-[13px] font-bold text-[#0A0A12] font-[family-name:var(--font-heading)]">
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#E0C3A0] text-[13px] font-bold text-[#0A0A12] font-[family-name:var(--font-heading)]">
                 F
               </span>
               <span className="text-[17px] font-bold tracking-tight font-[family-name:var(--font-heading)]">
-                FortuneDXB<span className="text-[#C49A3C]">.</span>
+                FortuneDXB<span className="text-[#E0C3A0]">.</span>
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/55">
@@ -32,7 +32,7 @@ export default function Footer() {
                   key={i}
                   href="#"
                   aria-label="Social link"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-[#C49A3C] hover:bg-[#C49A3C] hover:text-[#0A0A12]"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-[#E0C3A0] hover:bg-[#E0C3A0] hover:text-[#0A0A12]"
                 >
                   <Icon size={16} />
                 </a>
@@ -43,7 +43,7 @@ export default function Footer() {
           {/* Link columns */}
           {COLS.map(([title, links]) => (
             <div key={title}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#C49A3C]">{title}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#E0C3A0]">{title}</p>
               <ul className="mt-4 space-y-3">
                 {links.map(([label, href]) => (
                   <li key={href}>
@@ -58,8 +58,8 @@ export default function Footer() {
 
           {/* Newsletter + contact */}
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#C49A3C]">Get new launches first</p>
-            <form className="mt-4 flex overflow-hidden rounded-full border border-white/18 bg-white/[0.05] focus-within:border-[#C49A3C]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#E0C3A0]">Get new launches first</p>
+            <form className="mt-4 flex overflow-hidden rounded-full border border-white/18 bg-white/[0.05] focus-within:border-[#E0C3A0]">
               <input
                 type="email"
                 placeholder="Your email"
@@ -68,20 +68,20 @@ export default function Footer() {
               <button
                 type="button"
                 aria-label="Subscribe"
-                className="grid w-12 shrink-0 place-items-center bg-[#C49A3C] text-[#0A0A12] transition-colors hover:bg-[#d9b45e]"
+                className="grid w-12 shrink-0 place-items-center bg-[#E0C3A0] text-[#0A0A12] transition-colors hover:bg-[#EBD2B0]"
               >
                 <ArrowRight size={17} />
               </button>
             </form>
             <ul className="mt-5 space-y-2.5 text-sm text-white/60">
               <li className="flex items-center gap-2.5">
-                <MapPin size={15} className="text-[#C49A3C]" /> Business Bay, Dubai, UAE
+                <MapPin size={15} className="text-[#E0C3A0]" /> Business Bay, Dubai, UAE
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone size={15} className="text-[#C49A3C]" /> +971 4 000 0000
+                <Phone size={15} className="text-[#E0C3A0]" /> +971 4 000 0000
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail size={15} className="text-[#C49A3C]" /> hello@fortunedxb.ae
+                <Mail size={15} className="text-[#E0C3A0]" /> hello@fortunedxb.ae
               </li>
             </ul>
           </div>
