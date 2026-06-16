@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { Landmark, ArrowUpRight } from 'lucide-react';
+import { Landmark, MapPin } from 'lucide-react';
 
 export default function Card({ project, variant = 'offplan', discount }) {
-  // Unsplash image utility
-  const imgUrl = (id) => `https://images.unsplash.com/${id}?w=600&q=80&auto=format&fit=crop`;
+  // Unsplash image utility — higher resolution for crisp card covers
+  const imgUrl = (id) => `https://images.unsplash.com/${id}?w=900&q=85&auto=format&fit=crop`;
   const coverImage = project.gallery?.[0] || 'photo-1512453979798-5ea266f8880c';
 
   // Format currencies
@@ -17,85 +17,92 @@ export default function Card({ project, variant = 'offplan', discount }) {
 
   return (
     <article className="group relative flex flex-col h-full bg-white border border-[#e8e2da] rounded-xl overflow-hidden shadow-xs hover:shadow-lg hover:border-[#80603f]/50 transition-all duration-300 transform hover:-translate-y-1">
-      
-      {/* Image container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#faf7f3] shrink-0 border-b border-[#e8e2da]/40">
+
+      {/* Image container — slimmer aspect to keep the card compact */}
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#faf7f3] shrink-0">
         <img
           src={imgUrl(coverImage)}
           alt={project.name}
-          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-103"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           loading="lazy"
         />
-        
-        {/* Sleek, professional rectangular status badges */}
+        {/* Subtle gradient so badges stay legible over any photo */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" />
+
+        {/* Status badges — clean pill style */}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
           {variant === 'offplan' && (
-            <span className="bg-white/95 text-[#80603f] border border-[#80603f]/30 text-[9px] font-black uppercase tracking-[0.2em] px-2.5 py-1 shadow-xs rounded-xs">
+            <span className="inline-flex items-center gap-1.5 bg-white text-[#80603f] text-[10px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full shadow-sm ring-1 ring-black/5">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#80603f]" />
               Off-Plan
             </span>
           )}
           {variant === 'distress' && (
             <>
-              <span className="bg-[#fff5f5] text-[#b91c1c] border border-[#fecaca] text-[9px] font-black uppercase tracking-[0.2em] px-2.5 py-1 shadow-xs rounded-xs">
+              <span className="inline-flex items-center gap-1.5 bg-white text-[#b91c1c] text-[10px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full shadow-sm ring-1 ring-black/5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#b91c1c] animate-pulse" />
                 Distress
               </span>
-              <span className="bg-[#b91c1c] text-white text-[9px] font-black uppercase tracking-[0.2em] px-2.5 py-1 shadow-xs rounded-xs">
+              <span className="bg-[#b91c1c] text-white text-[10px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full shadow-sm">
                 {off}% Under Market
               </span>
             </>
           )}
           {variant === 'resale' && (
-            <span className="bg-white/95 text-[#1e293b] border border-[#e2e8f0] text-[9px] font-black uppercase tracking-[0.2em] px-2.5 py-1 shadow-xs rounded-xs">
+            <span className="inline-flex items-center gap-1.5 bg-white text-[#1e293b] text-[10px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full shadow-sm ring-1 ring-black/5">
+              <span className="h-1.5 w-1.5 rounded-full bg-indigo-900" />
               Resale
             </span>
           )}
         </div>
 
         {/* Top-right serial number */}
-        <span className="absolute top-3 right-3 bg-black/55 text-white text-[9px] font-bold tracking-wider px-2 py-0.5 select-none font-mono rounded-xs">
+        <span className="absolute top-3 right-3 bg-black/55 backdrop-blur-sm text-white text-[10px] font-bold tracking-wider px-2 py-0.5 select-none font-mono rounded-full z-10">
           #{String(project.id).padStart(2, '0')}
         </span>
       </div>
 
       {/* Card Body - flex-grow forces uniform layout */}
-      <div className="flex-grow flex flex-col justify-between p-6">
+      <div className="flex-grow flex flex-col justify-between p-4">
         <div>
-          {/* Developer / Location */}
-          <div className="flex items-center justify-between text-[10px] text-[#574e44]/80 font-bold uppercase tracking-wider">
-            <span className="flex items-center gap-1">
-              <Landmark size={11} className="text-[#80603f]" />
+          {/* Developer / Location — highlighted pills */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="inline-flex items-center gap-1 bg-[#f5efe6] text-[#6a4b2e] text-[11px] font-bold px-2 py-0.5 rounded-md">
+              <Landmark size={12} className="text-[#80603f]" />
               {project.developer}
             </span>
-            <span>{project.area}</span>
+            <span className="inline-flex items-center gap-1 bg-[#f1f0ee] text-[#3f3a33] text-[11px] font-bold px-2 py-0.5 rounded-md">
+              <MapPin size={12} className="text-[#80603f]" />
+              {project.area}
+            </span>
           </div>
 
-          {/* Project Name */}
-          <h3 className="mt-2 text-2xl font-bold tracking-tight text-[#2a2520] group-hover:text-[#80603f] transition-colors line-clamp-1 font-[family-name:var(--font-heading)]">
-            <Link href={`/prototype4/${project.id}`} className="focus:outline-none flex items-center justify-between">
+          {/* Project Name — full name, no truncation, no arrow */}
+          <h3 className="mt-2.5 text-xl font-bold tracking-tight text-[#2a2520] group-hover:text-[#80603f] transition-colors leading-snug font-[family-name:var(--font-heading)]">
+            <Link href={`/prototype4/${project.id}`} className="focus:outline-none">
               {project.name}
-              <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity text-[#80603f]" />
             </Link>
           </h3>
 
-          {/* Clean Key-Value Metadata - 3 rows across all cards to ensure identical heights without gaps */}
-          <div className="mt-5 space-y-2.5 text-xs text-[#574e44]">
-            
+          {/* Key-Value Metadata - 3 rows across all variants for identical heights */}
+          <div className="mt-3 space-y-2 text-xs text-[#3f3a33]">
+
             {/* 1. Off-Plan Meta */}
             {variant === 'offplan' && (
               <>
-                <div className="flex justify-between border-b border-[#f5f1ea]/60 pb-1.5">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Est. Handover</span>
-                  <span className="font-extrabold text-[#2a2520]">{project.handover}</span>
+                <div className="flex justify-between border-b border-[#efe9e0] pb-1.5">
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Est. Handover</span>
+                  <span className="font-bold text-[#2a2520]">{project.handover}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#f5f1ea]/60 pb-1.5">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Construction</span>
-                  <span className="font-extrabold text-[#2a2520]">
+                <div className="flex justify-between border-b border-[#efe9e0] pb-1.5">
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Construction</span>
+                  <span className="font-bold text-[#2a2520]">
                     {project.completion < 1 ? (project.completion * 100).toFixed(0) : project.completion}% Completed
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Payment Plan</span>
-                  <span className="font-extrabold text-[#80603f]">{project.paymentPlan?.plan || 'Standard'} Plan</span>
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Payment Plan</span>
+                  <span className="font-bold text-[#80603f]">{project.paymentPlan?.plan || 'Standard'} Plan</span>
                 </div>
               </>
             )}
@@ -103,17 +110,17 @@ export default function Card({ project, variant = 'offplan', discount }) {
             {/* 2. Distress Meta */}
             {variant === 'distress' && (
               <>
-                <div className="flex justify-between border-b border-[#f5f1ea]/60 pb-1.5">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Market Value</span>
-                  <span className="font-medium line-through text-[#2a2520]/45 font-mono">AED {market.toLocaleString()}</span>
+                <div className="flex justify-between border-b border-[#efe9e0] pb-1.5">
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Market Value</span>
+                  <span className="font-medium line-through text-[#2a2520]/50 font-mono">AED {market.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between border-b border-[#f5f1ea]/60 pb-1.5">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Est. Savings</span>
-                  <span className="font-extrabold text-[#b91c1c] font-mono">AED {savings.toLocaleString()}</span>
+                <div className="flex justify-between border-b border-[#efe9e0] pb-1.5">
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Est. Savings</span>
+                  <span className="font-bold text-[#b91c1c] font-mono">AED {savings.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Deal Status</span>
-                  <span className="font-extrabold text-[#b91c1c] uppercase tracking-wider text-[9px]">Motivated Seller</span>
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Deal Status</span>
+                  <span className="font-bold text-[#b91c1c] uppercase tracking-wider text-[10px]">Motivated Seller</span>
                 </div>
               </>
             )}
@@ -121,17 +128,17 @@ export default function Card({ project, variant = 'offplan', discount }) {
             {/* 3. Resale Meta */}
             {variant === 'resale' && (
               <>
-                <div className="flex justify-between border-b border-[#f5f1ea]/60 pb-1.5">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Expected ROI</span>
-                  <span className="font-extrabold text-[#2a2520]">{project.roi}% ROI · {project.rentalYield}% Yield</span>
+                <div className="flex justify-between border-b border-[#efe9e0] pb-1.5">
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Expected ROI</span>
+                  <span className="font-bold text-[#2a2520]">{project.roi}% ROI · {project.rentalYield}% Yield</span>
                 </div>
-                <div className="flex justify-between border-b border-[#f5f1ea]/60 pb-1.5">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Price per Sqft</span>
-                  <span className="font-extrabold text-[#2a2520] font-mono">AED {project.avgPricePerSqft.toLocaleString()} / sqft</span>
+                <div className="flex justify-between border-b border-[#efe9e0] pb-1.5">
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Price per Sqft</span>
+                  <span className="font-bold text-[#2a2520] font-mono">AED {project.avgPricePerSqft.toLocaleString()} / sqft</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#675c4e]/70 uppercase tracking-wider text-[9px] font-bold">Property Status</span>
-                  <span className="font-extrabold text-indigo-950 uppercase tracking-wider text-[9px]">Ready to Move</span>
+                  <span className="text-[#6a6258] uppercase tracking-wider text-[10px] font-semibold">Property Status</span>
+                  <span className="font-bold text-indigo-950 uppercase tracking-wider text-[10px]">Ready to Move</span>
                 </div>
               </>
             )}
@@ -139,9 +146,9 @@ export default function Card({ project, variant = 'offplan', discount }) {
         </div>
 
         {/* Price & CTA Section */}
-        <div className="mt-5 pt-4 border-t border-[#e8e2da] flex items-end justify-between shrink-0">
+        <div className="mt-3 pt-3 border-t border-[#e8e2da] flex items-end justify-between shrink-0">
           <div>
-            <span className="block text-[9px] font-bold uppercase tracking-wider text-[#675c4e]">
+            <span className="block text-[10px] font-semibold uppercase tracking-wider text-[#6a6258]">
               {variant === 'distress' ? 'Distress Price' : 'Starting From'}
             </span>
             <div className="flex flex-col">

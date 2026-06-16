@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import {
   Waves, Dumbbell, ShieldCheck, Trees, Car, ShoppingBag, Baby, Utensils,
   Sparkles, Film, Bike, Anchor, Home, Briefcase, BellRing, Wine, Check,
-  TrainFront, GraduationCap, Plane, HeartPulse, MapPin, ChevronUp, ChevronLeft, ChevronRight, Download, Eye, X, Expand,
+  TrainFront, GraduationCap, Plane, HeartPulse, MapPin, ChevronUp, ChevronLeft, ChevronRight, Download, X, Expand,
   Wallet, CalendarClock, Building2, TrendingUp, Percent, Plus,
 } from 'lucide-react';
 import { CURRENCIES, formatMoney, formatMoneyShort } from '@/mock/prototype4/currency';
@@ -22,15 +22,9 @@ const INPUT = 'w-full rounded-lg border border-[#e8e2da] px-3.5 py-2.5 text-sm t
 
 const img = (id) => `https://images.unsplash.com/${id}?w=1200&q=80&auto=format&fit=crop`;
 const GALLERY_LABELS = ['Exterior', 'Lobby', 'Amenities', 'Interiors', 'Surroundings', 'Skyline'];
-const planImageFor = (name) => {
-  const n = name.toLowerCase();
-  if (n.includes('4 bed')) return `${DOCS}/plan-4bed.svg`;
-  if (n.includes('3 bed')) return `${DOCS}/plan-3bed.svg`;
-  if (n.includes('2 bed')) return `${DOCS}/plan-2bed.svg`;
-  if (n.includes('1 bed')) return `${DOCS}/plan-1bed.svg`;
-  if (n.includes('studio')) return `${DOCS}/plan-studio.svg`;
-  return `${DOCS}/plan-1bed.svg`;
-};
+// Temporary placeholder: single public-domain floor-plan image (Wikimedia Commons) for all unit types.
+const PLAN_IMG = 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Sample_Floorplan.jpg';
+const planImageFor = () => PLAN_IMG;
 const ytEmbed = (url) => {
   const m = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
   return `https://www.youtube.com/embed/${m ? m[1] : ''}`;
@@ -46,10 +40,10 @@ const TABS = [
   ['FAQ', 'faq'],
 ];
 
-// Varied muted accents for unit-distribution bar + legend (amber, blue, green, red, violet).
-const DIST_COLORS = ['#d98c34', '#2f6fae', '#2e8b57', '#b35454', '#6b5b95'];
-// Amenity icon-tile tones — three colours only (blue, green, violet), cycled equally.
-const TILE_TONES = ['bg-[#2f6fae]', 'bg-[#2e8b57]', 'bg-[#6b5b95]'];
+// Bright accents for unit-distribution bar + legend (amber, blue, green, red, violet).
+const DIST_COLORS = ['#f59e0b', '#3b82f6', '#22c55e', '#ef4444', '#8b5cf6'];
+// Amenity line-icon accent colours (blue, green, violet), cycled.
+const AMENITY_ICON_COLORS = ['#2f6fae', '#2e8b57', '#6b5b95'];
 // Payment-plan milestone circle tones (border + text).
 const STEP_TONES = [
   ['border-[#2f6fae]', 'text-[#2f6fae]'],
@@ -98,7 +92,7 @@ export default function ProjectDetails({ project }) {
   const [activeImg, setActiveImg] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [activeSection, setActiveSection] = useState('overview');
-  const [planModal, setPlanModal] = useState(null);
+  const [planOpen, setPlanOpen] = useState(false);
   const [planIdx, setPlanIdx] = useState(0);
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadIntent, setLeadIntent] = useState('Buy');
@@ -133,15 +127,15 @@ export default function ProjectDetails({ project }) {
   }, []);
 
   useEffect(() => {
-    if (!planModal && !leadOpen) return;
+    if (!planOpen && !leadOpen) return;
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      setPlanModal(null);
+      setPlanOpen(false);
       closeLead();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [planModal, leadOpen]);
+  }, [planOpen, leadOpen]);
 
   const goTo = (anchor) => (e) => {
     e.preventDefault();
@@ -190,9 +184,9 @@ export default function ProjectDetails({ project }) {
             );
           })}
           <div className="ml-auto py-2.5 shrink-0">
-            <div className="relative flex rounded-lg bg-[#f3ede5] p-1" style={{ width: `${CURRENCIES.length * 48}px` }}>
+            <div className="relative flex rounded-lg bg-[#eef1f4] p-1" style={{ width: `${CURRENCIES.length * 48}px` }}>
               <span
-                className={`absolute top-1 bottom-1 rounded-md ${GRAD} transition-transform duration-200 ease-out`}
+                className={`absolute top-1 bottom-1 rounded-md bg-[#33414f] transition-transform duration-200 ease-out`}
                 style={{ width: `calc((100% - 0.5rem) / ${CURRENCIES.length})`, left: '0.25rem', transform: `translateX(${curIdx * 100}%)` }}
               />
               {CURRENCIES.map((c, i) => (
@@ -239,7 +233,7 @@ export default function ProjectDetails({ project }) {
             type="button"
             onClick={() => setLightbox(true)}
             aria-label="View fullscreen"
-            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-[#2a2520] shadow transition hover:bg-white"
+            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white ring-1 ring-white/25 backdrop-blur-sm shadow-lg transition hover:bg-black/65"
           >
             <Expand size={17} />
           </button>
@@ -249,7 +243,7 @@ export default function ProjectDetails({ project }) {
             type="button"
             onClick={() => setActiveImg((activeImg - 1 + gLen) % gLen)}
             aria-label="Previous"
-            className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[#2a2520] opacity-0 shadow transition hover:bg-white group-hover:opacity-100"
+            className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white ring-1 ring-white/25 backdrop-blur-sm opacity-0 shadow-lg transition hover:bg-black/65 group-hover:opacity-100"
           >
             <ChevronLeft size={20} />
           </button>
@@ -257,7 +251,7 @@ export default function ProjectDetails({ project }) {
             type="button"
             onClick={() => setActiveImg((activeImg + 1) % gLen)}
             aria-label="Next"
-            className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-[#2a2520] opacity-0 shadow transition hover:bg-white group-hover:opacity-100"
+            className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white ring-1 ring-white/25 backdrop-blur-sm opacity-0 shadow-lg transition hover:bg-black/65 group-hover:opacity-100"
           >
             <ChevronRight size={20} />
           </button>
@@ -286,23 +280,23 @@ export default function ProjectDetails({ project }) {
 
       {/* Fullscreen lightbox */}
       {lightbox && (
-        <div className="fixed inset-0 z-[2000] flex flex-col bg-black/92 backdrop-blur-sm" onClick={() => setLightbox(false)}>
+        <div className="fixed inset-0 z-[2000] flex flex-col backdrop-blur-sm" style={{ backgroundColor: 'rgba(0,0,0,0.92)' }} onClick={() => setLightbox(false)}>
           <div className="flex items-center justify-between px-5 py-4 text-white/80">
             <span className="text-sm uppercase tracking-[0.18em]">
               {project.name} · {activeImg + 1}/{gLen}
             </span>
-            <button type="button" onClick={() => setLightbox(false)} className="rounded-full p-1.5 hover:bg-white/10">
+            <button type="button" onClick={() => setLightbox(false)} aria-label="Close" className="rounded-full p-2 bg-white/15 ring-1 ring-white/30 text-white hover:bg-white/30">
               <X size={22} />
             </button>
           </div>
           <div className="relative flex flex-1 items-center justify-center px-4 pb-6" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => setActiveImg((activeImg - 1 + gLen) % gLen)} className="absolute left-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
+            <button type="button" onClick={() => setActiveImg((activeImg - 1 + gLen) % gLen)} aria-label="Previous" className="absolute left-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/30 text-white backdrop-blur-sm hover:bg-white/30">
               <ChevronLeft size={22} />
             </button>
             <div className="aspect-[16/10] w-full max-w-4xl overflow-hidden rounded-xl bg-black/30 shadow-2xl">
               <img src={img(project.gallery[activeImg])} alt="" className="h-full w-full object-cover" />
             </div>
-            <button type="button" onClick={() => setActiveImg((activeImg + 1) % gLen)} className="absolute right-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
+            <button type="button" onClick={() => setActiveImg((activeImg + 1) % gLen)} aria-label="Next" className="absolute right-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/30 text-white backdrop-blur-sm hover:bg-white/30">
               <ChevronRight size={22} />
             </button>
           </div>
@@ -387,7 +381,7 @@ export default function ProjectDetails({ project }) {
 
             {/* Market Highlights */}
             <section id="market-data" className="pt-12 scroll-mt-36">
-              <SectionTitle no="02">Market Highlights</SectionTitle>
+              <SectionTitle no="02" accent="#2f6fae">Market Highlights</SectionTitle>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <Stat label="Total Units" value={project.totalUnits.toLocaleString()} />
                 <Stat label="Launch Date" value={project.launchDate} />
@@ -404,20 +398,24 @@ export default function ProjectDetails({ project }) {
             {/* Payment Plan — separated panel, horizontal stepper */}
             <section id="payment-plan" className="pt-12 scroll-mt-36">
               <div className="rounded-2xl bg-[#faf7f3] border border-[#e8e2da] p-6 md:p-8">
-                <SectionTitle no="03">Payment Plan</SectionTitle>
+                <SectionTitle no="03" accent="#2e8b57">Payment Plan</SectionTitle>
                 <p className="text-xs uppercase tracking-[0.2em] text-[#675c4e] mb-7">
                   {project.paymentPlan.totalCommitment}% Total · {project.paymentPlan.milestones} Milestones · {project.paymentPlan.plan} Plan
                 </p>
-                <div className="rounded-2xl border border-[#e8e2da] bg-white px-3 py-9 sm:px-8">
-                  <div className="flex">
+                <div className="rounded-2xl border border-[#e8e2da] bg-white px-5 py-7 sm:px-8 sm:py-9">
+                  <div className="flex flex-col gap-5 sm:flex-row sm:gap-0">
                     {project.paymentPlan.schedule.map((s, i, arr) => (
-                      <div key={i} className="flex-1 flex flex-col items-center relative px-1">
-                        {i < arr.length - 1 && <span className="absolute top-6 left-1/2 w-full h-px bg-[#e8e2da]" />}
-                        <div className={`relative z-10 h-12 w-12 rounded-full border ${STEP_TONES[i % STEP_TONES.length][0]} ${STEP_TONES[i % STEP_TONES.length][1]} bg-white flex items-center justify-center text-sm font-bold tabular-nums transition-all duration-150 hover:bg-white hover:shadow-[0_4px_16px_-4px_rgba(154,115,85,0.25)]`}>
+                      <div key={i} className="relative flex items-center gap-4 sm:flex-1 sm:flex-col sm:items-center sm:gap-0 sm:px-1">
+                        {i < arr.length - 1 && (
+                          <>
+                            <span className="hidden sm:block absolute top-6 left-1/2 w-full h-px bg-[#e8e2da]" />
+                            <span className="sm:hidden absolute left-6 top-12 h-5 w-px bg-[#e8e2da]" />
+                          </>
+                        )}
+                        <div className={`relative z-10 h-12 w-12 shrink-0 rounded-full border ${STEP_TONES[i % STEP_TONES.length][0]} ${STEP_TONES[i % STEP_TONES.length][1]} bg-white flex items-center justify-center text-sm font-bold tabular-nums transition-all duration-150 hover:bg-white hover:shadow-[0_4px_16px_-4px_rgba(154,115,85,0.25)]`}>
                           {s.percent}%
                         </div>
-                        <span className="mt-3 text-[11px] text-[#574e44] text-center leading-tight max-w-[92px]">{s.label}</span>
-                        <span className="mt-1 text-sm font-semibold text-[#2a2520] tabular-nums">{moneyM((project.priceFrom * s.percent) / 100)}</span>
+                        <span className="text-[13px] text-[#574e44] leading-tight sm:mt-3 sm:min-h-[30px] sm:text-[11px] sm:text-center sm:max-w-[92px]">{s.label}</span>
                       </div>
                     ))}
                   </div>
@@ -427,24 +425,31 @@ export default function ProjectDetails({ project }) {
 
             {/* Unit Plans — selector + large preview */}
             <section id="floor-plans" className="pt-12 scroll-mt-36">
-              <SectionTitle no="04">Unit Plans</SectionTitle>
+              <SectionTitle no="04" accent="#d98c34">Unit Plans</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] rounded-2xl border border-[#e8e2da] overflow-hidden bg-white">
                 {/* Left: bedroom-type pills */}
-                <div className="flex md:flex-col gap-1 p-2 overflow-x-auto no-scrollbar border-b md:border-b-0 md:border-r border-[#e8e2da]">
+                <div className="flex md:flex-col gap-2 p-2 overflow-x-auto no-scrollbar border-b md:border-b-0 md:border-r border-[#e8e2da]">
                   {project.floorPlans.map((f, i) => {
                     const active = i === planIdx;
                     return (
                       <button
                         key={i}
                         onClick={() => setPlanIdx(i)}
-                        className={`shrink-0 md:w-full text-left px-4 py-3 rounded-lg md:rounded-none md:border-l-2 transition-all duration-150 ${
-                          active ? 'md:border-[#80603f] bg-[#faf7f3] text-[#2a2520]' : 'md:border-transparent text-[#4a4138] hover:bg-[#faf7f3]'
+                        className={`group shrink-0 md:w-full text-left px-4 py-3 rounded-xl border flex items-center justify-between gap-3 transition-all duration-150 ${
+                          active
+                            ? 'border-[#80603f] bg-[#80603f] text-white shadow-[0_8px_20px_-8px_rgba(128,96,63,0.55)]'
+                            : 'border-[#e8e2da] text-[#2a2520] hover:border-[#80603f]/50 hover:bg-[#faf7f3]'
                         }`}
                       >
-                        <p className="text-sm font-semibold whitespace-nowrap">{f.name}</p>
-                        <p className="text-[11px] text-[#574e44] mt-0.5 whitespace-nowrap">
-                          {f.sizeMin && f.sizeMax ? `${f.sizeMin}–${f.sizeMax} sqft` : `${f.size} sqft`}
-                        </p>
+                        <span className="min-w-0">
+                          <span className="block text-sm font-semibold whitespace-nowrap">{f.name}</span>
+                          <span className={`block text-[11px] mt-0.5 whitespace-nowrap ${active ? 'text-white/70' : 'text-[#574e44]'}`}>
+                            {f.sizeMin && f.sizeMax ? `${f.sizeMin}–${f.sizeMax} sqft` : `${f.size} sqft`}
+                          </span>
+                        </span>
+                        <span className={`shrink-0 h-5 w-5 rounded-full flex items-center justify-center transition-colors ${active ? 'bg-white text-[#80603f]' : 'border border-[#e8e2da] text-transparent group-hover:border-[#80603f]/40'}`}>
+                          <Check size={12} strokeWidth={3} />
+                        </span>
                       </button>
                     );
                   })}
@@ -467,16 +472,17 @@ export default function ProjectDetails({ project }) {
                         {f.priceFrom && <p className="text-lg font-bold text-[#6a4b2e] tabular-nums">from {moneyM(f.priceFrom)}</p>}
                       </div>
 
-                      <div className="mt-5 rounded-xl bg-[#faf7f3] border border-[#e8e2da] flex items-center justify-center p-6 min-h-[300px]">
+                      <div className="relative mt-5 rounded-xl bg-[#faf7f3] border border-[#e8e2da] flex items-center justify-center p-6 min-h-[300px]">
                         <img key={planIdx} src={planImg} alt={`${f.name} plan`} className="p4-fade max-h-[320px] w-full object-contain" />
+                        <button
+                          type="button"
+                          onClick={() => setPlanOpen(true)}
+                          aria-label="View fullscreen"
+                          className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-black/45 text-white ring-1 ring-white/25 backdrop-blur-sm shadow-lg transition hover:bg-black/65"
+                        >
+                          <Expand size={17} />
+                        </button>
                       </div>
-
-                      <button
-                        onClick={() => setPlanModal({ img: planImg, title: f.name })}
-                        className="mt-5 self-start inline-flex items-center gap-2 border border-[#e8e2da] text-sm font-semibold text-[#80603f] hover:border-[#947049] hover:bg-[#faf7f3] px-5 py-2.5 rounded-lg transition-colors"
-                      >
-                        <Eye size={15} /> View Full Plan
-                      </button>
                     </div>
                   );
                 })()}
@@ -485,7 +491,7 @@ export default function ProjectDetails({ project }) {
 
             {/* Unit Specifications */}
             <section id="specifications" className="pt-12 scroll-mt-36">
-              <SectionTitle no="05">Unit Specifications</SectionTitle>
+              <SectionTitle no="05" accent="#6b5b95">Unit Specifications</SectionTitle>
               <div className="flex h-4 w-full rounded-md overflow-hidden mb-3">
                 {project.distribution.map((d, i) => (
                   <div key={i} style={{ width: `${d.percent}%`, backgroundColor: DIST_COLORS[i % DIST_COLORS.length] }} title={`${d.type} ${d.percent}%`} />
@@ -513,7 +519,7 @@ export default function ProjectDetails({ project }) {
                   </thead>
                   <tbody className="divide-y divide-[#e8e2da]">
                     {project.unitTypes.map((u, i) => (
-                      <tr key={i} className="hover:bg-[#faf7f3] transition-colors">
+                      <tr key={i} className="group hover:bg-[#faf7f3] transition-colors">
                         <td className={`px-4 py-5 text-[15px] font-semibold ${TEXT}`}>{u.beds}</td>
                         <td className={`px-4 py-5 ${BODY}`}>{u.sizeMin}–{u.sizeMax}</td>
                         <td className="px-4 py-5">
@@ -523,7 +529,7 @@ export default function ProjectDetails({ project }) {
                         <td className={`px-4 py-5 ${BODY}`}>{u.type}</td>
                         <td className={`px-4 py-5 ${BODY}`}>{u.units}</td>
                         <td className="px-4 py-5">
-                          <span className="inline-block rounded-full bg-[#ecf6f0] text-[#2e8b57] text-xs font-bold px-3 py-1">{u.available} left</span>
+                          <span className="inline-block rounded-full bg-[#ecf6f0] text-[#2e8b57] text-xs font-bold px-3 py-1 transition-colors group-hover:bg-transparent">{u.available} left</span>
                         </td>
                       </tr>
                     ))}
@@ -534,16 +540,14 @@ export default function ProjectDetails({ project }) {
 
             {/* Amenities */}
             <section className="pt-12">
-              <SectionTitle no="06">Amenities</SectionTitle>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <SectionTitle no="06" accent="#2f6fae">Amenities</SectionTitle>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 border-t border-[#e8e2da]">
                 {project.amenities.map((a, i) => {
                   const Icon = amenityIcon(a);
                   return (
-                    <div key={i} className="rounded-xl border border-[#e8e2da] px-4 py-4 flex items-center gap-3 hover:border-[#947049] transition-colors">
-                      <span className={`${TILE_TONES[i % TILE_TONES.length]} h-9 w-9 rounded-lg flex items-center justify-center text-white shrink-0`}>
-                        <Icon size={18} />
-                      </span>
-                      <span className={`text-sm ${BODY}`}>{a}</span>
+                    <div key={i} className="flex items-center gap-3.5 py-4 border-b border-[#e8e2da]">
+                      <Icon size={19} strokeWidth={1.75} color={AMENITY_ICON_COLORS[i % AMENITY_ICON_COLORS.length]} className="shrink-0" />
+                      <span className={`text-[15px] ${BODY}`}>{a}</span>
                     </div>
                   );
                 })}
@@ -552,7 +556,7 @@ export default function ProjectDetails({ project }) {
 
             {/* Location + metro map */}
             <section id="location" className="pt-12 scroll-mt-36">
-              <SectionTitle no="07">Location &amp; Market</SectionTitle>
+              <SectionTitle no="07" accent="#2e8b57">Location &amp; Market</SectionTitle>
               <MarketMap />
               <div className="mt-5 grid grid-cols-2 md:grid-cols-3 gap-3">
                 {project.nearby.map((p, i) => {
@@ -574,7 +578,7 @@ export default function ProjectDetails({ project }) {
 
             {/* FAQ — numbered ghost list */}
             <section id="faq" className="pt-12 scroll-mt-36">
-              <SectionTitle no="08">Frequently Asked Questions</SectionTitle>
+              <SectionTitle no="08" accent="#d98c34">Frequently Asked Questions</SectionTitle>
               <div className="border-t border-[#e8e2da]">
                 {project.faqs.map((f, i) => {
                   const open = faqOpen === i;
@@ -600,24 +604,25 @@ export default function ProjectDetails({ project }) {
                 })}
               </div>
             </section>
+
+            {/* Video tour — mobile: below FAQ */}
+            <div className="lg:hidden pt-12">
+              <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL} mb-2`}>Video Tour</p>
+              <div className="rounded-lg overflow-hidden border border-[#e8e2da] aspect-video bg-black">
+                <iframe
+                  src={ytEmbed(project.videoUrl)}
+                  title={`${project.name} video tour`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </div>
           </div>
 
           {/* Sticky developer sidebar */}
           <aside className="lg:pt-2">
             <div className="lg:sticky lg:top-40 rounded-2xl border border-[#e8e2da] shadow-sm p-6 bg-white">
-              {/* Video tour — placed above the developer */}
-              <div id="video" className="mb-5 pb-5 border-b border-[#e8e2da] scroll-mt-24">
-                <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL} mb-2`}>Video Tour</p>
-                <div className="rounded-lg overflow-hidden border border-[#e8e2da] aspect-video bg-black">
-                  <iframe
-                    src={ytEmbed(project.videoUrl)}
-                    title={`${project.name} video tour`}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
               <div className={`${GRAD} h-16 w-16 rounded-xl flex items-center justify-center text-white font-bold text-lg font-[family-name:var(--font-heading)]`}>
                 {project.developer.slice(0, 2).toUpperCase()}
               </div>
@@ -651,6 +656,19 @@ export default function ProjectDetails({ project }) {
               <a href={`${DOCS}/brochure.pdf`} target="_blank" rel="noopener" className="mt-3 flex items-center justify-center gap-1.5 w-full border border-[#e8e2da] text-sm font-semibold text-[#6a4b2e] hover:border-[#947049] hover:bg-[#faf7f3] py-3 rounded-lg transition-colors">
                 <Download size={15} /> Download Brochure
               </a>
+              {/* Video tour — web: bottom of sidebar */}
+              <div id="video" className="hidden lg:block mt-5 pt-5 border-t border-[#e8e2da] scroll-mt-24">
+                <p className={`text-[10px] uppercase tracking-[0.15em] ${LABEL} mb-2`}>Video Tour</p>
+                <div className="rounded-lg overflow-hidden border border-[#e8e2da] aspect-video bg-black">
+                  <iframe
+                    src={ytEmbed(project.videoUrl)}
+                    title={`${project.name} video tour`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
             </div>
           </aside>
         </div>
@@ -694,9 +712,9 @@ export default function ProjectDetails({ project }) {
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-[#e8e2da] px-4 py-3 flex items-center gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.14em] text-[#675c4e]">From</p>
-          <p className="text-base font-bold text-[#6a4b2e] tabular-nums leading-none">{money(project.priceFrom)}</p>
+          <p className="text-base font-bold text-[#6a4b2e] tabular-nums leading-none">{moneyM(project.priceFrom)}</p>
         </div>
-        <button onClick={() => openLead()} className="bg-[#80603f] ml-auto text-white text-sm font-bold uppercase tracking-[0.08em] px-5 py-2.5 rounded-lg hover:bg-[#9d7754]">
+        <button onClick={() => openLead()} className="bg-[#80603f] ml-auto shrink-0 whitespace-nowrap text-white text-[13px] font-bold uppercase tracking-[0.06em] px-4 py-2.5 rounded-lg hover:bg-[#9d7754]">
           Register Interest
         </button>
       </div>
@@ -710,39 +728,47 @@ export default function ProjectDetails({ project }) {
         <ChevronUp size={20} />
       </button>
 
-      {/* Unit plan modal */}
-      {planModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-          onClick={() => setPlanModal(null)}
-        >
-          <div className="bg-white rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#e8e2da]">
-              <p className={`font-semibold ${TEXT}`}>
-                {planModal.title} <span className={`font-normal ${MUTED}`}>— Unit Plan</span>
-              </p>
-              <button
-                onClick={() => setPlanModal(null)}
-                aria-label="Close"
-                className="h-8 w-8 rounded-full flex items-center justify-center text-[#574e44] hover:bg-[#f3ede5] transition-colors"
-              >
-                <X size={18} />
+      {/* Unit plan fullscreen viewer — same look as the gallery lightbox */}
+      {planOpen && (() => {
+        const len = project.floorPlans.length;
+        const f = project.floorPlans[planIdx];
+        return (
+          <div className="fixed inset-0 z-[2000] flex flex-col backdrop-blur-sm" style={{ backgroundColor: 'rgba(0,0,0,0.92)' }} onClick={() => setPlanOpen(false)}>
+            <div className="flex items-center justify-between px-5 py-4">
+              <span className="text-sm uppercase tracking-[0.18em] text-white/80">
+                {f.name} · Unit Plan{len > 1 ? ` · ${planIdx + 1}/${len}` : ''}
+              </span>
+              <button type="button" onClick={() => setPlanOpen(false)} aria-label="Close" className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/40 backdrop-blur-sm transition hover:bg-white/35">
+                <X size={20} />
               </button>
             </div>
-            <div className="p-6 bg-[#faf7f3] flex items-center justify-center">
-              <img src={planModal.img} alt={`${planModal.title} plan`} className="w-full max-h-[65vh] object-contain" />
+            <div className="relative flex flex-1 items-center justify-center px-4 pb-6" onClick={(e) => e.stopPropagation()}>
+              {len > 1 && (
+                <button type="button" onClick={() => setPlanIdx((planIdx - 1 + len) % len)} aria-label="Previous" className="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/40 backdrop-blur-sm transition hover:bg-white/35">
+                  <ChevronLeft size={22} />
+                </button>
+              )}
+              <div className="w-full max-w-4xl overflow-auto rounded-xl bg-white shadow-2xl">
+                <img src={planImageFor()} alt={`${f.name} plan`} className="w-full max-h-[80vh] object-contain" />
+              </div>
+              {len > 1 && (
+                <button type="button" onClick={() => setPlanIdx((planIdx + 1) % len)} aria-label="Next" className="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/40 backdrop-blur-sm transition hover:bg-white/35">
+                  <ChevronRight size={22} />
+                </button>
+              )}
             </div>
-            <div className="flex justify-end px-5 py-3 border-t border-[#e8e2da]">
-              <button
-                onClick={() => setPlanModal(null)}
-                className="border border-[#e8e2da] text-sm font-semibold text-[#4a4138] hover:bg-[#faf7f3] px-5 py-2 rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
+            {len > 1 && (
+              <div className="flex flex-wrap justify-center gap-2 px-4 pb-5" onClick={(e) => e.stopPropagation()}>
+                {project.floorPlans.map((p, i) => (
+                  <button key={i} type="button" onClick={() => setPlanIdx(i)} className={`px-3.5 py-1.5 rounded-full text-[11px] font-semibold transition ${i === planIdx ? 'bg-white text-[#2a2520]' : 'bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25'}`}>
+                    {p.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Lead capture modal */}
       {leadOpen && (
@@ -823,11 +849,11 @@ export default function ProjectDetails({ project }) {
   );
 }
 
-function SectionTitle({ no, children }) {
+function SectionTitle({ no, children, accent = '#80603f' }) {
   return (
     <div className="mb-8">
       {no && (
-        <span className="block text-[13px] font-black tracking-[0.2em] text-[#80603f] mb-1.5">
+        <span className="block text-[13px] font-black tracking-[0.2em] mb-1.5" style={{ color: accent }}>
           {no} —
         </span>
       )}

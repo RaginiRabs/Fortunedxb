@@ -4,8 +4,9 @@
 // metro lines, landmarks and project-count badges.
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { MapPin, TrainFront, Landmark, Building2 } from 'lucide-react';
+import { MapPin, TrainFront, Landmark, Building2, X } from 'lucide-react';
 import { COMMUNITIES } from '@/mock/prototype4/communities';
+import { projectsForArea, AREA_PROJECT_CAP } from '@/mock/prototype4/areaProjects';
 
 const DubaiInteractiveMap = dynamic(() => import('@/components/map/DubaiInteractiveMap'), {
   ssr: false,
@@ -41,6 +42,8 @@ const LEGEND = [
 
 export default function Prototype4MapPage() {
   const [selected, setSelected] = useState(null);
+  const [drawer, setDrawer] = useState(null); // { name, count } when a badge is clicked
+  const drawerList = drawer ? projectsForArea(drawer.name, drawer.count) : [];
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-10">
@@ -73,14 +76,76 @@ export default function Prototype4MapPage() {
       </div>
 
       {/* Map */}
-      <div className="mt-7">
+      <div className="relative mt-7">
         <DubaiInteractiveMap
           height="min(78vh, 900px)"
           onCommunityClick={(community) => setSelected(community)}
+          onProjectBadgeClick={(info) => setDrawer(info)}
           projectCounts={PROJECT_COUNTS}
           initialZoom={10}
           center={[55.2744, 25.2048]}
         />
+
+        {/* Projects drawer — opens on clicking a project-number badge */}
+        <aside
+          className={`absolute inset-y-0 left-0 z-30 w-[340px] max-w-[85%] transition-transform duration-300 ease-out ${
+            drawer ? 'translate-x-0' : 'pointer-events-none -translate-x-[110%]'
+          }`}
+        >
+          <div className="flex h-full flex-col overflow-hidden rounded-l-2xl border border-[#e8e2da] bg-white shadow-2xl">
+            <div className="flex items-start justify-between gap-3 border-b border-[#e8e2da] bg-[#faf7f3] px-5 py-4">
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-[#80603f]">Projects in</p>
+                <h3 className="truncate text-lg font-bold text-[#2a2520] font-[family-name:var(--font-heading)]">
+                  {drawer?.name}
+                </h3>
+                <p className="text-[12px] text-[#675c4e]">{drawer?.count} active projects</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setDrawer(null)}
+                aria-label="Close"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[#675c4e] transition-colors hover:bg-[#f0ebe3] hover:text-[#2a2520]"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="no-scrollbar flex-1 space-y-2 overflow-y-auto p-3">
+              {drawerList.map((p) => (
+                <div
+                  key={p.id}
+                  className="flex gap-3 rounded-xl border border-[#e8e2da] p-2.5 transition-colors hover:border-[#80603f] hover:bg-[#faf7f3]"
+                >
+                  <img src={p.image} alt="" className="h-16 w-16 shrink-0 rounded-lg object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-bold text-[#2a2520]">{p.name}</p>
+                    <p className="truncate text-[11px] text-[#675c4e]">
+                      {p.developer} · {p.beds} · {p.handover}
+                    </p>
+                    <div className="mt-1 flex items-center justify-between gap-2">
+                      <span
+                        className="text-[10px] font-bold uppercase tracking-wide"
+                        style={{ color: p.status === 'Ready' ? '#15803d' : '#80603f' }}
+                      >
+                        {p.status}
+                      </span>
+                      <span className="font-mono text-xs font-bold text-[#6a4b2e]">
+                        AED {p.priceFrom.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {drawer && drawer.count > AREA_PROJECT_CAP && (
+              <div className="border-t border-[#e8e2da] px-5 py-3 text-center text-[11px] text-[#675c4e]">
+                Showing {AREA_PROJECT_CAP} of {drawer.count} projects
+              </div>
+            )}
+          </div>
+        </aside>
       </div>
 
       {/* Legend */}

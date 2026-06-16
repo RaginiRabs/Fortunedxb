@@ -233,7 +233,7 @@ function badgesGeoJSON(communities, counts = {}) {
         if (!count) return null;
         const c = centroidOf(f.geometry);
         return c
-          ? { type: 'Feature', properties: { count }, geometry: { type: 'Point', coordinates: c } }
+          ? { type: 'Feature', properties: { count, name: f.properties.__name }, geometry: { type: 'Point', coordinates: c } }
           : null;
       })
       .filter(Boolean),
@@ -243,6 +243,7 @@ function badgesGeoJSON(communities, counts = {}) {
 export default function DubaiInteractiveMap({
   height = '600px',
   onCommunityClick,
+  onProjectBadgeClick,
   projectCounts = {},
   initialZoom = 10.5,
   center = [55.2744, 25.2048],
@@ -254,8 +255,10 @@ export default function DubaiInteractiveMap({
   const communitiesRef = useRef(null);
   const projectCountsRef = useRef(projectCounts);
   const dropdownRef = useRef(null);
+  const onBadgeClickRef = useRef(onProjectBadgeClick);
 
   projectCountsRef.current = projectCounts;
+  onBadgeClickRef.current = onProjectBadgeClick;
   const [loading, setLoading] = useState(true);
   const [ready, setReady] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -267,11 +270,15 @@ export default function DubaiInteractiveMap({
     projects: false,
   });
 
-  // single-select: only one layer active at a time (clicking the active one clears it)
+  // Project Numbers overlay independently (sit on top of metro etc.); the rest
+  // are single-select. Clicking the active base layer clears it.
   const toggleLayer = (key) =>
     setLayers((prev) => {
-      const cleared = { metro: false, landmarks: false, medical: false, schools: false, projects: false };
-      return prev[key] ? cleared : { ...cleared, [key]: true };
+      if (key === 'projects') return { ...prev, projects: !prev.projects };
+      const base = { metro: false, landmarks: false, medical: false, schools: false };
+      return prev[key]
+        ? { ...base, projects: prev.projects }
+        : { ...base, [key]: true, projects: prev.projects };
     });
 
   // close dropdown on outside click only (stays open while toggling)
@@ -578,6 +585,22 @@ export default function DubaiInteractiveMap({
           'text-ignore-placement': true, // never push out community names
         },
         paint: { 'text-color': '#ffffff', 'text-translate': [0, 18] }, // match the circle
+      });
+
+      // clicking a project-number badge opens the projects drawer for that community
+      const onBadge = (e) => {
+        const f = e.features?.[0];
+        if (f) onBadgeClickRef.current?.({ name: f.properties.name, count: f.properties.count });
+      };
+      map.on('click', 'badge-circles', onBadge);
+      map.on('click', 'badge-counts', onBadge);
+      ['badge-circles', 'badge-counts'].forEach((id) => {
+        map.on('mouseenter', id, () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', id, () => {
+          map.getCanvas().style.cursor = '';
+        });
       });
 
       setReady(true);

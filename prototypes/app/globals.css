@@ -26,6 +26,16 @@ html {
   }
 }
 
+/* Continuous marquee for the Popular Locations carousel */
+@keyframes loc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 .p4-fade {
   animation: p4-fade 180ms ease;
 }

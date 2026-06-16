@@ -1,1 +1,67 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280"><rect width="400" height="280" fill="#ffffff"/><rect x="6" y="6" width="388" height="268" rx="6" fill="none" stroke="#9a7355" stroke-width="3"/><rect x="20" y="40" width="170" height="110" rx="3" fill="#faf7f3" stroke="#9a7355" stroke-width="2"/><text x="105" y="99" text-anchor="middle" font-size="13" font-family="Arial,sans-serif" fill="#7a5e44">Living</text><rect x="20" y="160" width="170" height="100" rx="3" fill="#faf7f3" stroke="#9a7355" stroke-width="2"/><text x="105" y="214" text-anchor="middle" font-size="13" font-family="Arial,sans-serif" fill="#7a5e44">Kitchen / Dining</text><rect x="200" y="40" width="90" height="105" rx="3" fill="#faf7f3" stroke="#9a7355" stroke-width="2"/><text x="245" y="96.5" text-anchor="middle" font-size="13" font-family="Arial,sans-serif" fill="#7a5e44">Bed 1</text><rect x="295" y="40" width="85" height="105" rx="3" fill="#faf7f3" stroke="#9a7355" stroke-width="2"/><text x="337.5" y="96.5" text-anchor="middle" font-size="13" font-family="Arial,sans-serif" fill="#7a5e44">Bed 2</text><rect x="200" y="155" width="90" height="105" rx="3" fill="#faf7f3" stroke="#9a7355" stroke-width="2"/><text x="245" y="211.5" text-anchor="middle" font-size="13" font-family="Arial,sans-serif" fill="#7a5e44">Bed 3</text><rect x="295" y="155" width="85" height="105" rx="3" fill="#faf7f3" stroke="#9a7355" stroke-width="2"/><text x="337.5" y="211.5" text-anchor="middle" font-size="13" font-family="Arial,sans-serif" fill="#7a5e44">Bed 4</text><text x="16" y="26" font-size="12" font-family="Arial,sans-serif" font-weight="700" fill="#9a7355">4 BEDROOMS</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="340" viewBox="0 0 480 340">
+  <style>
+    .rm{fill:#f3f7fb}
+    .w{stroke:#33414f;stroke-width:6;fill:none;stroke-linejoin:miter}
+    .iw{stroke:#33414f;stroke-width:3.5;fill:none;stroke-linecap:butt}
+    .lab{fill:#3f4d59;font:600 11px Arial,sans-serif;text-anchor:middle}
+    .sz{fill:#9aa7b3;font:500 9px Arial,sans-serif;text-anchor:middle}
+    .ttl{fill:#33414f;font:700 12px Arial,sans-serif;letter-spacing:1.5px}
+    .fur{fill:#e4ebf1;stroke:#c2ceda;stroke-width:1.5}
+    .win{stroke:#5b8fc7;stroke-width:4}
+    .door{stroke:#aebcc9;stroke-width:1.5;fill:none}
+  </style>
+  <rect width="480" height="340" fill="#ffffff"/>
+  <rect class="rm" x="18" y="34" width="444" height="290"/>
+  <rect class="w" x="18" y="34" width="444" height="290"/>
+  <!-- interior walls -->
+  <line class="iw" x1="18" y1="180" x2="462" y2="180"/>
+  <line class="iw" x1="210" y1="34" x2="210" y2="324"/>
+  <line class="iw" x1="336" y1="34" x2="336" y2="324"/>
+  <line class="iw" x1="130" y1="180" x2="130" y2="324"/>
+  <!-- windows -->
+  <line class="win" x1="60" y1="34" x2="150" y2="34"/>
+  <line class="win" x1="250" y1="34" x2="300" y2="34"/>
+  <line class="win" x1="380" y1="34" x2="430" y2="34"/>
+  <line class="win" x1="18" y1="220" x2="18" y2="280"/>
+  <line class="win" x1="250" y1="324" x2="300" y2="324"/>
+  <line class="win" x1="380" y1="324" x2="430" y2="324"/>
+  <!-- doors -->
+  <path class="door" d="M180 180 a22 22 0 0 1 -22 -22"/>
+  <path class="door" d="M210 110 a22 22 0 0 1 22 22"/>
+  <path class="door" d="M336 110 a22 22 0 0 1 22 22"/>
+  <path class="door" d="M260 180 a22 22 0 0 1 22 22"/>
+  <path class="door" d="M386 180 a22 22 0 0 1 22 22"/>
+  <!-- living (top-left) -->
+  <rect class="fur" x="34" y="120" width="104" height="30" rx="4"/>
+  <circle class="fur" cx="150" cy="80" r="20"/>
+  <!-- bedroom 1 (top-mid) -->
+  <rect class="fur" x="228" y="48" width="94" height="60" rx="4"/>
+  <rect class="fur" x="233" y="52" width="40" height="13" rx="3"/>
+  <rect class="fur" x="279" y="52" width="40" height="13" rx="3"/>
+  <!-- bedroom 2 (top-right) -->
+  <rect class="fur" x="352" y="48" width="96" height="60" rx="4"/>
+  <rect class="fur" x="357" y="52" width="41" height="13" rx="3"/>
+  <rect class="fur" x="404" y="52" width="41" height="13" rx="3"/>
+  <!-- kitchen (bottom-left) -->
+  <rect class="fur" x="28" y="190" width="92" height="16" rx="2"/>
+  <rect class="fur" x="28" y="206" width="16" height="48" rx="2"/>
+  <!-- bath (bottom, left-mid) -->
+  <rect class="fur" x="142" y="270" width="56" height="34" rx="6"/>
+  <!-- bedroom 3 (bottom-mid) -->
+  <rect class="fur" x="228" y="216" width="94" height="60" rx="4"/>
+  <rect class="fur" x="233" y="220" width="40" height="13" rx="3"/>
+  <rect class="fur" x="279" y="220" width="40" height="13" rx="3"/>
+  <!-- bedroom 4 (bottom-right) -->
+  <rect class="fur" x="352" y="216" width="96" height="60" rx="4"/>
+  <rect class="fur" x="357" y="220" width="41" height="13" rx="3"/>
+  <rect class="fur" x="404" y="220" width="41" height="13" rx="3"/>
+  <!-- labels -->
+  <text class="lab" x="105" y="105">Living</text>
+  <text class="lab" x="74" y="240">Kitchen</text>
+  <text class="lab" x="170" y="258">Bath</text>
+  <text class="lab" x="275" y="130">Bedroom 1</text>
+  <text class="lab" x="400" y="130">Bedroom 2</text>
+  <text class="lab" x="275" y="300">Bedroom 3</text>
+  <text class="lab" x="400" y="300">Bedroom 4</text>
+  <text class="ttl" x="18" y="24">4 BEDROOM</text>
+</svg>
