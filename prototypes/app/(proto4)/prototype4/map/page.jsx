@@ -76,7 +76,7 @@ export default function Prototype4MapPage() {
       </div>
 
       {/* Map */}
-      <div className="relative mt-7">
+      <div className="relative mt-7 overflow-hidden rounded-2xl">
         <DubaiInteractiveMap
           height="min(78vh, 900px)"
           onCommunityClick={(community) => setSelected(community)}
