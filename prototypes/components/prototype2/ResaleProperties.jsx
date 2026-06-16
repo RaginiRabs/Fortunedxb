@@ -108,6 +108,7 @@ export default function ResaleProperties({ properties, typeFacets, statusFacets 
   const [view, setView] = useState('grid');
   const [type, setType] = useState('All Types');
   const [statuses, setStatuses] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggle = (arr, set, v) => set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
@@ -147,10 +148,18 @@ export default function ResaleProperties({ properties, typeFacets, statusFacets 
           </div>
       </div>
 
+      {/* Mobile filter toggle */}
+      <button
+        onClick={() => setShowFilters((v) => !v)}
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand-pale bg-white py-3 text-sm font-semibold text-ink lg:hidden"
+      >
+        <SlidersHorizontal size={16} /> {showFilters ? 'Hide Filters' : 'Show Filters'}
+      </button>
+
       {/* Body */}
-      <div className="mt-7 grid gap-6 lg:grid-cols-[270px_1fr]">
+      <div className="mt-4 grid gap-6 lg:mt-7 lg:grid-cols-[270px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px]">
+        <aside className={(showFilters ? 'block' : 'hidden') + ' h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:block lg:sticky lg:top-[100px]'}>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button
@@ -215,10 +224,10 @@ export default function ResaleProperties({ properties, typeFacets, statusFacets 
         </aside>
 
         {/* Main */}
-        <div>
+        <div className="min-w-0">
           {/* Search + sort + view */}
           <div className="flex flex-wrap items-center gap-3">
-            <div className="relative min-w-[240px] flex-1">
+            <div className="relative w-full flex-1 sm:min-w-[240px] sm:w-auto">
               <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-faint" />
               <input
                 value={query}

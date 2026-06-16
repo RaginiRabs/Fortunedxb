@@ -110,6 +110,7 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
   const [dealType, setDealType] = useState('All Deals');
   const [ptype, setPtype] = useState('All Types');
   const [disc, setDisc] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
   const [secs, setSecs] = useState(() => deals.map((d) => d.secondsLeft));
 
   // live countdown
@@ -161,10 +162,18 @@ export default function DistressDeals({ deals, dealTypes, discounts }) {
         </div>
       </div>
 
+      {/* Mobile filter toggle */}
+      <button
+        onClick={() => setShowFilters((v) => !v)}
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand-pale bg-white py-3 text-sm font-semibold text-ink lg:hidden"
+      >
+        <SlidersHorizontal size={16} /> {showFilters ? 'Hide Filters' : 'Show Filters'}
+      </button>
+
       {/* Body */}
-      <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
+      <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-[260px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px]">
+        <aside className={(showFilters ? 'block' : 'hidden') + ' h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:block lg:sticky lg:top-[100px]'}>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button onClick={() => { setDealType('All Deals'); setPtype('All Types'); setDisc([]); setQuery(''); }} className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Clear All</button>

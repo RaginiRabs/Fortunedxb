@@ -110,6 +110,7 @@ export default function ProjectsBrowser({ projects, developers }) {
   const [statuses, setStatuses] = useState([]);
   const [type, setType] = useState('All Types');
   const [devs, setDevs] = useState(['All Developers']);
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggle = (arr, set, v) => set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
@@ -146,10 +147,18 @@ export default function ProjectsBrowser({ projects, developers }) {
         </div>
       </div>
 
+      {/* Mobile filter toggle */}
+      <button
+        onClick={() => setShowFilters((v) => !v)}
+        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand-pale bg-white py-3 text-sm font-semibold text-ink lg:hidden"
+      >
+        <SlidersHorizontal size={16} /> {showFilters ? 'Hide Filters' : 'Show Filters'}
+      </button>
+
       {/* Body */}
-      <div className="mt-7 grid gap-6 lg:grid-cols-[270px_1fr]">
+      <div className="mt-4 grid gap-6 lg:mt-7 lg:grid-cols-[270px_1fr]">
         {/* Sidebar */}
-        <aside className="h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px]">
+        <aside className={(showFilters ? 'block' : 'hidden') + ' h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:block lg:sticky lg:top-[100px]'}>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button
@@ -226,10 +235,10 @@ export default function ProjectsBrowser({ projects, developers }) {
         </aside>
 
         {/* Main */}
-        <div>
+        <div className="min-w-0">
           {/* Tabs + controls */}
           <div className="flex flex-wrap items-center gap-3">
-            <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-x-auto">
+            <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
               {TABS.map((t) => (
                 <button
                   key={t}

@@ -36,13 +36,13 @@ export default function Prototype2Home() {
   return (
     <div>
       {/* ===== Hero (full-bleed, sits behind the floating header) ===== */}
-      <section className="relative isolate -mt-[96px] flex min-h-[680px] items-center overflow-hidden md:min-h-[760px]">
+      <section className="relative isolate -mt-[76px] flex min-h-[600px] items-center overflow-hidden sm:-mt-[96px] md:min-h-[760px]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={HERO_IMG} alt="Dubai skyline" className="absolute inset-0 -z-10 h-full w-full object-cover" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-deeper/95 via-brand-deeper/80 to-brand-deeper/35" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-deeper/90 via-transparent to-brand-deeper/30" />
 
-        <div className="mx-auto w-full max-w-[1400px] px-5 pb-24 pt-32 md:px-8 md:pb-28 md:pt-36">
+        <div className="mx-auto w-full max-w-[1400px] px-5 pb-20 pt-28 md:px-8 md:pb-28 md:pt-36">
           <span className="inline-flex items-center gap-2 rounded-full border border-cream/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-cream backdrop-blur">
             <Star size={12} className="text-brand-soft" /> Dubai&apos;s trusted off-plan partner
           </span>
