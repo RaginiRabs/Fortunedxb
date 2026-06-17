@@ -2,7 +2,7 @@
 
 // prototype1 resale listings browser — functional filters, sort, pagination, grid/list. Mock only.
 import { useMemo, useState } from 'react';
-import { ChevronDown, ChevronLeft, ChevronRight, MapPin, Maximize, Calendar, ArrowRight, LayoutGrid, List, BadgeCheck } from 'lucide-react';
+import { ChevronDown, MapPin, Maximize, Calendar, ArrowRight, LayoutGrid, List, BadgeCheck } from 'lucide-react';
 import Dirham from '@/components/prototype1/Dirham';
 
 const u = (id, w = 600) => `https://images.unsplash.com/photo-${id}?w=${w}&q=72&auto=format&fit=crop`;
@@ -27,7 +27,6 @@ const SORTS = ['Newest', 'Price: Low to High', 'Price: High to Low', 'Highest RO
 const STATUS_TONE = { Vacant: 'bg-emerald-500', Rented: 'bg-[#80603f]', Ready: 'bg-blue-500' };
 
 const SELECT = 'w-full appearance-none rounded-lg border border-gray-200 bg-white py-2 pl-3 pr-8 text-[12px] text-gray-600 outline-none focus:border-[#80603f]';
-const PAGE = 6;
 
 function Field({ value, onChange, options }) {
   return (
@@ -44,7 +43,6 @@ export default function ResaleBrowser() {
   const [price, setPrice] = useState('Price Range');
   const [sort, setSort] = useState('Newest');
   const [view, setView] = useState('grid');
-  const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     let list = PROPS.filter((p) => {
@@ -61,10 +59,8 @@ export default function ResaleBrowser() {
     return list;
   }, [loc, type, price, sort]);
 
-  const reset = (fn) => (e) => { fn(e.target.value); setPage(1); };
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE));
-  const current = Math.min(page, pageCount);
-  const shown = filtered.slice((current - 1) * PAGE, current * PAGE);
+  const reset = (fn) => (e) => { fn(e.target.value); };
+  const shown = filtered;
 
   return (
     <div>
@@ -113,16 +109,6 @@ export default function ResaleBrowser() {
               </div>
             </article>
           ))}
-        </div>
-      )}
-
-      {pageCount > 1 && (
-        <div className="mt-7 flex items-center justify-center gap-2">
-          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={current === 1} className="grid h-9 w-9 place-items-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:border-[#80603f] hover:text-[#80603f] disabled:opacity-40"><ChevronLeft className="h-4 w-4" /></button>
-          {Array.from({ length: pageCount }).map((_, k) => (
-            <button key={k} onClick={() => setPage(k + 1)} className={`grid h-9 w-9 place-items-center rounded-lg text-sm font-medium transition-colors ${current === k + 1 ? 'bg-gradient-to-r from-[#96714a] to-[#6b4f33] text-white' : 'border border-gray-200 text-gray-600 hover:border-[#80603f] hover:text-[#80603f]'}`}>{k + 1}</button>
-          ))}
-          <button onClick={() => setPage((p) => Math.min(pageCount, p + 1))} disabled={current === pageCount} className="grid h-9 w-9 place-items-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:border-[#80603f] hover:text-[#80603f] disabled:opacity-40"><ChevronRight className="h-4 w-4" /></button>
         </div>
       )}
     </div>
