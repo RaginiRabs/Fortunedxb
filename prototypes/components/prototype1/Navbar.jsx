@@ -14,7 +14,7 @@ const hrefFor = (l) =>
     : l === 'Distress Deals' ? '/prototype1/distress-deals'
     : l === 'Ready Properties' ? '/prototype1/ready-properties'
     : l === 'Map' ? '/prototype1/map'
-    : l === 'About Us' ? '/prototype1/about'
+    : l === 'About Us' ? '/prototype1/about-3'
     : l === 'Contact Us' ? '/prototype1/contact'
     : '#';
 
@@ -39,7 +39,7 @@ function ConsultModal({ onClose }) {
         className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto overflow-x-hidden rounded-2xl bg-white shadow-2xl"
       >
         {/* header */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#1c1815] to-[#2a231b] px-7 py-7">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#1c1815] to-[#2a231b] px-5 py-6 sm:px-7 sm:py-7">
           <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#80603f]/30 blur-3xl" />
           <button
             onClick={onClose}
@@ -51,18 +51,18 @@ function ConsultModal({ onClose }) {
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#d8c4a8]">
             <Sparkles className="h-3.5 w-3.5" /> Free Consultation
           </span>
-          <h3 className="mt-3 text-2xl font-semibold text-white">Let&apos;s Find Your Perfect Property</h3>
+          <h3 className="mt-3 text-xl font-semibold text-white sm:text-2xl">Let&apos;s Find Your Perfect Property</h3>
           <p className="mt-1.5 text-[13px] text-gray-400">Share a few details and our experts will guide you to the best opportunities.</p>
         </div>
 
         {sent ? (
-          <div className="px-7 py-12 text-center">
+          <div className="px-5 py-10 text-center sm:px-7 sm:py-12">
             <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-emerald-600">
               <Check className="h-8 w-8" />
             </span>
             <h4 className="mt-4 text-xl font-semibold text-[#1a1a1a]">Request Received!</h4>
             <p className="mt-1.5 text-sm text-gray-500">Thank you. One of our advisors will reach out within 24 hours.</p>
-            <div className="mt-6 flex justify-center gap-3">
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
               <a href="tel:+971501234567" className="inline-flex items-center gap-2 rounded-full border border-[#80603f]/40 px-5 py-2.5 text-sm font-medium text-[#80603f] hover:bg-[#80603f] hover:text-white">
                 <Phone className="h-4 w-4" /> Call Now
               </a>
@@ -70,7 +70,7 @@ function ConsultModal({ onClose }) {
             </div>
           </div>
         ) : (
-          <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-3.5 px-7 py-6">
+          <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="space-y-3.5 px-5 py-6 sm:px-7">
             <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
               <div className={FIELD}>
                 <User className="h-4 w-4 shrink-0 text-[#80603f]" />
@@ -149,7 +149,7 @@ export default function Navbar() {
           </a>
 
           {/* Centered nav */}
-          <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-7 whitespace-nowrap lg:flex">
+          <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-5 whitespace-nowrap xl:flex xl:gap-7">
             {LINKS.map((l) => {
               const active = isActive(l);
               const ext = hrefFor(l).startsWith('http');
@@ -183,7 +183,7 @@ export default function Navbar() {
             </button>
             <button
               onClick={() => setOpen((v) => !v)}
-              className="grid h-10 w-10 place-items-center rounded-md border border-gray-200 text-gray-700 lg:hidden"
+              className="grid h-10 w-10 place-items-center rounded-md border border-gray-200 text-gray-700 xl:hidden"
               aria-label="Menu"
             >
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -193,7 +193,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <nav className="border-t border-gray-100 px-4 py-3 lg:hidden">
+          <nav className="border-t border-gray-100 px-4 py-3 xl:hidden">
             {LINKS.map((l) => (
               <a
                 key={l}

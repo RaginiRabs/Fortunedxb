@@ -70,7 +70,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1320]/95 via-[#0a1320]/80 to-[#0a1320]/30" />
         <div className="relative mx-auto max-w-[1400px] px-4 pb-20 pt-[150px] md:px-8 md:pb-28">
           <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c4a98f]">About Us</p>
-          <h1 className="mt-3 max-w-2xl text-4xl font-semibold leading-tight text-white md:text-5xl">
+          <h1 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
             Your Trusted Real Estate Partner in <span className="text-[#c4a98f]">Dubai</span>
           </h1>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-gray-300">
@@ -89,7 +89,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#80603f]">Who We Are</p>
-            <h2 className="mt-2 text-3xl font-semibold leading-tight text-[#1a1a1a]">Building Relationships, Delivering Results</h2>
+            <h2 className="mt-2 text-2xl font-semibold leading-tight text-[#1a1a1a] sm:text-3xl">Building Relationships, Delivering Results</h2>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
               At Fortune Realty LLC, we believe real estate is more than just properties — it&apos;s about people,
               trust, and long-term relationships. With deep market knowledge and a client-first approach, we help
@@ -103,18 +103,18 @@ export default function AboutPage() {
             </div>
           </div>
           <Reveal delay={0.15} y={36} className="overflow-hidden rounded-2xl shadow-[0_24px_60px_-20px_rgba(20,18,15,0.35)]">
-            <img src={img('1497366216548-37526070297c', 1100)} alt="Fortune Realty office" className="h-[420px] w-full object-cover" />
+            <img src={img('1497366216548-37526070297c', 1100)} alt="Fortune Realty office" className="h-72 w-full object-cover sm:h-[420px]" />
           </Reveal>
         </div>
       </section>
 
       {/* ===== Stats band ===== */}
       <section className="mx-auto max-w-[1400px] px-4 md:px-8">
-        <div className="grid grid-cols-2 gap-y-8 rounded-2xl bg-[#0a1320] px-6 py-10 text-center text-white md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-y-8 rounded-2xl bg-[#0a1320] px-4 py-10 text-center text-white sm:px-6 md:grid-cols-3 lg:grid-cols-5">
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.1} className="relative px-2 lg:border-r lg:border-white/10 lg:last:border-0">
               <s.icon className="mx-auto h-7 w-7 text-[#c4a98f]" strokeWidth={1.6} />
-              <div className="mt-3 text-3xl font-bold">
+              <div className="mt-3 text-2xl font-bold sm:text-3xl">
                 <CountUp end={parseInt(s.value, 10)} suffix={s.value.replace(/[\d,]/g, '')} />
               </div>
               <div className="mt-1 text-[12px] text-gray-400">{s.label}</div>
@@ -128,7 +128,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_2.2fr] lg:items-start">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#80603f]">Our Values</p>
-            <h2 className="mt-2 text-3xl font-semibold leading-tight text-[#1a1a1a]">The Principles That Drive Us</h2>
+            <h2 className="mt-2 text-2xl font-semibold leading-tight text-[#1a1a1a] sm:text-3xl">The Principles That Drive Us</h2>
             <p className="mt-4 text-[14px] leading-relaxed text-gray-500">
               We are committed to maintaining the highest standards of professionalism and ethics in every
               transaction we handle.
@@ -151,7 +151,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-4 py-16 md:px-8 lg:grid-cols-3 lg:items-center">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#c4a98f]">Why Choose Fortune Realty</p>
-            <h2 className="mt-2 text-3xl font-semibold leading-tight">Experience. Knowledge. Commitment.</h2>
+            <h2 className="mt-2 text-2xl font-semibold leading-tight sm:text-3xl">Experience. Knowledge. Commitment.</h2>
             <p className="mt-4 text-[14px] leading-relaxed text-gray-400">
               We combine local expertise with global standards to offer personalised real estate solutions that
               create real value.
@@ -185,7 +185,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_2.4fr] lg:items-center">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#80603f]">Our Team</p>
-            <h2 className="mt-2 text-3xl font-semibold leading-tight text-[#1a1a1a]">Meet the Experts Behind Your Success</h2>
+            <h2 className="mt-2 text-2xl font-semibold leading-tight text-[#1a1a1a] sm:text-3xl">Meet the Experts Behind Your Success</h2>
             <p className="mt-4 text-[14px] leading-relaxed text-gray-500">
               Our experienced team of professionals is dedicated to providing you with the best real estate
               experience in Dubai.
@@ -194,7 +194,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">
             {TEAM.map((t, i) => (
               <Reveal key={t.name} delay={i * 0.12} className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-18px_rgba(128,96,63,0.3)]">
-                <div className="h-56 overflow-hidden">
+                <div className="h-44 overflow-hidden sm:h-56">
                   <img src={t.img} alt={t.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <div className="p-4 text-center">
@@ -212,7 +212,7 @@ export default function AboutPage() {
         <div className="relative overflow-hidden rounded-2xl">
           <img src={img('1597659840241-37e2b9c2f55f', 1600)} alt="" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[#0a1320]/85" />
-          <div className="relative flex flex-col items-center justify-between gap-6 px-8 py-12 text-center lg:flex-row lg:text-left">
+          <div className="relative flex flex-col items-center justify-between gap-6 px-6 py-10 text-center sm:px-8 sm:py-12 lg:flex-row lg:text-left">
             <Reveal>
               <h2 className="text-2xl font-semibold text-white md:text-3xl">
                 Ready to Find Your <span className="text-[#c4a98f]">Next Property?</span>

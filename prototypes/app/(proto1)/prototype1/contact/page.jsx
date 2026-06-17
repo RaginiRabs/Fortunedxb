@@ -45,13 +45,13 @@ export default function ContactPage() {
         <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 gap-10 px-4 pb-16 pt-[140px] md:px-8 lg:grid-cols-2 lg:items-center">
           <Reveal>
             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c4a98f]">Contact Us</p>
-            <h1 className="mt-3 text-4xl font-semibold leading-tight text-white md:text-5xl">
+            <h1 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
               Let&apos;s Connect &amp; Find Your Next <span className="text-[#c4a98f]">Property</span>
             </h1>
             <p className="mt-4 max-w-md text-[15px] leading-relaxed text-gray-300">
               Our team is here to answer your questions and help you find the perfect real estate opportunities in Dubai.
             </p>
-            <div className="mt-7 flex flex-wrap gap-8">
+            <div className="mt-7 flex flex-wrap gap-x-8 gap-y-4">
               <a href="tel:+971501234567" className="flex items-center gap-3">
                 <span className="grid h-11 w-11 place-items-center rounded-full border border-white/20 text-[#c4a98f]"><Phone className="h-4 w-4" /></span>
                 <span><span className="block text-[11px] uppercase tracking-wide text-gray-400">Call Us</span><span className="text-sm font-semibold text-white">+971 50 123 4567</span></span>
@@ -146,7 +146,7 @@ export default function ContactPage() {
               <path d="M10 120V60l10-6v66M34 120V40l14 8v72M62 120V70l8-4v54M84 120V30c0-14 12-22 12-22s12 8 12 22v90M150 120V64l12-8v64M178 120V46l16 8v66M210 120V74l10-6v52" />
             </g>
           </svg>
-          <div className="relative flex flex-col items-center justify-between gap-6 px-8 py-12 text-center lg:flex-row lg:text-left">
+          <div className="relative flex flex-col items-center justify-between gap-6 px-6 py-12 text-center sm:px-8 lg:flex-row lg:text-left">
             <Reveal>
               <h2 className="text-2xl font-semibold text-white md:text-3xl">
                 Ready to Find Your Next Great <span className="text-[#c4a98f]">Investment?</span>

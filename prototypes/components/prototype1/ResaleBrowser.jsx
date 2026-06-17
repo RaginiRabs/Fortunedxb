@@ -26,12 +26,12 @@ const PRICES = ['Price Range', 'Under AED 2M', 'AED 2M – 5M', 'AED 5M+'];
 const SORTS = ['Newest', 'Price: Low to High', 'Price: High to Low', 'Highest ROI'];
 const STATUS_TONE = { Vacant: 'bg-emerald-500', Rented: 'bg-[#80603f]', Ready: 'bg-blue-500' };
 
-const SELECT = 'appearance-none rounded-lg border border-gray-200 bg-white py-2 pl-3 pr-8 text-[12px] text-gray-600 outline-none focus:border-[#80603f]';
+const SELECT = 'w-full appearance-none rounded-lg border border-gray-200 bg-white py-2 pl-3 pr-8 text-[12px] text-gray-600 outline-none focus:border-[#80603f]';
 const PAGE = 6;
 
 function Field({ value, onChange, options }) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <select value={value} onChange={onChange} className={SELECT}>{options.map((o) => <option key={o}>{o}</option>)}</select>
       <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
     </div>
@@ -68,14 +68,18 @@ export default function ResaleBrowser() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2.5">
-        <Field value={loc} onChange={reset(setLoc)} options={LOCATIONS} />
-        <Field value={type} onChange={reset(setType)} options={TYPES} />
-        <Field value={price} onChange={reset(setPrice)} options={PRICES} />
-        <div className="ml-auto flex items-center gap-2">
-          <Field value={sort} onChange={(e) => setSort(e.target.value)} options={SORTS} />
-          <button onClick={() => setView('grid')} className={`grid h-8 w-8 place-items-center rounded-md ${view === 'grid' ? 'bg-[#80603f] text-white' : 'border border-gray-200 text-gray-400'}`}><LayoutGrid className="h-4 w-4" /></button>
-          <button onClick={() => setView('list')} className={`grid h-8 w-8 place-items-center rounded-md ${view === 'list' ? 'bg-[#80603f] text-white' : 'border border-gray-200 text-gray-400'}`}><List className="h-4 w-4" /></button>
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3 sm:flex-1">
+          <Field value={loc} onChange={reset(setLoc)} options={LOCATIONS} />
+          <Field value={type} onChange={reset(setType)} options={TYPES} />
+          <Field value={price} onChange={reset(setPrice)} options={PRICES} />
+        </div>
+        <div className="flex items-center gap-2 sm:ml-auto sm:shrink-0">
+          <div className="flex-1 sm:w-40 sm:flex-none">
+            <Field value={sort} onChange={(e) => setSort(e.target.value)} options={SORTS} />
+          </div>
+          <button onClick={() => setView('grid')} className={`grid h-8 w-8 shrink-0 place-items-center rounded-md ${view === 'grid' ? 'bg-[#80603f] text-white' : 'border border-gray-200 text-gray-400'}`}><LayoutGrid className="h-4 w-4" /></button>
+          <button onClick={() => setView('list')} className={`grid h-8 w-8 shrink-0 place-items-center rounded-md ${view === 'list' ? 'bg-[#80603f] text-white' : 'border border-gray-200 text-gray-400'}`}><List className="h-4 w-4" /></button>
         </div>
       </div>
 
@@ -84,8 +88,8 @@ export default function ResaleBrowser() {
       ) : (
         <div className={view === 'grid' ? 'mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3' : 'mt-5 flex flex-col gap-4'}>
           {shown.map((p, idx) => (
-            <article key={`${p.name}-${idx}`} className={`group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_46px_-18px_rgba(128,96,63,0.28)] ${view === 'list' ? 'flex' : ''}`}>
-              <div className={`relative overflow-hidden ${view === 'list' ? 'w-48 shrink-0' : 'h-44'}`}>
+            <article key={`${p.name}-${idx}`} className={`group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_46px_-18px_rgba(128,96,63,0.28)] ${view === 'list' ? 'flex flex-col sm:flex-row' : ''}`}>
+              <div className={`relative overflow-hidden ${view === 'list' ? 'h-44 w-full sm:h-auto sm:w-48 sm:shrink-0' : 'h-44'}`}>
                 <img src={p.img} alt={p.name} loading="lazy" className={`object-cover transition-transform duration-500 group-hover:scale-110 ${view === 'list' ? 'absolute inset-0 h-full w-full' : 'h-full w-full'}`} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
                 <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-md bg-[#80603f] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white shadow"><BadgeCheck className="h-3 w-3" /> Verified</span>

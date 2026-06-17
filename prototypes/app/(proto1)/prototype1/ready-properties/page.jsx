@@ -90,10 +90,10 @@ export default function ResalePage() {
         <img src="/images/resale-hero.png" alt="" className="absolute inset-0 h-full w-full object-cover object-right-top" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a1320] via-[#0a1320]/45 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a1320]/90 to-transparent" />
-        <div className="relative mx-auto max-w-[1400px] px-4 pb-28 pt-[130px] md:px-8">
+        <div className="relative mx-auto max-w-[1400px] px-4 pb-20 pt-[120px] md:px-8 md:pb-28 md:pt-[130px]">
           <div className="max-w-xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c4a98f]">Ready Properties</p>
-            <h1 className="mt-3 text-4xl font-semibold leading-tight text-white md:text-5xl">
+            <h1 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
               Find Premium<br /><span className="text-[#c4a98f]">Ready Properties</span><br />in Dubai
             </h1>
             <p className="mt-4 text-[14px] leading-relaxed text-gray-300">Verified listings. Ready to move in.<br />Great locations. Better value.</p>

@@ -8,7 +8,7 @@ export default function PageHero({ eyebrow, title, highlight, sub, stats = [], i
 
       <div className="relative mx-auto max-w-[1400px] px-4 pb-12 pt-[140px] md:px-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c4a98f]">{eyebrow}</p>
-        <h1 className="mt-3 max-w-xl text-4xl font-semibold leading-tight text-white md:text-5xl">
+        <h1 className="mt-3 max-w-xl text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
           {title} {highlight && <span className="text-[#c4a98f]">{highlight}</span>}
         </h1>
         {sub && <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-gray-300">{sub}</p>}

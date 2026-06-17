@@ -68,9 +68,9 @@ export default function ProjectsPage() {
 
       {/* ===== Featured (below all projects) ===== */}
       <section className="mx-auto max-w-[1400px] px-4 pb-14 md:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Featured Projects</p>
-          <a href="#" className="inline-flex items-center gap-1.5 text-sm font-medium text-[#80603f] hover:underline">View All Projects <ArrowRight className="h-4 w-4" /></a>
+          <a href="#" className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-[#80603f] hover:underline">View All Projects <ArrowRight className="h-4 w-4" /></a>
         </div>
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURED.map((p, i) => (
@@ -105,12 +105,12 @@ export default function ProjectsPage() {
 
       {/* ===== Popular Communities ===== */}
       <section className="mx-auto max-w-[1400px] px-4 py-14 md:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Popular Communities</p>
-          <a href="#" className="inline-flex items-center gap-1.5 text-sm font-medium text-[#80603f] hover:underline">View All Communities <ArrowRight className="h-4 w-4" /></a>
+          <a href="#" className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-[#80603f] hover:underline">View All Communities <ArrowRight className="h-4 w-4" /></a>
         </div>
         <div className="mt-5 grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="grid grid-cols-3 gap-4 sm:grid-cols-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {COMMUNITIES.map((c) => (
               <a key={c.name} href="#" className="group relative aspect-[3/4] overflow-hidden rounded-xl shadow-[0_10px_28px_-14px_rgba(20,18,15,0.25)]">
                 <img src={c.img} alt={c.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />

@@ -153,7 +153,7 @@ function ProjectCard({ p }) {
 function ProjectListRow({ p }) {
   return (
     <article className="group flex overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1 hover:border-[#80603f]/30 hover:shadow-[0_24px_50px_-18px_rgba(128,96,63,0.3)]">
-      <div className="relative w-44 shrink-0 overflow-hidden bg-brand-pale">
+      <div className="relative w-28 shrink-0 overflow-hidden bg-brand-pale sm:w-44">
         {isEmpty(p.image) ? (
           <div className="absolute inset-0 flex items-center justify-center text-ink-faint"><Building2 size={26} /></div>
         ) : (
@@ -164,7 +164,7 @@ function ProjectListRow({ p }) {
         {!isEmpty(p.type) && <span className="absolute left-3 top-3 rounded-md bg-black/55 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur">{p.type}</span>}
         {!isEmpty(p.handover) && <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 text-[11px] font-medium text-white"><Calendar className="h-3.5 w-3.5" /> {p.handover}</span>}
       </div>
-      <div className="flex-1 p-5">
+      <div className="min-w-0 flex-1 p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="truncate text-[15px] font-semibold text-[#1a1a1a]">{isEmpty(p.name) ? <Skel w={130} h={15} /> : p.name}</h3>
