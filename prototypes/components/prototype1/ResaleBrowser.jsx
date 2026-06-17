@@ -43,6 +43,7 @@ export default function ResaleBrowser() {
   const [price, setPrice] = useState('Price Range');
   const [sort, setSort] = useState('Newest');
   const [view, setView] = useState('grid');
+  const [visible, setVisible] = useState(6); // load-more count
 
   const filtered = useMemo(() => {
     let list = PROPS.filter((p) => {
@@ -59,8 +60,8 @@ export default function ResaleBrowser() {
     return list;
   }, [loc, type, price, sort]);
 
-  const reset = (fn) => (e) => { fn(e.target.value); };
-  const shown = filtered;
+  const reset = (fn) => (e) => { fn(e.target.value); setVisible(6); };
+  const shown = filtered.slice(0, visible);
 
   return (
     <div>
@@ -109,6 +110,14 @@ export default function ResaleBrowser() {
               </div>
             </article>
           ))}
+        </div>
+      )}
+
+      {visible < filtered.length && (
+        <div className="mt-8 flex justify-center">
+          <button onClick={() => setVisible((v) => v + 6)} className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#80603f] underline-offset-4 transition-colors hover:text-[#6b4f33] hover:underline">
+            Load More <ChevronDown className="h-4 w-4" />
+          </button>
         </div>
       )}
     </div>

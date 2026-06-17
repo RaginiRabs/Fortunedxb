@@ -17,16 +17,10 @@ const BODY = '"Work Sans", "Work Sans Fallback", sans-serif';
 // Treat undefined / null / blank strings as "no data".
 const isEmpty = (v) => v === undefined || v === null || (typeof v === 'string' && v.trim() === '');
 
-// Faded skeleton bar shown in place of a missing value — keeps the card's
-// height + structure intact (label stays, only the value turns into this bar).
-// Inline styles so it renders even on the pre-built CSS (no Tailwind compile needed).
-function Skel({ w = 36, h = 12 }) {
-  return (
-    <span
-      aria-hidden="true"
-      style={{ display: 'inline-block', width: w, height: h, borderRadius: 3, background: 'rgba(154,140,126,0.22)', verticalAlign: 'middle' }}
-    />
-  );
+// Shown in place of a missing value — a muted "N/A" so the label stays meaningful
+// and the card's height/structure is unchanged.
+function Skel() {
+  return <span className="font-normal text-ink-faint" aria-label="Not available">N/A</span>;
 }
 
 const TABS = ['All Projects', 'Apartments', 'Villas', 'Townhouses', 'Penthouses', 'Off Plan', 'Ready'];
@@ -248,7 +242,7 @@ export default function ProjectsBrowser() {
 
       <div className={'grid gap-6 ' + (panelOpen ? 'lg:grid-cols-[270px_1fr]' : 'lg:grid-cols-1')}>
         {/* Sidebar — sticky; collapses on desktop toggle */}
-        <aside className={(showFilters ? 'block' : 'hidden') + ' relative z-50 h-fit self-start rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px] ' + (panelOpen ? 'lg:block' : 'lg:hidden')}>
+        <aside style={{ top: 120 }} className={(showFilters ? 'block' : 'hidden') + ' h-fit self-start rounded-2xl border border-brand-pale bg-white p-5 lg:sticky ' + (panelOpen ? 'lg:block' : 'lg:hidden')}>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button onClick={clearAll} className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Clear All</button>
