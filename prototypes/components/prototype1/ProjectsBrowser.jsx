@@ -1,228 +1,349 @@
 'use client';
 
-// prototype1 projects browser — functional filters, sort, load-more, grid/list. Mock only.
+// prototype1 Projects browser — proto2 layout (sidebar + tabs) ported into proto1.
+// Grid view = proto2 card + proto3 full colored metric strip. List view = proto1's original list card.
+// Toggleable sticky panel, endless load-more. Mock only — uses the prototype2 dataset.
 import { useMemo, useState } from 'react';
-import { ChevronDown, ChevronLeft, ChevronRight, MapPin, BedDouble, Building2, Calendar, LayoutGrid, List } from 'lucide-react';
+import {
+  Search, SlidersHorizontal, LayoutGrid, List, MapPin, ArrowRight, Calendar,
+  BedDouble, Building2, ChevronRight, ChevronDown, ChevronUp, PanelLeftClose, PanelLeftOpen,
+} from 'lucide-react';
 import Dirham from '@/components/prototype1/Dirham';
+import { projects, developerFacets } from '@/mock/prototype2/projects';
 
-const PROJECTS = [
-  { name: 'One By Nine', area: 'Nad Al Sheba, Dubai', type: 'Apartment', developer: 'Binghatti', price: '1.1M', priceNum: 1100000, roi: 8.0, beds: '1-3 Beds', bedsMax: 3, status: 'Q4 2026', img: 'https://images.unsplash.com/photo-1597659840241-37e2b9c2f55f?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Sobha Hartland II', area: 'Sobha Hartland', type: 'Apartment', developer: 'Sobha', price: '1.3M', priceNum: 1300000, roi: 7.8, beds: '1-4 Beds', bedsMax: 4, status: 'Q3 2026', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=72&auto=format&fit=crop' },
-  { name: 'DAMAC Bay 2', area: 'Dubai Harbour', type: 'Penthouse', developer: 'DAMAC', price: '2.4M', priceNum: 2400000, roi: 6.9, beds: '1-3 Beds', bedsMax: 3, status: 'Q4 2027', img: 'https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Azizi Venice', area: 'Dubai South', type: 'Apartment', developer: 'Azizi', price: '980K', priceNum: 980000, roi: 8.4, beds: 'Studio, 1-2 Beds', bedsMax: 2, status: 'Q2 2026', img: 'https://images.unsplash.com/photo-1526495124232-a04e1849168c?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Emaar Beachfront', area: 'Emaar Beachfront', type: 'Apartment', developer: 'Emaar', price: '2.6M', priceNum: 2600000, roi: 6.7, beds: '1-4 Beds', bedsMax: 4, status: 'Ready', img: 'https://images.unsplash.com/photo-1546412414-e1885259563a?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Dubai Hills Estate', area: 'Dubai Hills', type: 'Villa', developer: 'Emaar', price: '1.8M', priceNum: 1800000, roi: 7.2, beds: '1-3 Beds', bedsMax: 3, status: 'Q1 2026', img: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=800&q=72&auto=format&fit=crop' },
-  { name: 'JVC Living', area: 'Jumeirah Village Circle', type: 'Apartment', developer: 'Nakheel', price: '850K', priceNum: 850000, roi: 8.3, beds: 'Studio, 1-2 Beds', bedsMax: 2, status: 'Q3 2025', img: 'https://images.unsplash.com/photo-1528702748617-c64d49f918af?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Tilal Al Ghaf', area: 'Tilal Al Ghaf', type: 'Townhouse', developer: 'Majid Al Futtaim', price: '2.2M', priceNum: 2200000, roi: 7.0, beds: '3-6 Beds', bedsMax: 6, status: 'Q2 2036', img: 'https://images.unsplash.com/photo-1489516408517-0c0a15662682?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Creek Harbour Views', area: 'Dubai Creek Harbour', type: 'Apartment', developer: 'Emaar', price: '1.5M', priceNum: 1500000, roi: 7.5, beds: '1-3 Beds', bedsMax: 3, status: 'Q2 2027', img: 'https://images.unsplash.com/photo-1597659840241-37e2b9c2f55f?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Bluewaters Bay', area: 'Bluewaters Island', type: 'Apartment', developer: 'Meraas', price: '3.2M', priceNum: 3200000, roi: 6.4, beds: '1-4 Beds', bedsMax: 4, status: 'Q1 2027', img: 'https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Palm Beach Residences', area: 'Palm Jumeirah', type: 'Penthouse', developer: 'Nakheel', price: '5.8M', priceNum: 5800000, roi: 6.1, beds: '2-5 Beds', bedsMax: 5, status: 'Q3 2027', img: 'https://images.unsplash.com/photo-1489516408517-0c0a15662682?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Arabian Ranches III', area: 'Arabian Ranches', type: 'Villa', developer: 'Emaar', price: '2.9M', priceNum: 2900000, roi: 6.8, beds: '3-5 Beds', bedsMax: 5, status: 'Q4 2026', img: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Town Square Park', area: 'Town Square', type: 'Townhouse', developer: 'Nshama', price: '1.4M', priceNum: 1400000, roi: 7.6, beds: '2-4 Beds', bedsMax: 4, status: 'Q2 2026', img: 'https://images.unsplash.com/photo-1526495124232-a04e1849168c?w=800&q=72&auto=format&fit=crop' },
-  { name: 'Marina Vista', area: 'Dubai Marina', type: 'Apartment', developer: 'Emaar', price: '2.1M', priceNum: 2100000, roi: 7.0, beds: '1-3 Beds', bedsMax: 3, status: 'Ready', img: 'https://images.unsplash.com/photo-1528702748617-c64d49f918af?w=800&q=72&auto=format&fit=crop' },
-];
+const HEAD = '"Montserrat", "Montserrat Fallback", sans-serif';
+const BODY = '"Work Sans", "Work Sans Fallback", sans-serif';
 
-const TYPES = ['Apartment', 'Villa', 'Townhouse', 'Penthouse'];
-const LOCATIONS = ['All Locations', ...Array.from(new Set(PROJECTS.map((p) => p.area)))];
-const DEVELOPERS = ['All Developers', ...Array.from(new Set(PROJECTS.map((p) => p.developer)))];
-const BEDROOMS = ['Any', 'Studio', '1', '2', '3', '4+'];
-const SORTS = ['Newest', 'Price: Low to High', 'Price: High to Low', 'ROI: High to Low'];
+const TABS = ['All Projects', 'Apartments', 'Villas', 'Townhouses', 'Penthouses', 'Off Plan', 'Ready'];
+const PROPERTY_TYPES = ['All Types', 'Apartments', 'Villas', 'Townhouses', 'Penthouses'];
+const STATUSES = ['Off Plan', 'Ready', 'Under Construction'];
+const PAGE = 6;
 
-const SELECT = 'flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-600';
-const PAGE = 9;
+const STATUS_COLOR = {
+  'New Launch': '#2E8B57',
+  'Off Plan': '#3B7DD8',
+  'Ready': '#2F9E8F',
+  'Under Construction': '#D08B2C',
+};
+
+function FilterSection({ title, children, defaultOpen = true }) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="border-t border-brand-pale py-4 first:border-t-0 first:pt-0">
+      <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between text-left">
+        <span className="text-[13px] font-semibold text-ink">{title}</span>
+        {open ? <ChevronUp size={15} className="text-ink-faint" /> : <ChevronDown size={15} className="text-ink-faint" />}
+      </button>
+      {open && <div className="mt-3.5">{children}</div>}
+    </div>
+  );
+}
+
+function Pill({ active, children, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={
+        'rounded-lg border px-3.5 py-2 text-[13px] font-medium transition-colors ' +
+        (active ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale text-ink-soft hover:border-brand-soft hover:text-ink')
+      }
+    >
+      {children}
+    </button>
+  );
+}
+
+function StatusBadge({ status }) {
+  if (status === 'Featured') return null;
+  return (
+    <span className="rounded-md px-2.5 py-1 text-[11px] font-semibold text-white" style={{ background: STATUS_COLOR[status] || '#8C6A52' }}>
+      {status}
+    </span>
+  );
+}
+
+// Grid card — proto2 card design + proto3's full colored metric strip.
+function ProjectCard({ p }) {
+  const metrics = [
+    { label: 'Handover', value: p.handover, color: 'text-[#2E9E63]' },
+    { label: 'Payment', value: p.paymentPlan, color: 'text-[#CA8A04]' },
+    { label: 'Yield', value: p.roi, color: 'text-[#2F6FAE]' },
+  ];
+  return (
+    <a
+      href="/prototype1/project/one-by-nine"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-brand-pale bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#8C6A52]/50 hover:shadow-[0_14px_32px_-16px_rgba(58,44,34,0.4)]"
+    >
+      <div className="relative aspect-[16/9] w-full overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <span className="absolute left-3 top-3">
+          <StatusBadge status={p.status} />
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="font-serif text-base font-semibold text-ink">{p.name}</h3>
+        <p className="mt-0.5 flex items-center gap-1 text-[12px] text-ink-soft">
+          <MapPin size={13} className="text-ink-faint" /> {p.area}
+        </p>
+
+        {/* proto2 metrics — beds & units (ROI removed) */}
+        <p className="mt-2 text-[12px] text-ink-soft">
+          {p.beds} Beds <span className="text-ink-faint">·</span> {p.units} Units
+        </p>
+
+        {/* proto3 full colored metric strip */}
+        <div className="mt-2.5 grid grid-cols-3 divide-x divide-[rgba(10,10,18,0.07)] border-t border-brand-pale pt-2.5">
+          {metrics.map((m) => (
+            <div key={m.label} className="min-w-0 px-3 first:pl-0 last:pr-0">
+              <p className={`break-words text-[15px] font-bold leading-tight ${m.color}`} style={{ fontFamily: HEAD }}>{m.value}</p>
+              <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] text-ink-faint">{m.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 flex items-end justify-between">
+          <div>
+            <span className="block text-[11px] text-ink-faint">Starting price</span>
+            <span className="text-lg font-bold text-ink" style={{ fontFamily: HEAD }}><Dirham className="mr-0.5" />{p.priceLabel.replace('AED ', '')}</span>
+          </div>
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-ink-soft transition-colors group-hover:text-[#8C6A52]">
+            View Details <ArrowRight size={14} />
+          </span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+// List view — proto1's original list card (ROI removed, AED sign).
+function ProjectListRow({ p }) {
+  return (
+    <article className="group flex overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1 hover:border-[#80603f]/30 hover:shadow-[0_24px_50px_-18px_rgba(128,96,63,0.3)]">
+      <div className="relative w-44 shrink-0 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={p.image} alt={p.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+        <span className="absolute left-3 top-3 rounded-md bg-black/55 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur">{p.type}</span>
+        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 text-[11px] font-medium text-white"><Calendar className="h-3.5 w-3.5" /> {p.handover}</span>
+      </div>
+      <div className="flex-1 p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="truncate text-[15px] font-semibold text-[#1a1a1a]">{p.name}</h3>
+            <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] text-gray-400"><MapPin className="h-3 w-3 text-[#80603f]" /> {p.area}</p>
+          </div>
+          <div className="shrink-0 text-right">
+            <span className="block text-[9px] font-medium uppercase tracking-wide text-gray-400">From</span>
+            <span className="text-[16px] font-bold leading-none text-[#80603f]" style={{ fontFamily: HEAD }}><Dirham className="mr-0.5" />{p.priceLabel.replace('AED ', '')}</span>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center gap-4 border-t border-gray-100 pt-3 text-[11px] text-gray-500">
+          <span className="inline-flex items-center gap-1.5"><BedDouble className="h-4 w-4 text-[#80603f]" /> {p.beds} Beds</span>
+          <span className="inline-flex items-center gap-1.5"><Building2 className="h-4 w-4 text-[#80603f]" /> {p.type}</span>
+        </div>
+
+        <a href="/prototype1/project/one-by-nine" className="mt-4 flex w-fit items-center justify-center gap-1.5 rounded-lg border border-[#80603f]/40 px-5 py-2.5 text-[13px] font-medium text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
+          View Details <ChevronRight className="h-4 w-4" />
+        </a>
+      </div>
+    </article>
+  );
+}
 
 export default function ProjectsBrowser() {
-  const [location, setLocation] = useState('All Locations');
-  const [developer, setDeveloper] = useState('All Developers');
-  const [types, setTypes] = useState([]);
-  const [maxPrice, setMaxPrice] = useState(10000000);
-  const [beds, setBeds] = useState('Any');
-  const [sort, setSort] = useState('Newest');
+  const [query, setQuery] = useState('');
+  const [tab, setTab] = useState('All Projects');
   const [view, setView] = useState('grid');
-  const [page, setPage] = useState(1);
+  const [statuses, setStatuses] = useState([]);
+  const [type, setType] = useState('All Types');
+  const [devs, setDevs] = useState(['All Developers']);
+  const [showFilters, setShowFilters] = useState(false); // mobile
+  const [panelOpen, setPanelOpen] = useState(true);       // desktop toggle
+  const [visible, setVisible] = useState(PAGE);
 
-  const toggleType = (t) => setTypes((s) => (s.includes(t) ? s.filter((x) => x !== t) : [...s, t]));
+  const toggle = (arr, set, v) => set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
   const clearAll = () => {
-    setLocation('All Locations'); setDeveloper('All Developers'); setTypes([]);
-    setMaxPrice(10000000); setBeds('Any'); setSort('Newest'); setPage(1);
+    setStatuses([]); setType('All Types'); setDevs(['All Developers']);
+    setQuery(''); setTab('All Projects'); setVisible(PAGE);
   };
 
   const filtered = useMemo(() => {
-    let list = PROJECTS.filter((p) => {
-      if (location !== 'All Locations' && p.area !== location) return false;
-      if (developer !== 'All Developers' && p.developer !== developer) return false;
-      if (types.length && !types.includes(p.type)) return false;
-      if (p.priceNum > maxPrice) return false;
-      if (beds !== 'Any') {
-        const want = beds === 'Studio' ? 0 : beds === '4+' ? 4 : parseInt(beds, 10);
-        if (p.bedsMax < want) return false;
+    return projects.filter((p) => {
+      const q = query.trim().toLowerCase();
+      if (q && !(`${p.name} ${p.area} ${p.developer}`.toLowerCase().includes(q))) return false;
+      if (['Apartments', 'Villas', 'Townhouses', 'Penthouses'].includes(tab)) {
+        if (p.type !== tab) return false;
+      } else if (tab === 'Off Plan' || tab === 'Ready') {
+        if (p.availability !== tab) return false;
       }
+      if (type !== 'All Types' && p.type !== type) return false;
+      if (!devs.includes('All Developers') && !devs.includes(p.developer)) return false;
+      if (statuses.length && !statuses.includes(p.availability)) return false;
       return true;
     });
-    if (sort === 'Price: Low to High') list = [...list].sort((a, b) => a.priceNum - b.priceNum);
-    else if (sort === 'Price: High to Low') list = [...list].sort((a, b) => b.priceNum - a.priceNum);
-    else if (sort === 'ROI: High to Low') list = [...list].sort((a, b) => b.roi - a.roi);
-    return list;
-  }, [location, developer, types, maxPrice, beds, sort]);
+  }, [query, tab, type, devs, statuses]);
 
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE));
-  const current = Math.min(page, pageCount);
-  const shown = filtered.slice((current - 1) * PAGE, current * PAGE);
-  const pct = Math.round(((maxPrice - 500000) / (10000000 - 500000)) * 100);
+  const shown = filtered.slice(0, visible);
+
+  // grid columns flex with the panel: open → 3 across, closed → 4 across
+  const gridCols = view === 'list'
+    ? 'grid-cols-1'
+    : panelOpen
+      ? 'sm:grid-cols-2 lg:grid-cols-3'
+      : 'sm:grid-cols-2 lg:grid-cols-4';
 
   return (
     <section className="mx-auto max-w-[1400px] px-4 py-14 md:px-8">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
-        {/* Filters */}
-        <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_12px_34px_-18px_rgba(20,18,15,0.2)] lg:sticky lg:top-[100px]">
+      {/* Mobile filter toggle */}
+      <button
+        onClick={() => setShowFilters((v) => !v)}
+        className="mb-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand-pale bg-white py-3 text-sm font-semibold text-ink lg:hidden"
+      >
+        <SlidersHorizontal size={16} /> {showFilters ? 'Hide Filters' : 'Show Filters'}
+      </button>
+
+      <div className={'grid gap-6 ' + (panelOpen ? 'lg:grid-cols-[270px_1fr]' : 'lg:grid-cols-1')}>
+        {/* Sidebar — sticky; collapses on desktop toggle */}
+        <aside className={(showFilters ? 'block' : 'hidden') + ' h-fit self-start rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px] ' + (panelOpen ? 'lg:block' : 'lg:hidden')}>
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1a]">Filter Projects</h3>
-            <button onClick={clearAll} className="text-[11px] font-medium text-[#80603f] hover:underline">Clear All</button>
+            <span className="text-base font-semibold text-ink">Filters</span>
+            <button onClick={clearAll} className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Clear All</button>
           </div>
 
-          <div className="mt-5">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Location</p>
-            <div className="relative mt-2">
-              <select value={location} onChange={(e) => { setLocation(e.target.value); setPage(1); }} className={`${SELECT} appearance-none pr-9`}>
-                {LOCATIONS.map((l) => <option key={l}>{l}</option>)}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Property Type</p>
-            <div className="mt-2 space-y-2">
-              {TYPES.map((t) => (
-                <label key={t} className="flex cursor-pointer items-center gap-2.5 text-sm text-gray-600">
-                  <input type="checkbox" checked={types.includes(t)} onChange={() => { toggleType(t); setPage(1); }} className="h-4 w-4 accent-[#80603f]" /> {t}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Developer</p>
-            <div className="relative mt-2">
-              <select value={developer} onChange={(e) => { setDeveloper(e.target.value); setPage(1); }} className={`${SELECT} appearance-none pr-9`}>
-                {DEVELOPERS.map((d) => <option key={d}>{d}</option>)}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Max Price (AED)</p>
+          {/* Search */}
+          <div className="relative mt-4">
+            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint" />
             <input
-              type="range" min={500000} max={10000000} step={50000} value={maxPrice}
-              onChange={(e) => { setMaxPrice(Number(e.target.value)); setPage(1); }}
-              className="mt-3 w-full accent-[#80603f]"
-              style={{ background: `linear-gradient(to right,#80603f ${pct}%,#e5e7eb ${pct}%)` }}
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setVisible(PAGE); }}
+              placeholder="Search projects, locations..."
+              className="w-full rounded-full border border-brand-pale bg-white py-2.5 pl-10 pr-4 text-[13px] text-ink outline-none transition focus:border-[#8C6A52]"
             />
-            <div className="mt-1 flex justify-between text-[11px] text-gray-400">
-              <span>500K</span><span className="font-semibold text-[#80603f]">{(maxPrice / 1000000).toFixed(maxPrice >= 10000000 ? 0 : 2)}M{maxPrice >= 10000000 ? '+' : ''}</span>
-            </div>
           </div>
 
-          <div className="mt-5">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Bedrooms</p>
-            <div className="relative mt-2">
-              <select value={beds} onChange={(e) => { setBeds(e.target.value); setPage(1); }} className={`${SELECT} appearance-none pr-9`}>
-                {BEDROOMS.map((b) => <option key={b}>{b}</option>)}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            </div>
-          </div>
+          <div className="mt-4">
+            <FilterSection title="Developer">
+              <div className="space-y-2.5">
+                {developerFacets.map((d) => {
+                  const on = devs.includes(d.name);
+                  return (
+                    <label key={d.name} className="flex cursor-pointer items-center justify-between text-[13px]">
+                      <span className="inline-flex items-center gap-2.5 text-ink-soft">
+                        <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale')}>
+                          {on && <span className="text-[9px] leading-none">✓</span>}
+                        </span>
+                        {d.name}
+                      </span>
+                      <span className="text-ink-faint">({d.count})</span>
+                      <input type="checkbox" className="hidden" checked={on} onChange={() => { toggle(devs, setDevs, d.name); setVisible(PAGE); }} />
+                    </label>
+                  );
+                })}
+              </div>
+            </FilterSection>
 
-          <button onClick={clearAll} className="mt-6 w-full rounded-lg bg-[#0a1320] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#16202d]">Reset Filters</button>
+            <FilterSection title="Property Type">
+              <div className="space-y-2.5">
+                {PROPERTY_TYPES.map((t) => {
+                  const on = type === t;
+                  return (
+                    <label key={t} onClick={() => { setType(t); setVisible(PAGE); }} className="flex cursor-pointer items-center gap-2.5 text-[13px] text-ink-soft">
+                      <span className={'grid h-4 w-4 place-items-center rounded border ' + (on ? 'border-[#8C6A52] bg-[#8C6A52] text-cream' : 'border-brand-pale')}>
+                        {on && <span className="text-[9px] leading-none">✓</span>}
+                      </span>
+                      {t}
+                    </label>
+                  );
+                })}
+              </div>
+            </FilterSection>
+
+            <FilterSection title="Price Range (AED)">
+              <div className="relative mt-1 h-1.5 w-full rounded-full bg-brand-pale">
+                <span className="absolute inset-y-0 left-[8%] right-[15%] rounded-full bg-[#8C6A52]" />
+                <span className="absolute left-[8%] top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#8C6A52] bg-white" />
+                <span className="absolute right-[15%] top-1/2 h-4 w-4 translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#8C6A52] bg-white" />
+              </div>
+              <div className="mt-4 flex items-center gap-2">
+                <input defaultValue="500,000" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-[#8C6A52]" />
+                <span className="text-ink-faint">to</span>
+                <input defaultValue="10,000,000+" className="w-full rounded-lg border border-brand-pale px-2.5 py-1.5 text-[12px] text-ink outline-none focus:border-[#8C6A52]" />
+              </div>
+            </FilterSection>
+
+            <FilterSection title="Status">
+              <div className="flex flex-wrap gap-2">
+                {STATUSES.map((s) => (
+                  <Pill key={s} active={statuses.includes(s)} onClick={() => { toggle(statuses, setStatuses, s); setVisible(PAGE); }}>{s}</Pill>
+                ))}
+              </div>
+            </FilterSection>
+          </div>
         </aside>
 
-        {/* Grid */}
-        <div>
-          <div className="flex items-center justify-between">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">All Projects <span className="ml-1 text-gray-400">({filtered.length})</span></p>
+        {/* Main */}
+        <div className="min-w-0">
+          {/* Sticky controls — panel toggle (left) + tabs (chips) + view toggle */}
+          <div className="sticky top-[84px] z-20 -mx-1 bg-[#faf8f3] px-1 py-3">
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <select value={sort} onChange={(e) => setSort(e.target.value)} className={`${SELECT} appearance-none pr-9`}>
-                  {SORTS.map((s) => <option key={s}>Sort By: {s}</option>)}
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              {/* desktop panel toggle — sits on the left, over the panel it controls */}
+              <button
+                onClick={() => setPanelOpen((v) => !v)}
+                className="hidden h-9 w-9 shrink-0 place-items-center rounded-lg border border-brand-pale bg-white text-ink-soft transition-colors hover:border-[#8C6A52] hover:text-[#8C6A52] lg:grid"
+                title={panelOpen ? 'Hide filters' : 'Show filters'}
+              >
+                {panelOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
+              </button>
+
+              <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-2 overflow-x-auto py-1">
+                {TABS.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => { setTab(t); setVisible(PAGE); }}
+                    className={
+                      'whitespace-nowrap rounded-full border px-4 py-2 text-[13px] font-medium transition-colors ' +
+                      (tab === t ? 'border-[#8C6A52] bg-white text-[#8C6A52]' : 'border-brand-pale bg-white text-ink-soft hover:border-brand-soft hover:text-ink')
+                    }
+                  >
+                    {t}
+                  </button>
+                ))}
               </div>
-              <span className="hidden items-center gap-1 sm:flex">
-                <button onClick={() => setView('grid')} className={`grid h-8 w-8 place-items-center rounded-md ${view === 'grid' ? 'bg-[#80603f] text-white' : 'border border-gray-200 text-gray-400'}`}><LayoutGrid className="h-4 w-4" /></button>
-                <button onClick={() => setView('list')} className={`grid h-8 w-8 place-items-center rounded-md ${view === 'list' ? 'bg-[#80603f] text-white' : 'border border-gray-200 text-gray-400'}`}><List className="h-4 w-4" /></button>
-              </span>
+
+              <div className="flex shrink-0 items-center gap-1 rounded-lg border border-brand-pale bg-white p-1">
+                <button onClick={() => setView('grid')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'grid' ? 'bg-[#8C6A52] text-cream' : 'text-ink-faint')}>
+                  <LayoutGrid size={15} />
+                </button>
+                <button onClick={() => setView('list')} className={'grid h-7 w-7 place-items-center rounded-md ' + (view === 'list' ? 'bg-[#8C6A52] text-cream' : 'text-ink-faint')}>
+                  <List size={15} />
+                </button>
+              </div>
             </div>
           </div>
 
+          {/* Cards */}
           {shown.length === 0 ? (
-            <div className="mt-10 rounded-2xl border border-dashed border-gray-200 py-16 text-center text-sm text-gray-400">
-              No projects match your filters. <button onClick={clearAll} className="font-medium text-[#80603f] hover:underline">Clear filters</button>
+            <div className="mt-5 rounded-2xl border border-dashed border-brand-pale py-20 text-center text-ink-faint">
+              No projects match your filters.
             </div>
           ) : (
-            <div className={view === 'grid' ? 'mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3' : 'mt-5 flex flex-col gap-4'}>
-              {shown.map((p) => (
-                <article key={p.name} className={`group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1 hover:border-[#80603f]/30 hover:shadow-[0_24px_50px_-18px_rgba(128,96,63,0.3)] ${view === 'list' ? 'flex' : ''}`}>
-                  <div className={`relative overflow-hidden ${view === 'list' ? 'w-44 shrink-0' : 'h-44'}`}>
-                    <img src={p.img} alt={p.name} loading="lazy" className={`object-cover transition-transform duration-500 group-hover:scale-110 ${view === 'list' ? 'absolute inset-0 h-full w-full' : 'h-full w-full'}`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-                    <span className="absolute left-3 top-3 rounded-md bg-black/55 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur">{p.type}</span>
-                    <span className="absolute right-3 top-3 rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white shadow">ROI {p.roi.toFixed(1)}%</span>
-                    <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 text-[11px] font-medium text-white"><Calendar className="h-3.5 w-3.5" /> {p.status}</span>
-                  </div>
-                  <div className="flex-1 p-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <h3 className="truncate text-[15px] font-semibold text-[#1a1a1a]">{p.name}</h3>
-                        <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] text-gray-400"><MapPin className="h-3 w-3 text-[#80603f]" /> {p.area}</p>
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <span className="block text-[9px] font-medium uppercase tracking-wide text-gray-400">From</span>
-                        <span className="text-[16px] font-bold leading-none text-[#80603f]"><Dirham className="mr-0.5" />{p.price}</span>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-4 border-t border-gray-100 pt-3 text-[11px] text-gray-500">
-                      <span className="inline-flex items-center gap-1.5"><BedDouble className="h-4 w-4 text-[#80603f]" /> {p.beds}</span>
-                      <span className="inline-flex items-center gap-1.5"><Building2 className="h-4 w-4 text-[#80603f]" /> {p.type}</span>
-                    </div>
-
-                    <a href="/prototype1/project/one-by-nine" className={`mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-[#80603f]/40 px-5 py-2.5 text-[13px] font-medium text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white ${view === 'list' ? 'w-fit' : 'w-full'}`}>
-                      View Details <ChevronRight className="h-4 w-4" />
-                    </a>
-                  </div>
-                </article>
-              ))}
+            <div className={'mt-2 grid gap-5 ' + gridCols}>
+              {shown.map((p) => (view === 'list' ? <ProjectListRow key={p.id} p={p} /> : <ProjectCard key={p.id} p={p} />))}
             </div>
           )}
 
-          {pageCount > 1 && (
-            <div className="mt-8 flex items-center justify-center gap-2">
+          {/* Load more — plain text button, endless scroll */}
+          {visible < filtered.length && (
+            <div className="mt-10 flex justify-center">
               <button
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={current === 1}
-                className="grid h-9 w-9 place-items-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:border-[#80603f] hover:text-[#80603f] disabled:cursor-not-allowed disabled:opacity-40"
+                onClick={() => setVisible((v) => v + PAGE)}
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8C6A52] underline-offset-4 transition-colors hover:text-[#5E4636] hover:underline"
               >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              {Array.from({ length: pageCount }).map((_, k) => (
-                <button
-                  key={k}
-                  onClick={() => setPage(k + 1)}
-                  className={`grid h-9 w-9 place-items-center rounded-lg text-sm font-medium transition-colors ${
-                    current === k + 1 ? 'bg-gradient-to-r from-[#96714a] to-[#6b4f33] text-white' : 'border border-gray-200 text-gray-600 hover:border-[#80603f] hover:text-[#80603f]'
-                  }`}
-                >
-                  {k + 1}
-                </button>
-              ))}
-              <button
-                onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-                disabled={current === pageCount}
-                className="grid h-9 w-9 place-items-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:border-[#80603f] hover:text-[#80603f] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <ChevronRight className="h-4 w-4" />
+                Load More <ChevronDown size={15} />
               </button>
             </div>
           )}
