@@ -162,11 +162,11 @@ export default function DistressDealsPage() {
 
       {/* ===== Transactions + FAQ ===== */}
       <section className="mx-auto max-w-[1400px] px-4 pb-14 md:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.7fr_1fr]">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Recent Deal Transactions</p>
-            <div className="mt-4 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_10px_28px_-16px_rgba(20,18,15,0.2)]">
-              <table className="w-full text-left text-[12px]">
+            <div className="mt-4 overflow-x-auto rounded-2xl border border-gray-100 bg-white shadow-[0_10px_28px_-16px_rgba(20,18,15,0.2)]">
+              <table className="w-full text-left text-[12px]" style={{ minWidth: 640 }}>
                 <thead className="bg-gray-50 text-[10px] uppercase tracking-wide text-gray-400">
                   <tr><th className="px-4 py-3">Property</th><th className="px-4 py-3">Location</th><th className="px-4 py-3">Deal Price</th><th className="px-4 py-3">Savings</th><th className="px-4 py-3">Closed On</th></tr>
                 </thead>
@@ -175,8 +175,8 @@ export default function DistressDealsPage() {
                     <tr key={t.property} className="border-t border-gray-100 text-gray-600">
                       <td className="px-4 py-3 font-medium text-[#1a1a1a]">{t.property}</td>
                       <td className="px-4 py-3">{t.location}</td>
-                      <td className="px-4 py-3"><Dirham className="mr-0.5" />{t.deal}</td>
-                      <td className="px-4 py-3 font-medium text-[#80603f]"><Dirham className="mr-0.5" />{t.save}</td>
+                      <td className="whitespace-nowrap px-4 py-3"><Dirham className="mr-0.5" />{t.deal}</td>
+                      <td className="whitespace-nowrap px-4 py-3 font-medium text-[#80603f]"><Dirham className="mr-0.5" />{t.save}</td>
                       <td className="px-4 py-3 text-gray-400">{t.date}</td>
                     </tr>
                   ))}

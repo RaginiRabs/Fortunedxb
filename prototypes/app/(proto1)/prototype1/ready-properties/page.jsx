@@ -127,9 +127,15 @@ export default function ResalePage() {
       <section className="relative z-10 mx-auto max-w-[1400px] px-4 md:px-8">
         <div className="-mt-14 grid grid-cols-2 gap-6 rounded-2xl border border-gray-100 bg-white px-6 py-7 shadow-[0_18px_44px_-20px_rgba(20,18,15,0.25)] lg:grid-cols-4">
           {STATS.map((s) => (
-            <div key={s.label} className="flex items-start gap-3 px-2 lg:border-r lg:border-gray-100 lg:last:border-0">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#80603f]/10 text-[#80603f]"><s.icon className="h-5 w-5" /></span>
-              <span><span className="block text-lg font-bold leading-tight text-[#1a1a1a]">{s.value}</span><span className="block text-[12px] font-medium text-gray-600">{s.label}</span><span className="text-[10px] text-gray-400">{s.sub}</span></span>
+            <div
+              key={s.label}
+              className="grid items-center px-2 lg:items-start lg:border-r lg:border-gray-100 lg:last:border-0"
+              style={{ gridTemplateColumns: 'auto 1fr', columnGap: 12, rowGap: 3 }}
+            >
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#80603f]/10 text-[#80603f] lg:row-span-3"><s.icon className="h-5 w-5" /></span>
+              <span className="text-lg font-bold leading-tight text-[#1a1a1a]">{s.value}</span>
+              <span className="col-span-2 text-[12px] font-medium text-gray-600 lg:col-span-1 lg:col-start-2">{s.label}</span>
+              <span className="col-span-2 text-[10px] text-gray-400 lg:col-span-1 lg:col-start-2">{s.sub}</span>
             </div>
           ))}
         </div>
