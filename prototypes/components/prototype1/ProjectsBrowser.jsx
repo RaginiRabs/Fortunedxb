@@ -14,10 +14,32 @@ import { projects, developerFacets } from '@/mock/prototype2/projects';
 const HEAD = '"Montserrat", "Montserrat Fallback", sans-serif';
 const BODY = '"Work Sans", "Work Sans Fallback", sans-serif';
 
+// Treat undefined / null / blank strings as "no data".
+const isEmpty = (v) => v === undefined || v === null || (typeof v === 'string' && v.trim() === '');
+
+// Faded skeleton bar shown in place of a missing value — keeps the card's
+// height + structure intact (label stays, only the value turns into this bar).
+// Inline styles so it renders even on the pre-built CSS (no Tailwind compile needed).
+function Skel({ w = 36, h = 12 }) {
+  return (
+    <span
+      aria-hidden="true"
+      style={{ display: 'inline-block', width: w, height: h, borderRadius: 3, background: 'rgba(154,140,126,0.22)', verticalAlign: 'middle' }}
+    />
+  );
+}
+
 const TABS = ['All Projects', 'Apartments', 'Villas', 'Townhouses', 'Penthouses', 'Off Plan', 'Ready'];
 const PROPERTY_TYPES = ['All Types', 'Apartments', 'Villas', 'Townhouses', 'Penthouses'];
 const STATUSES = ['Off Plan', 'Ready', 'Under Construction'];
 const PAGE = 6;
+
+// TEST ONLY — a project with all empty/missing values to verify the card fallbacks
+// (skeleton bars, image placeholder, "Price on request"). Remove when done testing.
+const TEST_EMPTY = {
+  id: 'test-empty', name: '', area: '', beds: '', units: '', handover: '',
+  paymentPlan: '', roi: '', priceLabel: '', status: '', type: '', availability: '', developer: '', image: '',
+};
 
 const STATUS_COLOR = {
   'New Launch': '#2E8B57',
@@ -54,7 +76,7 @@ function Pill({ active, children, onClick }) {
 }
 
 function StatusBadge({ status }) {
-  if (status === 'Featured') return null;
+  if (isEmpty(status) || status === 'Featured') return null;
   return (
     <span className="rounded-md px-2.5 py-1 text-[11px] font-semibold text-white" style={{ background: STATUS_COLOR[status] || '#8C6A52' }}>
       {status}
@@ -74,39 +96,49 @@ function ProjectCard({ p }) {
       href="/prototype1/project/one-by-nine"
       className="group flex flex-col overflow-hidden rounded-2xl border border-brand-pale bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#8C6A52]/50 hover:shadow-[0_14px_32px_-16px_rgba(58,44,34,0.4)]"
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-brand-pale">
+        {isEmpty(p.image) ? (
+          <div className="flex h-full w-full items-center justify-center text-ink-faint">
+            <Building2 size={30} />
+          </div>
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={p.image} alt={p.name || 'Project'} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        )}
         <span className="absolute left-3 top-3">
           <StatusBadge status={p.status} />
         </span>
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-serif text-base font-semibold text-ink">{p.name}</h3>
+        <h3 className="font-serif text-base font-semibold text-ink">{isEmpty(p.name) ? <Skel w={150} h={17} /> : p.name}</h3>
         <p className="mt-0.5 flex items-center gap-1 text-[12px] text-ink-soft">
-          <MapPin size={13} className="text-ink-faint" /> {p.area}
+          <MapPin size={13} className="text-ink-faint" /> {isEmpty(p.area) ? <Skel w={90} h={11} /> : p.area}
         </p>
 
         {/* proto2 metrics — beds & units (ROI removed) */}
         <p className="mt-2 text-[12px] text-ink-soft">
-          {p.beds} Beds <span className="text-ink-faint">·</span> {p.units} Units
+          {isEmpty(p.beds) ? <Skel w={18} h={10} /> : p.beds} Beds <span className="text-ink-faint">·</span> {isEmpty(p.units) ? <Skel w={18} h={10} /> : p.units} Units
         </p>
 
         {/* proto3 full colored metric strip */}
         <div className="mt-2.5 grid grid-cols-3 divide-x divide-[rgba(10,10,18,0.07)] border-t border-brand-pale pt-2.5">
           {metrics.map((m) => (
             <div key={m.label} className="min-w-0 px-3 first:pl-0 last:pr-0">
-              <p className={`break-words text-[15px] font-bold leading-tight ${m.color}`} style={{ fontFamily: HEAD }}>{m.value}</p>
+              <p className={`break-words text-[15px] font-bold leading-tight ${m.color}`} style={{ fontFamily: HEAD }}>{isEmpty(m.value) ? <Skel w={34} h={13} /> : m.value}</p>
               <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] text-ink-faint">{m.label}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-3 flex items-end justify-between">
+        <div className="mt-auto flex items-end justify-between pt-3">
           <div>
             <span className="block text-[11px] text-ink-faint">Starting price</span>
-            <span className="text-lg font-bold text-ink" style={{ fontFamily: HEAD }}><Dirham className="mr-0.5" />{p.priceLabel.replace('AED ', '')}</span>
+            {isEmpty(p.priceLabel) ? (
+              <span className="mt-0.5 block text-sm font-semibold leading-tight text-ink-soft">Price on request</span>
+            ) : (
+              <span className="text-lg font-bold text-ink" style={{ fontFamily: HEAD }}><Dirham className="mr-0.5" />{p.priceLabel.replace('AED ', '')}</span>
+            )}
           </div>
           <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-ink-soft transition-colors group-hover:text-[#8C6A52]">
             View Details <ArrowRight size={14} />
@@ -121,28 +153,36 @@ function ProjectCard({ p }) {
 function ProjectListRow({ p }) {
   return (
     <article className="group flex overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1 hover:border-[#80603f]/30 hover:shadow-[0_24px_50px_-18px_rgba(128,96,63,0.3)]">
-      <div className="relative w-44 shrink-0 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={p.image} alt={p.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+      <div className="relative w-44 shrink-0 overflow-hidden bg-brand-pale">
+        {isEmpty(p.image) ? (
+          <div className="absolute inset-0 flex items-center justify-center text-ink-faint"><Building2 size={26} /></div>
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={p.image} alt={p.name || 'Project'} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-        <span className="absolute left-3 top-3 rounded-md bg-black/55 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur">{p.type}</span>
-        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 text-[11px] font-medium text-white"><Calendar className="h-3.5 w-3.5" /> {p.handover}</span>
+        {!isEmpty(p.type) && <span className="absolute left-3 top-3 rounded-md bg-black/55 px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur">{p.type}</span>}
+        {!isEmpty(p.handover) && <span className="absolute bottom-3 left-3 inline-flex items-center gap-1 text-[11px] font-medium text-white"><Calendar className="h-3.5 w-3.5" /> {p.handover}</span>}
       </div>
       <div className="flex-1 p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="truncate text-[15px] font-semibold text-[#1a1a1a]">{p.name}</h3>
-            <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] text-gray-400"><MapPin className="h-3 w-3 text-[#80603f]" /> {p.area}</p>
+            <h3 className="truncate text-[15px] font-semibold text-[#1a1a1a]">{isEmpty(p.name) ? <Skel w={130} h={15} /> : p.name}</h3>
+            <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] text-gray-400"><MapPin className="h-3 w-3 text-[#80603f]" /> {isEmpty(p.area) ? <Skel w={80} h={10} /> : p.area}</p>
           </div>
           <div className="shrink-0 text-right">
             <span className="block text-[9px] font-medium uppercase tracking-wide text-gray-400">From</span>
-            <span className="text-[16px] font-bold leading-none text-[#80603f]" style={{ fontFamily: HEAD }}><Dirham className="mr-0.5" />{p.priceLabel.replace('AED ', '')}</span>
+            <span className="text-[16px] font-bold leading-none text-[#80603f]" style={{ fontFamily: HEAD }}>
+              {isEmpty(p.priceLabel)
+                ? <span className="text-[12px] font-medium text-gray-400">Price on request</span>
+                : <><Dirham className="mr-0.5" />{p.priceLabel.replace('AED ', '')}</>}
+            </span>
           </div>
         </div>
 
         <div className="mt-4 flex items-center gap-4 border-t border-gray-100 pt-3 text-[11px] text-gray-500">
-          <span className="inline-flex items-center gap-1.5"><BedDouble className="h-4 w-4 text-[#80603f]" /> {p.beds} Beds</span>
-          <span className="inline-flex items-center gap-1.5"><Building2 className="h-4 w-4 text-[#80603f]" /> {p.type}</span>
+          <span className="inline-flex items-center gap-1.5"><BedDouble className="h-4 w-4 text-[#80603f]" /> {isEmpty(p.beds) ? <Skel w={16} h={10} /> : p.beds} Beds</span>
+          <span className="inline-flex items-center gap-1.5"><Building2 className="h-4 w-4 text-[#80603f]" /> {isEmpty(p.type) ? <Skel w={50} h={10} /> : p.type}</span>
         </div>
 
         <a href="/prototype1/project/one-by-nine" className="mt-4 flex w-fit items-center justify-center gap-1.5 rounded-lg border border-[#80603f]/40 px-5 py-2.5 text-[13px] font-medium text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
@@ -172,7 +212,7 @@ export default function ProjectsBrowser() {
   };
 
   const filtered = useMemo(() => {
-    return projects.filter((p) => {
+    return [TEST_EMPTY, ...projects].filter((p) => {
       const q = query.trim().toLowerCase();
       if (q && !(`${p.name} ${p.area} ${p.developer}`.toLowerCase().includes(q))) return false;
       if (['Apartments', 'Villas', 'Townhouses', 'Penthouses'].includes(tab)) {
@@ -208,7 +248,7 @@ export default function ProjectsBrowser() {
 
       <div className={'grid gap-6 ' + (panelOpen ? 'lg:grid-cols-[270px_1fr]' : 'lg:grid-cols-1')}>
         {/* Sidebar — sticky; collapses on desktop toggle */}
-        <aside className={(showFilters ? 'block' : 'hidden') + ' h-fit self-start rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px] ' + (panelOpen ? 'lg:block' : 'lg:hidden')}>
+        <aside className={(showFilters ? 'block' : 'hidden') + ' relative z-50 h-fit self-start rounded-2xl border border-brand-pale bg-white p-5 lg:sticky lg:top-[100px] ' + (panelOpen ? 'lg:block' : 'lg:hidden')}>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button onClick={clearAll} className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Clear All</button>
@@ -288,7 +328,7 @@ export default function ProjectsBrowser() {
         {/* Main */}
         <div className="min-w-0">
           {/* Sticky controls — panel toggle (left) + tabs (chips) + view toggle */}
-          <div className="sticky top-[84px] z-20 -mx-1 bg-[#faf8f3] px-1 py-3">
+          <div className="sticky z-20 -mx-1 bg-[#faf8f3] px-1 py-3" style={{ top: 80 }}>
             <div className="flex items-center gap-3">
               {/* desktop panel toggle — sits on the left, over the panel it controls */}
               <button
