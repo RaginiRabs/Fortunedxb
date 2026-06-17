@@ -21,7 +21,7 @@ export default function ContactCTA() {
             Ready to Invest in Dubai?
           </h2>
           <p className="mt-4 max-w-md text-[15px] leading-relaxed text-gray-400">
-            Get expert guidance and exclusive access to the best off-plan, resale and distress opportunities.
+            Get expert guidance and exclusive access to the best off-plan, ready and distress opportunities.
             Our advisors are here to help you invest smarter.
           </p>
 

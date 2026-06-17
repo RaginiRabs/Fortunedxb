@@ -8,13 +8,13 @@ import Reveal from '@/components/prototype1/Reveal';
 import ResaleBrowser from '@/components/prototype1/ResaleBrowser';
 import FaqAccordion from '@/components/prototype1/FaqAccordion';
 
-export const metadata = { title: 'Resale Properties — Fortune Realty L.L.C' };
+export const metadata = { title: 'Ready Properties — Fortune Realty L.L.C' };
 
 const img = (id, w = 800) => `https://images.unsplash.com/photo-${id}?w=${w}&q=72&auto=format&fit=crop`;
 
 const STATS = [
   { icon: Wallet, value: 'AED 2.8M', label: 'Average Property Price', sub: '+6.2% from last quarter' },
-  { icon: Building2, value: '350+', label: 'Resale Properties', sub: 'Available Now' },
+  { icon: Building2, value: '350+', label: 'Ready Properties', sub: 'Available Now' },
   { icon: TrendingUp, value: '8.4%', label: 'Average ROI', sub: 'Across All Communities' },
   { icon: ShieldCheck, value: '100%', label: 'Verified Listings', sub: 'Quality You Can Trust' },
 ];
@@ -64,11 +64,11 @@ const SOLD = [
   { name: '3 BR Apartment', area: 'Downtown Dubai', price: '2.80M', date: 'May 15, 2024' },
 ];
 
-const RESALE_FAQ = [
-  { q: 'What is a resale property?', a: 'A resale (secondary market) property is one being sold by its current owner rather than the developer — usually ready to move in and available for immediate inspection.' },
-  { q: 'How do resale properties work?', a: 'You buy directly from the existing owner. Our team handles valuation, negotiation, NOC, and the DLD transfer for a smooth, transparent process.' },
-  { q: 'Are resale properties more expensive?', a: 'Not necessarily — resale prices are negotiable and often offer better value than off-plan, plus you avoid construction wait times.' },
-  { q: 'Can I get a mortgage for resale properties?', a: 'Yes. Banks readily finance ready resale homes. We connect you with mortgage partners for the best rates.' },
+const READY_FAQ = [
+  { q: 'What is a ready property?', a: 'A ready property is a completed home available for immediate handover — you can view and inspect it in person and move in right away.' },
+  { q: 'How do ready properties work?', a: 'You buy a fully built, ready-to-move unit. Our team handles valuation, negotiation, NOC, and the DLD transfer for a smooth, transparent process.' },
+  { q: 'Are ready properties more expensive?', a: 'Not necessarily — prices are negotiable and often offer better value than off-plan, plus you avoid construction wait times and can earn rent immediately.' },
+  { q: 'Can I get a mortgage for a ready property?', a: 'Yes. Banks readily finance completed, ready-to-move homes. We connect you with mortgage partners for the best rates.' },
 ];
 
 const HERO_CARD = [
@@ -92,9 +92,9 @@ export default function ResalePage() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a1320]/90 to-transparent" />
         <div className="relative mx-auto max-w-[1400px] px-4 pb-28 pt-[130px] md:px-8">
           <div className="max-w-xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c4a98f]">Resale Properties</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c4a98f]">Ready Properties</p>
             <h1 className="mt-3 text-4xl font-semibold leading-tight text-white md:text-5xl">
-              Find Premium<br /><span className="text-[#c4a98f]">Resale Properties</span><br />in Dubai
+              Find Premium<br /><span className="text-[#c4a98f]">Ready Properties</span><br />in Dubai
             </h1>
             <p className="mt-4 text-[14px] leading-relaxed text-gray-300">Verified listings. Ready to move in.<br />Great locations. Better value.</p>
 
@@ -138,7 +138,7 @@ export default function ResalePage() {
       {/* ===== Featured ===== */}
       <section className="mx-auto max-w-[1400px] px-4 py-12 md:px-8">
         <div className="flex items-center justify-between">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Featured Resale Listings</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Featured Ready Listings</p>
           <a href="#all-resale" className="inline-flex items-center gap-1.5 text-sm font-medium text-[#80603f] hover:underline">View All <ArrowRight className="h-4 w-4" /></a>
         </div>
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -146,7 +146,7 @@ export default function ResalePage() {
             <Reveal key={p.name + i} delay={i * 0.08} className="group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-16px_rgba(20,18,15,0.2)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-18px_rgba(128,96,63,0.3)]">
               <div className="relative h-40 overflow-hidden">
                 <img src={p.img} alt={p.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-md bg-[#80603f] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white shadow"><BadgeCheck className="h-3 w-3" /> Verified Resale</span>
+                <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-md bg-[#80603f] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white shadow"><BadgeCheck className="h-3 w-3" /> Verified</span>
               </div>
               <div className="p-4">
                 <h3 className="text-[14px] font-semibold text-[#1a1a1a]">{p.name}</h3>
@@ -185,7 +185,7 @@ export default function ResalePage() {
 
       {/* ===== All resale + sidebar ===== */}
       <section id="all-resale" className="mx-auto max-w-[1400px] px-4 pb-14 md:px-8">
-        <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">All Resale Properties</p>
+        <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">All Ready Properties</p>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
           <ResaleBrowser />
 
@@ -193,7 +193,7 @@ export default function ResalePage() {
             {/* vs table */}
             <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_12px_34px_-18px_rgba(20,18,15,0.2)]">
               <div className="grid grid-cols-3 bg-[#0a1320] text-center text-[11px] font-semibold text-white">
-                <span className="py-2.5 text-[#c4a98f]">Resale</span><span className="grid place-items-center py-2.5 text-gray-400">vs</span><span className="py-2.5">New Launch</span>
+                <span className="py-2.5 text-[#c4a98f]">Ready</span><span className="grid place-items-center py-2.5 text-gray-400">vs</span><span className="py-2.5">New Launch</span>
               </div>
               {VS.map(([label, resale, nl]) => (
                 <div key={label} className="grid grid-cols-3 items-center border-t border-gray-100 text-center text-[11px]">
@@ -205,7 +205,7 @@ export default function ResalePage() {
             </div>
             {/* benefits */}
             <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_12px_34px_-18px_rgba(20,18,15,0.2)]">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1a]">Resale Benefits</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-[#1a1a1a]">Ready Home Benefits</h3>
               <ul className="mt-4 space-y-2.5">
                 {BENEFITS.map((b) => (
                   <li key={b} className="flex items-start gap-2 text-[12.5px] text-gray-600"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#80603f]" /> {b}</li>
@@ -248,7 +248,7 @@ export default function ResalePage() {
           <div className="rounded-2xl bg-[#0a1320] p-6 text-white">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#c4a98f]">What Our Clients Say</p>
             <Quote className="mt-3 h-7 w-7 text-[#c4a98f]/40" />
-            <p className="mt-2 text-[13px] leading-relaxed text-gray-300">Fortune Realty helped me find the perfect resale property. Transparent process and great service!</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-gray-300">Fortune Realty helped me find the perfect ready property. Transparent process and great service!</p>
             <div className="mt-4 flex items-center gap-3">
               <img src={img('1500648767791-00dcc994a43e', 120)} alt="Ahmed R." className="h-10 w-10 rounded-full object-cover" />
               <div><p className="text-[13px] font-semibold">Ahmed R.</p><p className="text-[11px] text-gray-400">Dubai Marina</p></div>
@@ -263,12 +263,12 @@ export default function ResalePage() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Frequently Asked Questions</p>
-            <div className="mt-4"><FaqAccordion items={RESALE_FAQ} /></div>
+            <div className="mt-4"><FaqAccordion items={READY_FAQ} /></div>
           </div>
           <div className="relative overflow-hidden rounded-2xl bg-[#0a1320] p-8 text-white">
             <img src={img('1512453979798-5ea266f8880c', 1000)} alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" />
             <div className="relative">
-              <h2 className="text-2xl font-semibold md:text-3xl">Find Your Perfect Resale Property <span className="text-[#c4a98f]">Today</span></h2>
+              <h2 className="text-2xl font-semibold md:text-3xl">Find Your Perfect Ready Property <span className="text-[#c4a98f]">Today</span></h2>
               <p className="mt-2 text-sm text-gray-300">Talk to our property experts for personalized assistance.</p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href="/prototype1/contact" className={GOLD_BTN}>Schedule a Consultation <ArrowRight className="h-4 w-4" /></a>

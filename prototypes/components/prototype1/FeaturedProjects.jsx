@@ -8,12 +8,12 @@ export default function FeaturedProjects() {
 
   return (
     <div>
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Handpicked</p>
           <h2 className="mt-1 text-2xl font-semibold text-[#1a1a1a]">Featured Projects</h2>
         </div>
-        <a href="#" className="inline-flex items-center gap-2 rounded-full border border-[#80603f]/40 bg-white px-4 py-2 text-sm text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
+        <a href="/prototype1/projects" className="inline-flex w-fit items-center gap-2 rounded-full border border-[#80603f]/40 bg-white px-4 py-2 text-sm text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
           View All Projects <ArrowRight className="w-4 h-4" />
         </a>
       </div>
@@ -50,7 +50,7 @@ export default function FeaturedProjects() {
         <div className="flex flex-col gap-4">
           {rest.map((p) => (
             <article key={p.id} className="group flex gap-4 rounded-2xl border border-gray-100 bg-white p-3 shadow-[0_10px_30px_-14px_rgba(20,18,15,0.20)] transition-all duration-300 hover:-translate-y-1 hover:border-[#80603f]/30 hover:shadow-[0_20px_44px_-16px_rgba(128,96,63,0.3)]">
-              <div className="relative h-28 w-40 shrink-0 overflow-hidden rounded-xl">
+              <div className="relative h-24 w-28 shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-40">
                 <img src={p.img} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 <span className="absolute left-2 top-2 rounded bg-black/55 px-1.5 py-0.5 text-[10px] font-medium text-white backdrop-blur">{p.status}</span>
               </div>

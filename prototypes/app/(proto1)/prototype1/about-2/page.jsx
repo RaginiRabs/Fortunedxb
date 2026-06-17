@@ -35,7 +35,6 @@ const WHY = [
 const SERVICES = [
   { icon: Building2, label: 'Off Plan Properties' },
   { icon: Home, label: 'Ready Properties' },
-  { icon: Repeat, label: 'Resale Properties' },
   { icon: BadgePercent, label: 'Distress Deals' },
   { icon: TrendingUp, label: 'Investment Advisory' },
   { icon: KeyRound, label: 'Property Management' },

@@ -21,11 +21,11 @@ export default function Hero() {
             ✦ Discover 500+ Verified Projects
           </span>
 
-          <h1 className="mt-5 text-5xl md:text-6xl font-light leading-[1.05] tracking-tight text-[#1a1a1a]">
+          <h1 className="mt-5 text-4xl sm:text-5xl md:text-6xl font-light leading-[1.08] sm:leading-[1.05] tracking-tight text-[#1a1a1a]">
             Find Your Perfect<br />Property in Dubai
           </h1>
 
-          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-gray-600">
+          <p className="mt-5 max-w-md text-[14px] sm:text-[15px] leading-relaxed text-gray-600">
             Explore premium properties from top developers in Dubai&apos;s most sought-after communities.
           </p>
 

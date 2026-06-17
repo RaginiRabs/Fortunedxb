@@ -15,7 +15,7 @@ export default function ResaleProperties() {
       <div className="flex items-end justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#80603f]">Ready to Move</p>
-          <h2 className="mt-1 text-2xl font-semibold text-[#1a1a1a]">Resale Properties</h2>
+          <h2 className="mt-1 text-2xl font-semibold text-[#1a1a1a]">Ready Properties</h2>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => scroll(-1)} aria-label="Previous" className="grid h-10 w-10 place-items-center rounded-full border border-[#80603f]/40 text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
@@ -24,7 +24,7 @@ export default function ResaleProperties() {
           <button onClick={() => scroll(1)} aria-label="Next" className="grid h-10 w-10 place-items-center rounded-full border border-[#80603f]/40 text-[#80603f] transition-colors hover:bg-[#80603f] hover:text-white">
             <ChevronRight className="h-4 w-4" />
           </button>
-          <a href="#" className="ml-1 hidden items-center gap-2 rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] px-4 py-2 text-sm font-medium text-white sm:inline-flex">
+          <a href="/prototype1/ready-properties" className="ml-1 hidden items-center gap-2 rounded-full bg-gradient-to-r from-[#96714a] to-[#6b4f33] px-4 py-2 text-sm font-medium text-white sm:inline-flex">
             View All <ArrowRight className="h-4 w-4" />
           </a>
         </div>

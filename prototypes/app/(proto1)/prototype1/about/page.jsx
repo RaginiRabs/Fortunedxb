@@ -27,7 +27,7 @@ const VALUES = [
 
 const WHY = [
   'RERA Registered Brokerage Firm',
-  'Expert in Off-Plan, Resale & Distress Deals',
+  'Expert in Off-Plan, Ready & Distress Deals',
   'End-to-End Support from Consultation to Handover',
   'Strong Network of Developers & Partners',
   'Transparent Process, No Hidden Costs',

@@ -29,7 +29,7 @@ export default function AboutUs() {
         </h2>
         <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-gray-500">
           Fortune Realty LLC is a trusted advisory firm helping investors and homeowners discover premium
-          off-plan, ready, resale and distress opportunities across Dubai&apos;s most sought-after communities.
+          off-plan, ready and distress opportunities across Dubai&apos;s most sought-after communities.
         </p>
 
         <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">

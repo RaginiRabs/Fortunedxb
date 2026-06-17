@@ -4,19 +4,21 @@
 import { useRef, useEffect, useState } from 'react';
 import { partners } from '@/mock/prototype1/home';
 
-function LogoCard({ name, domain }) {
-  const [failed, setFailed] = useState(false);
+function LogoCard({ name, domain, logo }) {
+  // Try the local logo first, then the live Clearbit logo, then the name as text.
+  const [stage, setStage] = useState(logo ? 'local' : 'clearbit');
+  const src = stage === 'local' ? logo : `https://logo.clearbit.com/${domain}?size=160`;
   return (
-    <div className="flex h-24 w-44 shrink-0 select-none items-center justify-center rounded-2xl border border-gray-100 bg-white px-6 shadow-[0_8px_24px_-12px_rgba(20,18,15,0.18)]">
-      {failed ? (
+    <div className="flex h-24 w-44 shrink-0 select-none items-center justify-center rounded-2xl border border-gray-100 bg-white p-5 shadow-[0_8px_24px_-12px_rgba(20,18,15,0.18)]">
+      {stage === 'text' ? (
         <span className="text-lg font-bold uppercase tracking-wide text-[#5e4636]">{name}</span>
       ) : (
         <img
-          src={`https://logo.clearbit.com/${domain}?size=160`}
+          src={src}
           alt={name}
           draggable={false}
-          onError={() => setFailed(true)}
-          className="max-h-12 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0"
+          onError={() => setStage(stage === 'local' ? 'clearbit' : 'text')}
+          className="h-full w-full object-contain grayscale transition-all duration-300 hover:grayscale-0"
         />
       )}
     </div>
@@ -84,7 +86,7 @@ export default function Partners() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent" />
           <div ref={ref} className="no-scrollbar flex cursor-grab gap-5 overflow-x-auto pb-1">
             {items.map((p, i) => (
-              <LogoCard key={`${p.name}-${i}`} name={p.name} domain={p.domain} />
+              <LogoCard key={`${p.name}-${i}`} name={p.name} domain={p.domain} logo={p.logo} />
             ))}
           </div>
         </div>

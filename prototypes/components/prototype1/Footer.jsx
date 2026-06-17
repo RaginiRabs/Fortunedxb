@@ -2,7 +2,7 @@
 import {
   Instagram, Facebook, Linkedin, Youtube,
   ChevronRight, MapPin, Phone, Mail,
-  Building2, Key, Repeat, BadgePercent, Gem, Waves,
+  Building2, Key, BadgePercent, Gem, Waves,
   BadgeCheck, Users, ShieldCheck,
 } from 'lucide-react';
 import { footerLinks, contactInfo, footerBadges } from '@/mock/prototype1/home';
@@ -13,11 +13,16 @@ const hrefFor = (l) =>
   l === 'Home' ? '/prototype1'
     : l === 'Projects' ? '/prototype1/projects'
     : l === 'Distress Deals' ? '/prototype1/distress-deals'
-    : l === 'Resale Properties' ? '/prototype1/resale-properties'
+    : l === 'Ready Properties' ? '/prototype1/ready-properties'
     : l === 'About Us' ? '/prototype1/about'
     : l === 'Contact Us' ? '/prototype1/contact'
     : '#';
-const CATEGORY_ICONS = [Building2, Key, Repeat, BadgePercent, Gem, Waves];
+const categoryHref = (l) =>
+  l === 'Off Plan Projects' ? '/prototype1/projects'
+    : l === 'Ready Properties' ? '/prototype1/ready-properties'
+    : l === 'Distress Deals' ? '/prototype1/distress-deals'
+    : '#';
+const CATEGORY_ICONS = [Building2, Key, BadgePercent, Gem, Waves];
 const BADGE_ICONS = [BadgeCheck, Building2, Users, ShieldCheck];
 
 function Heading({ children }) {
@@ -105,7 +110,7 @@ export default function Footer() {
               const Icon = CATEGORY_ICONS[i] || Building2;
               return (
                 <li key={l}>
-                  <a href="#" className="inline-flex items-center gap-2.5 text-[13px] text-gray-500 transition-colors hover:text-[#80603f]">
+                  <a href={categoryHref(l)} className="inline-flex items-center gap-2.5 text-[13px] text-gray-500 transition-colors hover:text-[#80603f]">
                     <Icon className="h-4 w-4 text-[#80603f]" /> {l}
                   </a>
                 </li>
@@ -133,13 +138,20 @@ export default function Footer() {
           <Heading>Contact Us</Heading>
           <ul className="mt-4 space-y-3.5 text-[13px] text-gray-600">
             <li className="flex items-start gap-2.5">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#80603f]" /> {contactInfo.address}
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#80603f]" />
+              <a href={contactInfo.mapUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[#80603f]">{contactInfo.address}</a>
             </li>
             <li className="flex items-center gap-2.5">
-              <Phone className="h-4 w-4 shrink-0 text-[#80603f]" /> {contactInfo.phone}
+              <Phone className="h-4 w-4 shrink-0 text-[#80603f]" />
+              <span className="flex flex-wrap items-center gap-x-2">
+                <a href={`tel:${contactInfo.phoneTel}`} className="transition-colors hover:text-[#80603f]">{contactInfo.phone}</a>
+                <span className="text-gray-300">|</span>
+                <a href={`tel:${contactInfo.phone2Tel}`} className="transition-colors hover:text-[#80603f]">{contactInfo.phone2}</a>
+              </span>
             </li>
             <li className="flex items-center gap-2.5">
-              <Mail className="h-4 w-4 shrink-0 text-[#80603f]" /> {contactInfo.email}
+              <Mail className="h-4 w-4 shrink-0 text-[#80603f]" />
+              <a href={`mailto:${contactInfo.email}`} className="transition-colors hover:text-[#80603f]">{contactInfo.email}</a>
             </li>
           </ul>
         </div>

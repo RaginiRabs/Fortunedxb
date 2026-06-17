@@ -92,7 +92,7 @@ export default function ResaleBrowser() {
                 <span className={`absolute right-3 top-3 rounded-full ${STATUS_TONE[p.status] || 'bg-gray-500'} px-2 py-0.5 text-[9px] font-semibold text-white shadow`}>{p.status}</span>
                 <div className="absolute inset-x-3 bottom-3 flex items-end justify-between">
                   <div>
-                    <span className="block text-[9px] uppercase tracking-wide text-white/70">Resale Price</span>
+                    <span className="block text-[9px] uppercase tracking-wide text-white/70">Price</span>
                     <span className="text-[17px] font-bold text-white"><Dirham className="mr-0.5" />{p.price}</span>
                   </div>
                   <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold text-white shadow">ROI {p.roi}%</span>

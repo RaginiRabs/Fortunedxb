@@ -6,13 +6,14 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Menu, X, ArrowRight, User, Phone, Mail, Check, Building2, Wallet, MessageSquare, ShieldCheck, ChevronDown, Sparkles } from 'lucide-react';
 
-const LINKS = ['Home', 'Projects', 'Distress Deals', 'Resale Properties', 'About Us', 'Contact Us'];
+const LINKS = ['Home', 'Projects', 'Distress Deals', 'Ready Properties', 'Map', 'About Us', 'Contact Us'];
 
 const hrefFor = (l) =>
   l === 'Home' ? '/prototype1'
     : l === 'Projects' ? '/prototype1/projects'
     : l === 'Distress Deals' ? '/prototype1/distress-deals'
-    : l === 'Resale Properties' ? '/prototype1/resale-properties'
+    : l === 'Ready Properties' ? '/prototype1/ready-properties'
+    : l === 'Map' ? '/prototype1/map'
     : l === 'About Us' ? '/prototype1/about'
     : l === 'Contact Us' ? '/prototype1/contact'
     : '#';
@@ -93,7 +94,6 @@ function ConsultModal({ onClose }) {
                   <option value="" disabled>Interested In</option>
                   <option>Off-Plan Property</option>
                   <option>Ready Property</option>
-                  <option>Resale Property</option>
                   <option>Distress Deal</option>
                   <option>Investment Advisory</option>
                 </select>
@@ -152,10 +152,12 @@ export default function Navbar() {
           <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-7 whitespace-nowrap lg:flex">
             {LINKS.map((l) => {
               const active = isActive(l);
+              const ext = hrefFor(l).startsWith('http');
               return (
                 <a
                   key={l}
                   href={hrefFor(l)}
+                  {...(ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   className={`group relative inline-flex items-center py-2 text-[14px] transition-colors ${
                     active ? 'text-[#80603f]' : 'text-gray-700 hover:text-[#80603f]'
                   }`}
@@ -196,6 +198,7 @@ export default function Navbar() {
               <a
                 key={l}
                 href={hrefFor(l)}
+                {...(hrefFor(l).startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 className={`block rounded-lg px-3 py-2 text-sm ${
                   isActive(l) ? 'bg-[#80603f]/10 font-medium text-[#80603f]' : 'text-gray-700 hover:text-[#80603f]'
                 }`}

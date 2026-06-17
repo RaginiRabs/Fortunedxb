@@ -25,9 +25,9 @@ export const topDevelopers = [
 ];
 
 export const topCommunities = [
-  { id: 1, name: 'Dubai Marina', avgPrice: '1.6M', projects: 45, roi: '6.2%', img: img('1528702748617-c64d49f918af') },
-  { id: 2, name: 'Downtown Dubai', avgPrice: '2.4M', projects: 38, roi: '5.8%', img: img('1512453979798-5ea266f8880c') },
-  { id: 3, name: 'Palm Jumeirah', avgPrice: '4.8M', projects: 28, roi: '6.5%', img: img('1489516408517-0c0a15662682') },
+  { id: 1, name: 'Palm Jabel Ali', avgPrice: '1.6M', projects: 45, roi: '6.2%', img: img('1528702748617-c64d49f918af') },
+  { id: 2, name: 'Meydan Horizon', avgPrice: '2.4M', projects: 38, roi: '5.8%', img: img('1512453979798-5ea266f8880c') },
+  { id: 3, name: 'Dubai South', avgPrice: '4.8M', projects: 28, roi: '6.5%', img: img('1489516408517-0c0a15662682') },
   { id: 4, name: 'Jumeirah Village Circle', avgPrice: '1.1M', projects: 22, roi: '7.1%', img: img('1582672060674-bc2bd808a8b5') },
   { id: 5, name: 'Dubai Hills Estate', avgPrice: '2.2M', projects: 31, roi: '5.9%', img: img('1518684079-3c830dcef090') },
 ];
@@ -101,26 +101,28 @@ export const metroPaths = [
   { color: '#C8A227', path: [[25.08, 55.14], [25.05, 55.16], [25.04, 55.19], [25.06, 55.22], [25.09, 55.24]] },
 ];
 
+// To use your own logos: drop a PNG/SVG into prototypes/public/images/developers/
+// with the filename shown in `logo` below. If the file is missing it auto-falls back
+// to the live Clearbit logo, then to the developer name text.
 export const partners = [
-  { name: 'Emaar', domain: 'emaar.com' },
-  { name: 'Nakheel', domain: 'nakheel.com' },
-  { name: 'Sobha', domain: 'sobharealty.com' },
-  { name: 'DAMAC', domain: 'damacproperties.com' },
-  { name: 'Binghatti', domain: 'binghatti.com' },
-  { name: 'Azizi', domain: 'azizidevelopments.com' },
-  { name: 'Meraas', domain: 'meraas.com' },
-  { name: 'Danube', domain: 'danubeproperties.com' },
-  { name: 'Ellington', domain: 'ellingtonproperties.ae' },
-  { name: 'Omniyat', domain: 'omniyat.com' },
+  { name: 'Emaar', domain: 'emaar.com', logo: '/images/developers/emaar.png' },
+  { name: 'Nakheel', domain: 'nakheel.com', logo: '/images/developers/nakheel.png' },
+  { name: 'Sobha', domain: 'sobharealty.com', logo: '/images/developers/sobha.png' },
+  { name: 'DAMAC', domain: 'damacproperties.com', logo: '/images/developers/damac.png' },
+  { name: 'Binghatti', domain: 'binghatti.com', logo: '/images/developers/binghatti.png' },
+  { name: 'Azizi', domain: 'azizidevelopments.com', logo: '/images/developers/azizi.png' },
+  { name: 'Meraas', domain: 'meraas.com', logo: '/images/developers/meraas.png' },
+  { name: 'Danube', domain: 'danubeproperties.com', logo: '/images/developers/danube.png' },
+  { name: 'Ellington', domain: 'ellingtonproperties.ae', logo: '/images/developers/ellington.png' },
+  { name: 'Omniyat', domain: 'omniyat.com', logo: '/images/developers/omniyat.png' },
 ];
 
 export const exploreCategories = [
-  { label: 'Off Plan Projects', count: '320 Listings', img: img('1597659840241-37e2b9c2f55f') },
-  { label: 'Ready Properties', count: '210 Listings', img: img('1512453979798-5ea266f8880c') },
-  { label: 'Resale Properties', count: '258 Listings', img: img('1546412414-e1885259563a') },
+  { label: 'Off Plan Projects', count: '320 Listings', img: img('1541888946425-d81bb19240f5') },
+  { label: 'Ready Properties', count: '258 Listings', img: img('1545324418-cc1a3fa10c00') },
   { label: 'Distress Deals', count: '128 Listings', img: img('1582672060674-bc2bd808a8b5') },
-  { label: 'Luxury Villas', count: '96 Listings', img: img('1489516408517-0c0a15662682') },
-  { label: 'Waterfront Homes', count: '74 Listings', img: img('1528702748617-c64d49f918af') },
+  { label: 'Luxury Villas', count: '96 Listings', img: img('1613490493576-7fde63acd811') },
+  { label: 'Waterfront Properties', count: '74 Listings', img: img('1528702748617-c64d49f918af') },
 ];
 
 export const aboutStats = [
@@ -132,7 +134,7 @@ export const aboutStats = [
 
 export const aboutPoints = [
   'RERA-certified advisors with deep local market expertise',
-  'Exclusive access to off-plan, resale & distress inventory',
+  'Exclusive access to off-plan, ready & distress inventory',
   'End-to-end support — buying, financing & relocation',
   'Transparent deals with verified, honest pricing',
 ];
@@ -172,11 +174,10 @@ export const testimonials = [
 ];
 
 export const footerLinks = {
-  quick: ['Home', 'Projects', 'Distress Deals', 'Resale Properties', 'About Us', 'Contact Us'],
+  quick: ['Home', 'Projects', 'Distress Deals', 'Ready Properties', 'About Us', 'Contact Us'],
   categories: [
     'Off Plan Projects',
     'Ready Properties',
-    'Resale Properties',
     'Distress Deals',
     'Luxury Villas',
     'Waterfront Properties',
@@ -192,9 +193,13 @@ export const footerLinks = {
 };
 
 export const contactInfo = {
-  address: 'Office 3407, HDS Tower, Jumeirah Lake Towers, Dubai, UAE',
-  phone: '+971 50 123 4567',
-  email: 'info@fortunerealtydxb.com',
+  address: 'The Binary by Omniyat, Business Bay, Dubai',
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=The+Binary+by+Omniyat+Business+Bay+Dubai',
+  phone: '+971 58 233 5969',
+  phoneTel: '+971582335969',
+  phone2: '+971 58 852 9900',
+  phone2Tel: '+971588529900',
+  email: 'sales@fortunedxb.com',
 };
 
 export const footerBadges = ['500+ Verified Projects', '100+ Developers', '25+ Communities', 'RERA ORN: XXXXX'];

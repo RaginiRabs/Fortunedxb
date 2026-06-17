@@ -40,7 +40,7 @@ const INVESTOR = [
   { icon: TrendingUp, title: 'Highest ROI Deals', text: 'Explore properties with up to 12% ROI potential.' },
   { icon: Tag, title: 'Biggest Discounts', text: 'Save up to 40% below market value.' },
   { icon: KeyRound, title: 'Ready to Move', text: 'Immediate handover properties available.' },
-  { icon: Repeat, title: 'Quick Resale', text: 'High liquidity & easy resale opportunities.' },
+  { icon: Repeat, title: 'Quick Exit', text: 'High liquidity & easy exit opportunities.' },
 ];
 
 const TRANSACTIONS = [

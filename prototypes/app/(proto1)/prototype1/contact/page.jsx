@@ -19,11 +19,11 @@ const FEATURES = [
 ];
 
 const DETAILS = [
-  { icon: MapPin, title: 'Our Office', lines: ['Office 3407, HDS Tower,', 'Jumeirah Lake Towers, Dubai, UAE'] },
-  { icon: Phone, title: 'Phone', lines: ['+971 50 123 4567', '+971 4 123 4567'] },
-  { icon: Mail, title: 'Email', lines: ['info@fortunerealtydxb.com'] },
+  { icon: MapPin, title: 'Our Office', lines: ['The Binary by Omniyat,', 'Business Bay, Dubai'] },
+  { icon: Phone, title: 'Phone', lines: ['+971 58 233 5969', '+971 58 852 9900'] },
+  { icon: Mail, title: 'Email', lines: ['sales@fortunedxb.com'] },
   { icon: Clock, title: 'Working Hours', lines: ['Monday – Saturday', '9:00 AM – 6:00 PM (GST)'] },
-  { icon: Globe, title: 'Website', lines: ['www.fortunerealtydxb.com'] },
+  { icon: Globe, title: 'Website', lines: ['www.fortunedxb.com'] },
 ];
 
 const OFFICE = [
@@ -120,8 +120,8 @@ export default function ContactPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#80603f]">Visit Our Office</p>
             <h2 className="mt-2 text-3xl font-semibold leading-tight text-[#1a1a1a]">We&apos;d Love to Meet You</h2>
             <p className="mt-4 text-[14px] leading-relaxed text-gray-500">
-              Our office is located in the heart of Jumeirah Lake Towers, Dubai. Feel free to visit us during
-              working hours.
+              Our office is located at The Binary by Omniyat in the heart of Business Bay, Dubai. Feel free to
+              visit us during working hours.
             </p>
           </Reveal>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
