@@ -39,7 +39,7 @@ function Skyline() {
     <svg
       viewBox="0 0 520 220"
       fill="none"
-      className="pointer-events-none absolute bottom-0 right-0 hidden h-44 w-[46%] max-w-[520px] text-[#80603f] opacity-[0.12] lg:block"
+      className="pointer-events-none absolute bottom-14 right-0 hidden h-48 w-[46%] max-w-[520px] text-[#80603f] opacity-[0.22] lg:block"
       preserveAspectRatio="xMaxYMax meet"
       aria-hidden
     >
@@ -62,7 +62,7 @@ export default function Footer() {
       <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#80603f] to-transparent opacity-60" />
       <Skyline />
 
-      <div className="relative mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 sm:gap-x-8 sm:px-6 md:px-8 md:py-16 lg:grid-cols-[1.6fr_1fr_1.2fr_1.1fr_1.3fr]">
+      <div className="relative mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 sm:gap-x-8 sm:px-6 md:px-8 md:py-16 lg:grid-cols-[1.8fr_1fr_1.2fr_1.3fr]">
         {/* Brand */}
         <div className="col-span-2 lg:col-span-1">
           <img src="/images/fortune-logo-trim.png" alt="Fortune Realty L.L.C" className="h-9 w-auto md:h-10" />
@@ -119,33 +119,22 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Popular Areas */}
-        <div>
-          <Heading>Popular Areas</Heading>
-          <ul className="mt-4 space-y-2.5">
-            {footerLinks.areas.map((l) => (
-              <li key={l}>
-                <a href="#" className="inline-flex items-center gap-2.5 text-[13px] text-gray-500 transition-colors hover:text-[#80603f]">
-                  <MapPin className="h-4 w-4 text-[#80603f]" /> {l}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* Contact */}
         <div className="col-span-2 lg:col-span-1">
           <Heading>Contact Us</Heading>
           <ul className="mt-4 space-y-3.5 text-[13px] text-gray-600">
             <li className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#80603f]" />
-              <a href={contactInfo.mapUrl} target="_blank" rel="noopener noreferrer" className="min-w-0 break-words transition-colors hover:text-[#80603f]">{contactInfo.address}</a>
+              <a href={contactInfo.mapUrl} target="_blank" rel="noopener noreferrer" className="min-w-0 leading-relaxed transition-colors hover:text-[#80603f]">
+                {contactInfo.address.substring(0, contactInfo.address.lastIndexOf(','))}
+                <br />
+                {contactInfo.address.substring(contactInfo.address.lastIndexOf(',') + 1).trim()}
+              </a>
             </li>
-            <li className="flex items-center gap-2.5">
-              <Phone className="h-4 w-4 shrink-0 text-[#80603f]" />
-              <span className="flex min-w-0 flex-wrap items-center gap-x-2">
+            <li className="flex items-start gap-2.5">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#80603f]" />
+              <span className="flex min-w-0 flex-col gap-1">
                 <a href={`tel:${contactInfo.phoneTel}`} className="transition-colors hover:text-[#80603f]">{contactInfo.phone}</a>
-                <span className="text-gray-300">|</span>
                 <a href={`tel:${contactInfo.phone2Tel}`} className="transition-colors hover:text-[#80603f]">{contactInfo.phone2}</a>
               </span>
             </li>

@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import Reveal from '@/components/prototype1/Reveal';
 import CountUp from '@/components/prototype1/CountUp';
+import Dirham from '@/components/prototype1/Dirham';
 
 export const metadata = { title: 'About Us — Fortune Realty L.L.C' };
 
@@ -45,7 +46,7 @@ const PROCESS = [
 const ACHIEVEMENTS = [
   { end: 500, suffix: '+', label: 'Projects Sold' },
   { end: 1000, suffix: '+', label: 'Happy Clients' },
-  { prefix: 'AED ', end: 2, suffix: 'B+', label: 'Sales Value' },
+  { dirham: true, end: 2, suffix: 'B+', label: 'Sales Value' },
   { end: 25, suffix: '+', label: 'Communities Covered' },
   { end: 98, suffix: '%', label: 'Client Satisfaction Rate' },
 ];
@@ -213,6 +214,7 @@ export default function About3Page() {
               {ACHIEVEMENTS.map((a, i) => (
                 <Reveal key={a.label} delay={i * 0.08} className="lg:border-l lg:border-white/15 lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
                   <div className="whitespace-nowrap text-[2rem] font-bold leading-none text-white md:text-[2.6rem]">
+                    {a.dirham && <Dirham className="mr-1.5" />}
                     <CountUp end={a.end} prefix={a.prefix || ''} suffix={a.suffix} />
                   </div>
                   <div className="mt-2.5 text-[12px] leading-snug text-gray-400">{a.label}</div>
