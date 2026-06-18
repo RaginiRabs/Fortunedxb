@@ -141,7 +141,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 md:px-5 md:pt-4">
-      <div className="mx-auto max-w-[1480px] rounded-2xl border border-white/70 bg-white/95 shadow-[0_12px_44px_-12px_rgba(20,18,15,0.30)] backdrop-blur-md">
+      <div className="mx-auto max-w-[1480px] rounded-2xl border border-white/70 bg-white/95 backdrop-blur-md">
         <div className="relative flex h-[68px] items-center justify-between px-4 md:px-6">
           {/* Logo */}
           <a href="/prototype1" className="flex items-center">

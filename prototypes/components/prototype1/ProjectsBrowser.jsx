@@ -26,14 +26,36 @@ function Skel() {
 const TABS = ['All Projects', 'Apartments', 'Villas', 'Townhouses', 'Penthouses', 'Off Plan', 'Ready'];
 const PROPERTY_TYPES = ['All Types', 'Apartments', 'Villas', 'Townhouses', 'Penthouses'];
 const STATUSES = ['Off Plan', 'Ready', 'Under Construction'];
-const PAGE = 6;
+// 12 = LCM of the grid column counts (1/2/3/4), so every loaded page fills its
+// rows completely — no half-empty last row while "Load More" is still showing.
+const PAGE = 12;
 
-// TEST ONLY — a project with all empty/missing values to verify the card fallbacks
-// (skeleton bars, image placeholder, "Price on request"). Remove when done testing.
-const TEST_EMPTY = {
-  id: 'test-empty', name: '', area: '', beds: '', units: '', handover: '',
-  paymentPlan: '', roi: '', priceLabel: '', status: '', type: '', availability: '', developer: '', image: '',
-};
+// TEST ONLY — scenario cards to verify the card's auto-substitution fallbacks.
+// Remove this block (and the spread in `filtered`) when done testing.
+const TEST_IMG = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80';
+const TEST_CASES = [
+  // Control — all fields. Row1: beds + units (type dropped, max 2). Row2: 3 cols.
+  { id: 't0', name: 'TEST · All fields', area: 'Dubai', beds: '1 - 3', units: 47, handover: 'Q4 2026', paymentPlan: '60/40', roi: '7.2%', type: 'Apartments', status: 'New Launch', priceLabel: 'AED 610,000', image: TEST_IMG },
+  // Row 1 — units missing → beds + type (type with no label).
+  { id: 't1', name: 'TEST · Row1 no units', area: 'Dubai', beds: '1 - 3', handover: 'Q4 2026', paymentPlan: '60/40', roi: '7.2%', type: 'Apartments', priceLabel: 'AED 610,000', image: TEST_IMG },
+  // Row 1 — beds missing → units + type.
+  { id: 't2', name: 'TEST · Row1 no beds', area: 'Dubai', units: 47, handover: 'Q4 2026', paymentPlan: '60/40', roi: '7.2%', type: 'Villas', priceLabel: 'AED 2,100,000', image: TEST_IMG },
+  // Row 1 — only type present → single item (just the value).
+  { id: 't3', name: 'TEST · Row1 type only', area: 'Dubai', handover: 'Q4 2026', paymentPlan: '60/40', roi: '7.2%', type: 'Townhouses', priceLabel: 'AED 3,400,000', image: TEST_IMG },
+  // Row 1 — none of beds/units/type → "coming soon" line.
+  { id: 't4', name: 'TEST · Row1 coming soon', area: 'Dubai', handover: 'Q1 2027', paymentPlan: '70/30', roi: '6.5%', priceLabel: 'AED 850,000', image: TEST_IMG },
+  // Row 2 — only handover → payment & yield shown as colored hyphens (3 cols).
+  { id: 't5', name: 'TEST · Row2 only handover', area: 'Dubai', beds: '1 - 3', units: 47, handover: 'Q2 2027', priceLabel: 'AED 720,000', image: TEST_IMG },
+  // Row 2 — only yield → handover & payment shown as colored hyphens (3 cols).
+  { id: 't6', name: 'TEST · Row2 only yield', area: 'Dubai', beds: '1 - 2', units: 60, roi: '6.8%', priceLabel: 'AED 990,000', image: TEST_IMG },
+  // Row 2 — two present (no yield) → even 2-up layout.
+  { id: 't7', name: 'TEST · Row2 two-even', area: 'Dubai', beds: '1 - 4', units: 80, handover: 'Q3 2026', paymentPlan: '60/40', priceLabel: 'AED 1,250,000', image: TEST_IMG },
+  // Row 2 — none present → all 3 shown as same-color hyphens.
+  { id: 't8', name: 'TEST · Row2 all hyphens', area: 'Dubai', beds: 'Studio', units: 200, type: 'Apartments', priceLabel: 'AED 540,000', image: TEST_IMG },
+  // Bare minimum — only required name + location; Row1 "coming soon", Row2 all
+  // hyphens, image placeholder, "Price on request".
+  { id: 't9', name: 'TEST · Bare minimum', area: 'Dubai', priceLabel: '', image: '' },
+];
 
 const STATUS_COLOR = {
   'New Launch': '#2E8B57',
@@ -78,13 +100,41 @@ function StatusBadge({ status }) {
   );
 }
 
-// Grid card — proto2 card design + proto3's full colored metric strip.
+// JIT-safe column-count map for the row-2 metric strip.
+const GRID_COLS = { 1: 'grid-cols-1', 2: 'grid-cols-2', 3: 'grid-cols-3' };
+
+// Grid card — name + location always shown (no N/A).
 function ProjectCard({ p }) {
-  const metrics = [
-    { label: 'Handover', value: p.handover, color: 'text-[#2E9E63]' },
-    { label: 'Payment', value: p.paymentPlan, color: 'text-[#CA8A04]' },
-    { label: 'Yield', value: p.roi, color: 'text-[#2F6FAE]' },
+  const fmt = (v) => (typeof v === 'number' ? v.toLocaleString() : v);
+
+  // Row 1 — beds, units, type (type shows its value with no label). Keep max 2.
+  // If none of the three are present, fall back to a "coming soon" beds/units line.
+  const ROW1_POOL = [
+    { key: 'beds', label: 'Beds', value: p.beds },
+    { key: 'units', label: 'Units', value: p.units },
+    { key: 'type', label: '', value: p.type },
   ];
+  let row1 = ROW1_POOL.filter((m) => !isEmpty(m.value)).slice(0, 2);
+  if (row1.length === 0) {
+    row1 = [
+      { key: 'beds', label: 'Beds', value: 'coming soon', soon: true },
+      { key: 'units', label: 'Units', value: 'coming soon', soon: true },
+    ];
+  }
+
+  // Row 2 — handover, payment, yield only (fixed colors per metric).
+  // 3 present → 3 cols; exactly 2 → even 2-up; 1 or 0 present → all 3 cols with
+  // the missing ones shown as a hyphen in their own metric color.
+  const ROW2 = [
+    { key: 'handover', label: 'Handover', value: p.handover, color: 'text-[#2E9E63]' },
+    { key: 'paymentPlan', label: 'Payment', value: p.paymentPlan, color: 'text-[#CA8A04]' },
+    { key: 'roi', label: 'Yield', value: p.roi, color: 'text-[#2F6FAE]' },
+  ];
+  const r2present = ROW2.filter((m) => !isEmpty(m.value));
+  const row2 = r2present.length >= 2
+    ? r2present
+    : ROW2.map((m) => (isEmpty(m.value) ? { ...m, value: '-' } : m));
+
   return (
     <a
       href="/prototype1/project/one-by-nine"
@@ -105,25 +155,38 @@ function ProjectCard({ p }) {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-serif text-base font-semibold text-ink">{isEmpty(p.name) ? <Skel w={150} h={17} /> : p.name}</h3>
+        <h3 className="font-serif text-base font-semibold text-ink">{p.name}</h3>
         <p className="mt-0.5 flex items-center gap-1 text-[12px] text-ink-soft">
-          <MapPin size={13} className="text-ink-faint" /> {isEmpty(p.area) ? <Skel w={90} h={11} /> : p.area}
+          <MapPin size={13} className="text-ink-faint" /> {p.area}
         </p>
 
-        {/* proto2 metrics — beds & units (ROI removed) */}
-        <p className="mt-2 text-[12px] text-ink-soft">
-          {isEmpty(p.beds) ? <Skel w={18} h={10} /> : p.beds} Beds <span className="text-ink-faint">·</span> {isEmpty(p.units) ? <Skel w={18} h={10} /> : p.units} Units
-        </p>
+        {/* Row 1 — inline metrics: beds, units, type (type has no label) */}
+        {row1.length > 0 && (
+          <p className="mt-2 text-[12px] text-ink-soft">
+            {row1.map((m, i) => (
+              <span key={m.key}>
+                {i > 0 && <span className="text-ink-faint"> · </span>}
+                {m.soon ? (
+                  <>{m.label} <span className="italic text-[#B6A48F]">{m.value}</span></>
+                ) : (
+                  <>{fmt(m.value)}{m.label ? ` ${m.label}` : ''}</>
+                )}
+              </span>
+            ))}
+          </p>
+        )}
 
-        {/* proto3 full colored metric strip */}
-        <div className="mt-2.5 grid grid-cols-3 divide-x divide-[rgba(10,10,18,0.07)] border-t border-brand-pale pt-2.5">
-          {metrics.map((m) => (
-            <div key={m.label} className="min-w-0 px-3 first:pl-0 last:pr-0">
-              <p className={`break-words text-[15px] font-bold leading-tight ${m.color}`} style={{ fontFamily: HEAD }}>{isEmpty(m.value) ? <Skel w={34} h={13} /> : m.value}</p>
-              <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] text-ink-faint">{m.label}</p>
-            </div>
-          ))}
-        </div>
+        {/* Row 2 — colored metric strip: handover, payment, yield */}
+        {row2.length > 0 && (
+          <div className={`mt-2.5 grid ${GRID_COLS[row2.length]} divide-x divide-[rgba(10,10,18,0.07)] border-t border-brand-pale pt-2.5`}>
+            {row2.map((m) => (
+              <div key={m.key} className="min-w-0 px-3 first:pl-0 last:pr-0">
+                <p title={String(fmt(m.value))} className={`truncate text-[15px] font-bold leading-tight ${m.color}`} style={{ fontFamily: HEAD }}>{fmt(m.value)}</p>
+                <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] text-ink-faint">{m.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="mt-auto flex items-end justify-between pt-3">
           <div>
@@ -206,7 +269,7 @@ export default function ProjectsBrowser() {
   };
 
   const filtered = useMemo(() => {
-    return [TEST_EMPTY, ...projects].filter((p) => {
+    return [...TEST_CASES, ...projects].filter((p) => {
       const q = query.trim().toLowerCase();
       if (q && !(`${p.name} ${p.area} ${p.developer}`.toLowerCase().includes(q))) return false;
       if (['Apartments', 'Villas', 'Townhouses', 'Penthouses'].includes(tab)) {
@@ -240,9 +303,12 @@ export default function ProjectsBrowser() {
         <SlidersHorizontal size={16} /> {showFilters ? 'Hide Filters' : 'Show Filters'}
       </button>
 
-      <div className={'grid gap-6 ' + (panelOpen ? 'lg:grid-cols-[270px_1fr]' : 'lg:grid-cols-1')}>
-        {/* Sidebar — sticky; collapses on desktop toggle */}
-        <aside style={{ top: 120 }} className={(showFilters ? 'block' : 'hidden') + ' h-fit self-start rounded-2xl border border-brand-pale bg-white p-5 lg:sticky ' + (panelOpen ? 'lg:block' : 'lg:hidden')}>
+      <div className={`grid gap-6 transition-[grid-template-columns,column-gap] duration-300 ease-in-out ${panelOpen ? 'lg:grid-cols-[270px_1fr]' : 'lg:grid-cols-[0px_1fr] lg:gap-0'}`}>
+        {/* Sidebar — animates open/closed (desktop collapse + mobile toggle) */}
+        <aside
+          style={{ top: 120 }}
+          className={`overflow-hidden transition-all duration-300 ease-in-out h-fit self-start rounded-2xl border border-brand-pale bg-white lg:sticky ${showFilters ? 'p-5 max-h-[2000px] opacity-100' : 'p-0 max-h-0 opacity-0'} ${panelOpen ? 'lg:p-5 lg:max-h-[2000px] lg:opacity-100' : 'lg:p-0 lg:max-h-0 lg:opacity-0'}`}
+        >
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button onClick={clearAll} className="text-[12px] font-medium text-[#8C6A52] hover:text-[#5E4636]">Clear All</button>

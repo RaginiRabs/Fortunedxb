@@ -86,7 +86,7 @@ function nearbyIcon(type) {
   }[type] || MapPin;
 }
 
-export default function ProjectDetails({ project }) {
+export default function ProjectDetails({ project, navOffsetClass = 'top-[81px] md:top-[89px]' }) {
   const [curIdx, setCurIdx] = useState(0);
   const [faqOpen, setFaqOpen] = useState(0);
   const [activeImg, setActiveImg] = useState(0);
@@ -165,7 +165,7 @@ export default function ProjectDetails({ project }) {
   return (
     <div>
       {/* Sticky tab nav + currency toggle — sticks below the main navbar */}
-      <nav className="sticky top-[81px] md:top-[89px] z-30 bg-white/95 backdrop-blur border-b border-[#e8e2da]">
+      <nav className={`sticky ${navOffsetClass} z-30 bg-white/95 backdrop-blur border-b border-[#e8e2da]`}>
         <div className="mx-auto max-w-6xl px-6 flex items-center gap-5 overflow-x-auto no-scrollbar">
           {TABS.map(([label, anchor]) => {
             const active = activeSection === anchor;

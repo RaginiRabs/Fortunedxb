@@ -157,9 +157,9 @@ export default function ResaleProperties({ properties, typeFacets, statusFacets 
       </button>
 
       {/* Body */}
-      <div className="mt-4 grid gap-6 lg:mt-7 lg:grid-cols-[270px_1fr]">
-        {/* Sidebar */}
-        <aside className={(showFilters ? 'block' : 'hidden') + ' h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:block lg:sticky lg:top-[100px]'}>
+      <div className="mt-4 grid lg:mt-7 lg:gap-6 lg:grid-cols-[270px_1fr]">
+        {/* Sidebar — animates open/closed on mobile; always visible on desktop */}
+        <aside className={`overflow-hidden transition-all duration-300 ease-in-out lg:!mb-0 lg:!max-h-none lg:!opacity-100 ${showFilters ? 'mb-6 max-h-[2000px] opacity-100' : 'mb-0 max-h-0 opacity-0'} h-fit rounded-2xl border border-brand-pale bg-white p-5 lg:block lg:sticky lg:top-[100px]`}>
           <div className="flex items-center justify-between">
             <span className="text-base font-semibold text-ink">Filters</span>
             <button
